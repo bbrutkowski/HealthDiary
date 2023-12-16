@@ -56,6 +56,10 @@
     <Compile Include="Migrations\202312161524277_CreateUserTable.designer.cs">
       <DependentUpon>202312161524277_CreateUserTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202312161538084_PropertiesSettings.cs" />
+    <Compile Include="Migrations\202312161538084_PropertiesSettings.designer.cs">
+      <DependentUpon>202312161538084_PropertiesSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Infrastructure\Basic\BasicEntity.cs" />
     <Compile Include="Model\Infrastructure\Interfaces\IBasicEntity.cs" />
@@ -70,6 +74,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202312161524277_CreateUserTable.resx">
       <DependentUpon>202312161524277_CreateUserTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202312161538084_PropertiesSettings.resx">
+      <DependentUpon>202312161538084_PropertiesSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
