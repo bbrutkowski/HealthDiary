@@ -1,0 +1,34 @@
+<form [formGroup]="loginForm">
+  <p-card header="Login" [style]="{ width: '360px' }">
+    <div class="field">
+      <label for="userName">User name</label>
+      <input
+        class="w-full"
+        name="userName"
+        type="text"
+        pInputText
+        formControlName="userName"
+      />
+      <small *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+        <div class="error-massage" *ngIf="userName.errors?.['required']">
+          User name is required
+        </div>
+      </small>
+      <label for="password">Password</label>
+      <input
+        class="w-full"
+        name="password"
+        type="password"
+        pInputText
+        formControlName="password"
+      />
+      <small *ngIf="password.invalid && (password.dirty || password.touched)">
+        <div class="error-massage" *ngIf="password.errors?.['required']">
+          Password is required
+        </div>
+      </small>
+    </div>
+    <p-button label="Login" styleClass="login-button" [disabled]="loginForm.invalid"></p-button>
+    <div class="mt-2">Not a member? <a routerLink="/register">Register</a></div>
+  </p-card>
+</form>
