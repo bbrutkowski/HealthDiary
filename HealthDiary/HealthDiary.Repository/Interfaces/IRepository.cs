@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Linq.Expressions;
+using System;
+using System.Linq;
 
 namespace HealthDiary.Repository.Interfaces
 {
@@ -13,5 +16,7 @@ namespace HealthDiary.Repository.Interfaces
         IEnumerable<TEntity> GetAll();
         Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken token);
         Task<TEntity> GetByIdAsync(int id);
+        bool Any(Expression<Func<TEntity, bool>> expression);
+        IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> expression);
     }
 }

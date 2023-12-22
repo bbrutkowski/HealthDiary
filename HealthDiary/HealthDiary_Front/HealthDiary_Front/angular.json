@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "HealthDiary_Front:build:production"
+              "buildTarget": "HealthDiary_Front:build:production"
             },
             "development": {
-              "browserTarget": "HealthDiary_Front:build:development"
+              "buildTarget": "HealthDiary_Front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "HealthDiary_Front:build"
+            "buildTarget": "HealthDiary_Front:build"
           }
         },
         "test": {
@@ -94,5 +94,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "09ec8911-5038-470a-ba99-3b0198441a46"
   }
 }

@@ -1,0 +1,55 @@
+<form [formGroup]="registerForm">
+    <p-card header="Register" [style]="{ width: '360px' }">
+      <div class="field">
+        <label for="userName">User name</label>
+        <input
+          class="w-full"
+          name="userName"
+          type="text"
+          pInputText
+          formControlName="userName"
+        />
+        <small *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+          <div class="error-massage" *ngIf="userName.errors?.['required']">
+            User name is required
+          </div>
+          <div class="error-massage" *ngIf="userName.errors?.['pattern']">
+            Only numbers, digits and special characters are allowed
+          </div>
+        </small>
+        <label for="password">Password</label>
+        <input
+          class="w-full"
+          name="password"
+          type="password"
+          pInputText
+          formControlName="password"
+        />
+        <small *ngIf="password.invalid && (password.dirty || password.touched)">
+          <div class="error-massage" *ngIf="password.errors?.['required']">
+            Password is required
+          </div>
+        </small>
+        <label for="confirmPassword">Confirm password</label>
+        <input
+          class="w-full"
+          name="confirmPassword"
+          type="password"
+          pInputText
+          formControlName="confirmPassword"
+        />
+        <small *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+            <div class="error-massage" *ngIf="confirmPassword.errors?.['required']">
+              Confirm password
+            </div>
+          </small>
+          <small *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid">
+            <div class="error-massage">
+              Password should match
+            </div>
+          </small>
+      </div>
+      <p-button label="Register" styleClass="login-button" [disabled]="registerForm.invalid"></p-button>
+      <div class="mt-2">Already have an account? <a routerLink="/login">Login</a></div>
+    </p-card>
+  </form>

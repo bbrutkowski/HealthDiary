@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+html, 
+body{
+    margin: 0;
+}
+
+.center-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    margin: 0; 
+    padding: 0; 
+}
+
+.w-full{
+    width: 100%;
+}
+
+.login-button{
+    margin: 8px 0;
+    width: 100%;
+}
+
+.error-massage{
+    color: red;
+}
+
+.gradient-background{
+    background: linear-gradient(to right, #EEF3F9, #1955AB);
+    height: 100vh;
+}
