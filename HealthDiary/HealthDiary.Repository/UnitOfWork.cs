@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace HealthDiary.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly DataContext _dbContext;
         private Dictionary<Type, object> _repositories;

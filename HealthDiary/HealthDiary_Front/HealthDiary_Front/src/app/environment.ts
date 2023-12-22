@@ -1,5 +1,5 @@
-export const baseConnections = {
-    token: 'https://localhost:44334/Token',
+export const environment = {
+    token: 'https://localhost:44334/token',
     portalPath: 'https://localhost:44334/',
     basePortalPath: 'https://localhost:44334/api'
 };

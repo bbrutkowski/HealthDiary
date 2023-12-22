@@ -43,6 +43,11 @@
               Confirm password
             </div>
           </small>
+          <small *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword.valid && password.valid">
+            <div class="error-massage">
+              Password should match
+            </div>
+          </small>
       </div>
       <p-button label="Register" styleClass="login-button" [disabled]="registerForm.invalid"></p-button>
       <div class="mt-2">Already have an account? <a routerLink="/login">Login</a></div>

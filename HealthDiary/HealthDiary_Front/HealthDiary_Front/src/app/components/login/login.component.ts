@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs/operators';
+import { LoginUserDataDto } from 'src/app/models/login-user-data-dto';
+import { AuthService } from 'src/app/services/auth.service';
+import { LoginService } from 'src/app/services/login-service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +16,12 @@ export class LoginComponent {
     password: ['', [Validators.required]]
   })
 
-  public constructor (private formBuilder: FormBuilder){}
+  public constructor (
+    private formBuilder: FormBuilder,
+    private authService: AuthService)
+  {}
+
+  public isLogged: Boolean = false;
 
   get userName(){
     return this.loginForm.controls['userName']
@@ -22,4 +31,16 @@ export class LoginComponent {
     return this.loginForm.controls['password']
   }
 
+  public login(){
+    const loginData: LoginUserDataDto = {
+      userName: this.loginForm.controls['userName'].value as string,
+      password: this.loginForm.controls['password'].value as string
+    }
+
+    this.authService.checkUserAccess(loginData).pipe(take(1)).subscribe(result => {
+      this.isLogged = result
+    })
+  }
+
 }
+

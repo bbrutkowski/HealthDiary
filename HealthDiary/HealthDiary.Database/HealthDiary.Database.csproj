@@ -65,6 +65,7 @@
     <Compile Include="Model\Infrastructure\Interfaces\IBasicEntity.cs" />
     <Compile Include="Model\Infrastructure\Interfaces\IIdenticableEntity.cs" />
     <Compile Include="Model\Main\User.cs" />
+    <Compile Include="Model\Main\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
