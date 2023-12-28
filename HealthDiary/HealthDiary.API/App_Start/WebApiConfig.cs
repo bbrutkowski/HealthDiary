@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace HealthDiary.API
 {
@@ -13,8 +12,6 @@ namespace HealthDiary.API
             // Web API configuration and services
 
             // Web API routes
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

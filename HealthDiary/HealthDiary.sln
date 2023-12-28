@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.Database", "Hea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.Repository", "HealthDiary.Repository\HealthDiary.Repository.csproj", "{4D5EAA6B-8729-4CD6-90FB-15BBE43D4C3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.API", "HealthDiary.API\HealthDiary.API.csproj", "{E9DC3DEF-1D9F-487C-AE5B-6D0B22055FDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.API", "HealthDiary.API\HealthDiary.API.csproj", "{4E6ABDD0-D7EE-4F11-AF31-86ECABDCFC02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{4D5EAA6B-8729-4CD6-90FB-15BBE43D4C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D5EAA6B-8729-4CD6-90FB-15BBE43D4C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D5EAA6B-8729-4CD6-90FB-15BBE43D4C3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9DC3DEF-1D9F-487C-AE5B-6D0B22055FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9DC3DEF-1D9F-487C-AE5B-6D0B22055FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9DC3DEF-1D9F-487C-AE5B-6D0B22055FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9DC3DEF-1D9F-487C-AE5B-6D0B22055FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E6ABDD0-D7EE-4F11-AF31-86ECABDCFC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6ABDD0-D7EE-4F11-AF31-86ECABDCFC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6ABDD0-D7EE-4F11-AF31-86ECABDCFC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6ABDD0-D7EE-4F11-AF31-86ECABDCFC02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,4 @@
-﻿using Autofac;
-using Autofac.Integration.Mvc;
-using Autofac.Integration.WebApi;
-using HealthDiary.BusinessLogic;
-using HealthDiary.BusinessLogic.Services.Interfaces;
-using System.Reflection;
+﻿using HealthDiary.API.App_Start;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -16,17 +11,9 @@ namespace HealthDiary.API
         {
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            var builder = new ContainerBuilder();
-
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerRequest();
-
-            builder.RegisterType<UserService>().As<IUserService>().InstancePerRequest();
-
-            var container = builder.Build();
-
-            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            AutofacConfig.Configure();
         }
     }
 }

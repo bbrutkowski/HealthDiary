@@ -1,7 +1,7 @@
 ﻿using HealthDiary.BusinessLogic.Models;
 using HealthDiary.BusinessLogic.Services.Interfaces;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Web.Http;
 
 namespace HealthDiary.API.Controllers
