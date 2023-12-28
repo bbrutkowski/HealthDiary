@@ -1,0 +1,52 @@
+<div class="outer">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+                <div class="panel border bg-white">
+                    <div class="panel-heading">
+                        <h3 class="pt-3 font-weight-bold">Register</h3>
+                    </div>
+                    <div class="panel-body p-3">
+                        <form [formGroup]="registerForm">
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="registerUserName.dirty && registerForm.hasError('required', 'registerUserName')">
+                                    <span class="fa fa-user p-2"></span>                                   
+                                    <input formControlName="registerUserName" type="text" placeholder="User name"/>
+                                </div>
+                            </div>
+                            <small *ngIf="registerUserName.dirty && registerForm.hasError('required', 'registerUserName')" class="text-danger">User name is required</small> 
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="registerEmail.dirty && registerForm.hasError('required', 'registerEmail')">
+                                    <span class="fa fa-user p-2"></span>                                 
+                                    <input formControlName="registerEmail" type="text" placeholder="Email"/>
+                                </div>
+                            </div> 
+                            <i class="bi bi-at"></i>  
+                            <small *ngIf="registerEmail.dirty && registerForm.hasError('required', 'registerEmail')" class="text-danger">Email is required</small>
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="registerPassword.dirty && registerForm.hasError('required', 'registerPassword')">
+                                    <span class="fa fa-lock p-2"></span>                                   
+                                    <input formControlName="registerPassword" [type]="type" placeholder="Password"/>
+                                    <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                                </div>  
+                            </div>  
+                            <small *ngIf="registerPassword.dirty && registerForm.hasError('required', 'registerPassword')" class="text-danger">Password is required</small>  
+                            <div class="form-group pt-3">
+                                <div class="input-field" [class.error]="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid">
+                                    <span class="fa fa-lock p-2"></span>                                   
+                                    <input formControlName="registerConfirmPassword" [type]="type" placeholder="Confirm password"/>
+                                    <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
+                                </div>   
+                            </div>    
+                            <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid" class="text-danger">Must be same as password</small>           
+                            <button type="submit" (click)="onRegister()" [disabled]="registerForm.invalid" class="btn btn-primary mt-block mt-4 w-100">Register</button>                               
+                            <div class="text-center pt-4 text-muted">Already have account?
+                                <a id="no-account" routerLink="/login">Login</a> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
