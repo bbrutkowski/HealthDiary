@@ -1,5 +1,4 @@
-﻿using HealthDiary.BusinessLogic.Models;
-using HealthDiary.BusinessLogic.Services.Interfaces;
+﻿using HealthDiary.BusinessLogic.Services.Interfaces;
 using HealthDiary.Database.Model.Main;
 using HealthDiary.Repository.Interfaces;
 using System.Data.Entity;
@@ -27,6 +26,15 @@ namespace HealthDiary.BusinessLogic
                                             .AnyAsync(token);
 
             return isExists;
+        }
+
+        public async Task<User> Find(string userName, string password)
+        {
+            var user = await  _unitOfWork.Repository<User>()
+                                   .GetQueryable(x => x.Name == userName && x.Password == password)
+                                   .Where(x => x.BasicEntity.IsActive)
+                                   .FirstOrDefaultAsync();
+            return user;
         }
     }
 }
