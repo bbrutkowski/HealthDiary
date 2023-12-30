@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -9,6 +9,12 @@ export function createParams(data: Record<string, any>): HttpParams {
   });
   return params;
 }
+
+export const httpOptions = {
+  headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+  }),
+};
 
 @Injectable()
 export abstract class RequestHelperBaseService {
@@ -50,6 +56,6 @@ export abstract class RequestHelperBaseService {
 
   protected createPostRequest<T>(route: string, data: Object, params?: HttpParams): Observable<T> {
     const url = this.actionUrl + '/' + route;
-    return this.http.post<T>(url, JSON.stringify(data), {params:params});    
+    return this.http.post<T>(url, JSON.stringify(data), httpOptions);    
   }
 }

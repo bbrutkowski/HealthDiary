@@ -73,3 +73,17 @@ input[type='password'] {
     border-radius: 50%;
     position: relative;
 }
+
+.login-error {
+    color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-success {
+    color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,26 +1,70 @@
-﻿using HealthDiary.BusinessLogic.Models;
-using HealthDiary.BusinessLogic.Services.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
+﻿using HealthDiary.API.Context;
+using HealthDiary.API.Context.Model;
+using HealthDiary.API.Context.Model.Dto;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.Controllers
 {
-    [RoutePrefix("api/User")]
-    public class UserController : ApiController
+    [Route("api/User")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly DataContext _context;
+        private readonly string UserNotFoundError = "User not found";
 
-        public UserController(IUserService userService)
+        public UserController(DataContext dataContext)
         {
-            _userService = userService;
+            _context = dataContext;
+        }
+
+        [HttpPost(nameof(Login))]
+        public async Task<IActionResult> Login([FromBody] UserDto userDto, CancellationToken token)
+        {
+            if (userDto is null) return BadRequest();
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == userDto.UserName && x.Password == userDto.Password, token);
+
+            if (user is null) return NotFound(UserNotFoundError);
+
+            var role = user.Role;
+
+            return Ok(new {Role = role});
+        }
+
+        [HttpPost(nameof(Delete))]
+        public async Task<IActionResult> Delete([FromBody] UserDto userDto, CancellationToken token)
+        {
+            if (userDto is null) return BadRequest();
+
+            var user = await _context.Users.Where(x => x.IsActive)
+                                           .FirstOrDefaultAsync(x => x.Name == userDto.UserName, token);
+
+            if (user == null) return NotFound(UserNotFoundError);
+
+            user.IsActive = false;
+
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpPost]
-        [Route(nameof(Login))]
-        public async Task<IHttpActionResult> Login([FromBody] UserDto userDto, CancellationToken token)
+        [Route(nameof(Register))]
+        public async Task<IActionResult> Register([FromBody] User user, CancellationToken token)
         {
-            return Ok(await _userService.LoginUser(userDto, token));
+            if (user is null) return BadRequest();
+
+            try
+            {
+                await _context.Users.AddAsync(user, token);
+
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }                              
         }
     }
 }
