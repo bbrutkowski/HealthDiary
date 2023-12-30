@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { LoginUserDataDto } from 'src/app/models/login-user-data-dto';
+import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -9,15 +11,18 @@ import { LoginService } from 'src/app/services/login.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit {
-  type: string = 'password';
-  isText: boolean = false;
-  eyeIcon: string = 'fa-eye-slash'
-  loginForm!: FormGroup;
+export class LoginComponent implements OnInit, OnDestroy {
+  public type: string = 'password';
+  private isText: boolean = false;
+  public eyeIcon: string = 'fa-eye-slash'
+  public loginForm!: FormGroup;
+  private loginSubscription: Subscription | undefined;
+  public loginError = false;
 
   public constructor(
     private formBuilder: FormBuilder,
-    private loginService: LoginService) 
+    private loginService: LoginService,
+    private router: Router) 
   {}
 
   get userName(){
@@ -28,33 +33,48 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls['password'];
   }
 
+  ngOnDestroy(): void {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
+
+    this.setupFormValueChangesListener();
   }
 
-  public hideShowPassword() {
+  public hideShowPassword() : void {
     this.isText = !this.isText;
     this.isText ? this.eyeIcon = 'fa-eye' : this.eyeIcon = 'fa-eye-slash';
     this.isText ? this.type = 'text' : this.type = 'password';   
   }
 
-  public onSubmit(){
+  public onSubmit() : void{
     if(!this.loginForm.valid) return this.validateForm(this.loginForm);
 
-    const loginData: LoginUserDataDto = {
-      userName: this.loginForm.controls['userName'].value as string,
-      password: this.loginForm.controls['password'].value as string
-    }
+    
 
-    this.loginService.login(loginData).pipe(take(1)).subscribe(result => {
-      
-    })
+    this.loginSubscription = this.loginService.login(this.loginForm.value)
+    .pipe(take(1))
+    .subscribe(
+      (response) => {
+        const userRole = response?.role;
+        localStorage.setItem('loggedUser', userRole?.toString());
+        this.router.navigate(['dashboard']);
+      },
+      (error) => {       
+        this.loginForm.reset();
+        this.loginError = true;
+      }
+    );      
   }
 
-  private validateForm(formGroup: FormGroup){
+  private validateForm(formGroup: FormGroup) : void {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
       if(control instanceof FormControl) {
@@ -65,5 +85,10 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-  
+
+  private setupFormValueChangesListener(): void {
+    this.loginForm.valueChanges.subscribe(() => {
+      this.loginError = false;
+    });
+  }
 }
