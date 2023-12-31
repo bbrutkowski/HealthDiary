@@ -1,6 +1,7 @@
 ﻿using HealthDiary.API.Context;
 using HealthDiary.API.Context.Model;
 using HealthDiary.API.Context.Model.Dto;
+using HealthDiary.API.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,6 +54,8 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> Register([FromBody] User user, CancellationToken token)
         {
             if (user is null) return BadRequest();
+
+            user.Password = Hasher.Hash(user.Password);
 
             try
             {
