@@ -57,8 +57,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public onSubmit() : void{
     if(!this.loginForm.valid) return this.validateForm(this.loginForm);
 
-    
-
     this.loginSubscription = this.loginService.login(this.loginForm.value)
     .pipe(take(1))
     .subscribe(
