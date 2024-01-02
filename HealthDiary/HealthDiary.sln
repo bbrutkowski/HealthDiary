@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.BusinessLogic",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.Database", "HealthDiary.Database\HealthDiary.Database.csproj", "{84619B37-4618-4002-90FD-0742B7410A4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthDiary.Infrastructure", "HealthDiary.Infrastructure\HealthDiary.Infrastructure.csproj", "{4045214D-0193-41F0-A908-D8F268385401}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{84619B37-4618-4002-90FD-0742B7410A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84619B37-4618-4002-90FD-0742B7410A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84619B37-4618-4002-90FD-0742B7410A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4045214D-0193-41F0-A908-D8F268385401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4045214D-0193-41F0-A908-D8F268385401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4045214D-0193-41F0-A908-D8F268385401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4045214D-0193-41F0-A908-D8F268385401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
