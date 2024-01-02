@@ -1,10 +1,13 @@
-﻿using HealthDiary.API.Context;
-using HealthDiary.API.Context.Model;
+﻿using HealthDiary.BusinessLogic.Models.Main;
+using HealthDiary.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace HealthDiary.API.Helper
+namespace HealthDiary.BusinessLogic.Helpers
 {
-    public class UserValidator
+    internal class UserValidator
     {
         private readonly DataContext _context;
 

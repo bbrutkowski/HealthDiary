@@ -1,6 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
-namespace HealthDiary.API.Helper
+namespace HealthDiary.BusinessLogic.Helpers
 {
     public class Hasher
     {
@@ -10,15 +11,16 @@ namespace HealthDiary.API.Helper
 
         public static string Hash(string password)
         {
-            var salt = RandomNumberGenerator.GetBytes(SaltSize);
-            var key = new Rfc2898DeriveBytes(password, salt, Iterations);
-            var hash = key.GetBytes(HashSize);
+            //var salt = RandomNumberGenerator.GetBytes(SaltSize);
+            //var key = new Rfc2898DeriveBytes(password, salt, Iterations);
+            //var hash = key.GetBytes(HashSize);
 
-            var hashBytes = new byte[HashSize + SaltSize];
-            Array.Copy(salt, 0, hashBytes, 0, SaltSize);
-            Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
+            //var hashBytes = new byte[HashSize + SaltSize];
+            //Array.Copy(salt, 0, hashBytes, 0, SaltSize);
+            //Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
 
-            return Convert.ToBase64String(hashBytes);
+            //return Convert.ToBase64String(hashBytes);
+            return "";
         }
 
         public static bool Varify(string password, string base64Hash)
@@ -33,10 +35,10 @@ namespace HealthDiary.API.Helper
 
             for (int i = 0; i < HashSize; i++)
             {
-                if (hashBytes[i + SaltSize] != hash[i]) return false;             
+                if (hashBytes[i + SaltSize] != hash[i]) return false;
             }
 
             return true;
-        }       
+        }
     }
 }
