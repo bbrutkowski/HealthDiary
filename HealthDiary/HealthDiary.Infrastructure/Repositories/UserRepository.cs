@@ -5,7 +5,6 @@ namespace HealthDiary.Infrastructure.Repositories
 {
     public class UserRepository : GenericRepository<User>
     {
-        public UserRepository(DataContext dataContext): base(dataContext) { }
-    
+        public UserRepository(DataContext dataContext): base(dataContext) { } 
     }
 }
