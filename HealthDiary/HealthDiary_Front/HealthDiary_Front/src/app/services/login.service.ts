@@ -10,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
 export class LoginService  {
 
    constructor(private http: HttpClient){}
-   private baseUrl: string = 'https://localhost:7237/api/User/'
+   private baseUrl: string = 'https://localhost:7292/api/User/'
 
     // protected override getApiRoute(): string {
     //     return "User"
