@@ -1,8 +1,8 @@
-﻿using HealthDiary.API.Context.Model;
-using HealthDiary.API.Context;
+﻿using HealthDiary.API.Context;
+using HealthDiary.API.Context.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthDiary.API.Helper
+namespace HealthDiary.API.Helpers
 {
     public class UserValidator
     {

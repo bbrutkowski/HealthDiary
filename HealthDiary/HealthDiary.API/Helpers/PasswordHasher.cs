@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace HealthDiary.API.Helper
+namespace HealthDiary.API.Helpers
 {
     public class PasswordHasher
     {
@@ -21,7 +21,7 @@ namespace HealthDiary.API.Helper
             return Convert.ToBase64String(hashBytes);
         }
 
-        public static bool Varify(string password, string base64Hash)
+        public static bool Verify(string password, string base64Hash)
         {
             var hashBytes = Convert.FromBase64String(base64Hash);
 
@@ -33,10 +33,10 @@ namespace HealthDiary.API.Helper
 
             for (int i = 0; i < HashSize; i++)
             {
-                if (hashBytes[i + SaltSize] != hash[i]) return false;             
+                if (hashBytes[i + SaltSize] != hash[i]) return false;
             }
 
             return true;
-        }       
+        }
     }
 }

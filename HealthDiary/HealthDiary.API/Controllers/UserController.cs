@@ -1,7 +1,7 @@
 ﻿using HealthDiary.API.Context;
 using HealthDiary.API.Context.Model;
 using HealthDiary.API.Context.Model.Dto;
-using HealthDiary.API.Helper;
+using HealthDiary.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,27 +29,11 @@ namespace HealthDiary.API.Controllers
 
             if (user is null) return NotFound(UserNotFoundError);
 
-            if (!PasswordHasher.Varify(userDto.Password, user.Password)) return NotFound(UserCredentialsError);
+            if (!PasswordHasher.Verify(userDto.Password, user.Password)) return NotFound(UserCredentialsError);
 
             var role = user.Role;
 
             return Ok(new { Role = role });
-        }
-
-        [HttpPost(nameof(Delete))]
-        public async Task<IActionResult> Delete([FromBody] UserDto userDto, CancellationToken token)
-        {
-            if (userDto is null) return BadRequest();
-
-            var user = await _context.Users.Where(x => x.IsActive)
-                                           .FirstOrDefaultAsync(x => x.Name == userDto.UserName, token);
-
-            if (user == null) return NotFound(UserNotFoundError);
-
-            user.IsActive = false;
-
-            await _context.SaveChangesAsync();
-            return Ok();
         }
 
         [HttpPost]
@@ -70,7 +54,7 @@ namespace HealthDiary.API.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
-            }                              
+            }
         }
     }
 }
