@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { Subscription, delay, take, timer } from 'rxjs';
 import { passwordMatchValidator } from 'src/app/helpers/password-match-directive/password-match-validator';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
@@ -22,7 +23,8 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
   public constructor (private formBuilder: FormBuilder,
                       private loginService: LoginService,
-                      private router: Router) {}  
+                      private router: Router,
+                      ) {}  
                      
   ngOnDestroy(): void {
     if (this.registerSubscription) {
