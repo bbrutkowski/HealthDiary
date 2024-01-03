@@ -13,6 +13,7 @@ namespace HealthDiary.API.Controllers
     {
         private readonly DataContext _context;
         private readonly string UserNotFoundError = "User not found";
+        private readonly string UserCredentialsError = "User name or password are wrong";
 
         public UserController(DataContext dataContext)
         {
@@ -24,13 +25,15 @@ namespace HealthDiary.API.Controllers
         {
             if (userDto is null) return BadRequest();
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == userDto.UserName && x.Password == userDto.Password, token);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == userDto.UserName, token);
 
             if (user is null) return NotFound(UserNotFoundError);
 
+            if (!PasswordHasher.Varify(userDto.Password, user.Password)) return NotFound(UserCredentialsError);
+
             var role = user.Role;
 
-            return Ok(new {Role = role});
+            return Ok(new { Role = role });
         }
 
         [HttpPost(nameof(Delete))]
@@ -55,7 +58,7 @@ namespace HealthDiary.API.Controllers
         {
             if (user is null) return BadRequest();
 
-            user.Password = Hasher.Hash(user.Password);
+            user.Password = PasswordHasher.Hash(user.Password);
 
             try
             {

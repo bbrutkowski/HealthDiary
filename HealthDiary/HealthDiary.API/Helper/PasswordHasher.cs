@@ -2,7 +2,7 @@
 
 namespace HealthDiary.API.Helper
 {
-    public class Hasher
+    public class PasswordHasher
     {
         private static readonly int SaltSize = 16;
         private static readonly int HashSize = 20;
