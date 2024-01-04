@@ -6,11 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.MediatR.Handlers
 {
-    public record LoginUserRequest : IRequest<Result>
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
+    public record LoginUserRequest(string UserName, string Password) : IRequest<Result>;
+
     public class LoginUser : IRequestHandler<LoginUserRequest, Result>
     {
         private readonly DataContext _context;
