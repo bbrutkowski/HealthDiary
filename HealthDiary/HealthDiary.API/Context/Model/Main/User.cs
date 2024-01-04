@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HealthDiary.API.Context.Model
+namespace HealthDiary.API.Context.Model.Main
 {
     public class User
     {

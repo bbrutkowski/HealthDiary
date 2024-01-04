@@ -1,7 +1,7 @@
-﻿using HealthDiary.API.Context.Model;
+﻿using HealthDiary.API.Context.Model.Main;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthDiary.API.Context
+namespace HealthDiary.API.Context.DataContext
 {
     public class DataContext : DbContext
     {

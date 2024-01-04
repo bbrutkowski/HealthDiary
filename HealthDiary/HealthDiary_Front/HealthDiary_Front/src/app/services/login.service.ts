@@ -3,6 +3,7 @@ import { RegisterUserData } from "../models/login-user-data-dto";
 import { RequestHelperService } from "./request-helper/request-helper.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { OperationResult } from "../models/operation-result";
 
 @Injectable({
     providedIn: 'root'
@@ -20,12 +21,12 @@ export class LoginService  {
     //     return this.createPostRequest<Boolean>('Login', {data: data})
     // }
 
-   public login(loginData: any) : Observable<any>{
-      return this.http.post<any>(`${this.baseUrl}Login`, loginData)
+   public login(loginData: any) : Observable<OperationResult<Boolean>>{
+      return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Login`, loginData)
    }
 
-   public register(registerData: any) : Observable<any>{
-      return this.http.post<any>(`${this.baseUrl}Register`, registerData)
+   public register(registerData: any) : Observable<OperationResult<Boolean>>{
+      return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Register`, registerData)
    }
     
 }

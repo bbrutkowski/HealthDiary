@@ -1,4 +1,4 @@
-using HealthDiary.API.Context;
+using HealthDiary.API.Context.DataContext;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
