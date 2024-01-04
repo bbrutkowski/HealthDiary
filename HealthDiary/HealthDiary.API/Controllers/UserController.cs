@@ -1,12 +1,6 @@
-﻿using HealthDiary.API.Context;
-using HealthDiary.API.Context.Model;
-using HealthDiary.API.Context.Model.Dto;
-using HealthDiary.API.Helpers;
-using HealthDiary.API.MediatR.Commands;
-using HealthDiary.API.MediatR.Handlers;
+﻿using HealthDiary.API.MediatR.Handlers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.Controllers
 {
