@@ -1,15 +1,15 @@
-﻿using CSharpFunctionalExtensions;
-using HealthDiary.API.Context;
+﻿using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
+using HealthDiary.API.Context.Model.Main;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.MediatR.Handlers
 {
-    public record RegisterUserRequest(string Name, string Password, string Email) : IRequest<Result>;
+    public record RegisterUserRequest(string Name, string Password, string Email) : IRequest<OperationResult>;
    
-    public class RegisterUser : IRequestHandler<RegisterUserRequest, Result>
+    public class RegisterUser : IRequestHandler<RegisterUserRequest, OperationResult>
     {
         private readonly DataContext _context;
 
@@ -18,7 +18,7 @@ namespace HealthDiary.API.MediatR.Handlers
 
         public RegisterUser(DataContext context) => _context = context;
 
-        public async Task<Result> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
+        public async Task<OperationResult> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
         {
             var user = new User()
             {
@@ -30,16 +30,16 @@ namespace HealthDiary.API.MediatR.Handlers
             try
             {
                 var validationResult = await ValidateUser(user, cancellationToken);
-                if (validationResult.ToString() != string.Empty) return Result.Failure(validationResult.ToString());
+                if (validationResult.ToString() != string.Empty) return OperationResultExtensions.Failure(validationResult.ToString());
 
                 await _context.Users.AddAsync(user, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Result.Success();
+                return OperationResultExtensions.Success();
             }
             catch (Exception e)
             {
-                return Result.Failure(e.Message);
+                return OperationResultExtensions.Failure(e.Message);
             }
         }
 

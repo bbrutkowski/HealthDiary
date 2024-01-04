@@ -38,8 +38,8 @@
                                     <span (click)="hideShowPassword()" class="fa {{eyeIcon}}"></span>
                                 </div>   
                             </div>    
-                            <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid" class="text-danger">Must be same as password</small>           
-                            <button type="submit" (click)="onRegister()" [disabled]="registerForm.invalid" class="btn btn-primary mt-block mt-4 w-100">Register</button>    
+                            <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid" class="text-danger">Must be same as password</small>  
+                            <button (click)="onRegister()" type="submit" [disabled]="registerForm.invalid" class="button-basic">Register</button>                          
                             <small *ngIf="registerError" class="login-error">An error occurred during registration</small>    
                             <small *ngIf="registerSuccess" class="register-success">Registration successful!</small>                                       
                             <div class="text-center pt-4 text-muted">Already have account?
