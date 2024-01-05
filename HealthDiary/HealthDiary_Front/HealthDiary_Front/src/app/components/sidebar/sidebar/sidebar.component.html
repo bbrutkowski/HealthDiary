@@ -3,37 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar | Dark/Light mode</title>
+    
     <link rel="stylesheet" href="sidebar.component.css">
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
+
+    <title>Sidebar</title>
 </head>
 <body>
-    <nav class="sidebar close">
+    <nav class="sidebar">
         <header>
             <div class="image-text">
-                <span class="image">
-                    <img src="logo.png" alt="logo">
-                </span>
                 <div class="text header-text">
                     <span class="name">Health Diary</span>
                 </div>
             </div>
-            <i class='bx bx-chevron-right toogle'></i>
         </header>
-
         <div class="menu-bar">
             <div class="menu">
-                <li class="search-box">
-                    <i class='bx bx-home icon'></i>
-                        <input type="text" placeholder="Search...">
-                </li>
                 <ul class="menu-links">
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-home icon'></i>
-                            <span class="text nav-text">Dashboard</span>
-                        </a>
-                    </li>
                     <li class="nav-link">
                         <a href="#">
                             <i class='bx bx-line-chart icon'></i>
@@ -42,7 +30,7 @@
                     </li>
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bx-run icon'></i>
+                            <i class='bx bx-swim icon'></i>
                             <span class="text nav-text">Exercises</span>
                         </a>
                     </li>
@@ -54,38 +42,22 @@
                     </li>
                     <li class="nav-link">
                         <a href="#">
-                            <i class='bx bxs-hotel icon'></i>
+                            <i class='bx bx-hotel icon'></i>
                             <span class="text nav-text">Sleep</span>
                         </a>
                     </li>
+
                 </ul>
             </div>
+            <div class="bottom-content">
+                <li class="logout">
+                    <a href="#">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+            </div>
         </div>
-
-        <div class="bottom-content">
-            <li class="">
-                <a href="#">
-                    <i class='bx bx-log-out icon'></i>
-                    <span class="text nav-text">Logout</span>
-                </a>
-            </li>
-            <li class="mode">
-                <div class="moon-sun">
-                    <i class='bx bx-moon icon moon'></i>
-                    <i class='bx bx-sun icon sun'></i>
-                </div> 
-                <span class="mode-text text">Dark Mode</span>
-                
-                <div class="toggle-switch">
-                    <span class="switch"></span>
-                </div>
-            </li>
-        </div>
-        
     </nav>
-    <section class="home">
-        <div class="text">Dashboard</div>
-    </section>
-    <script src="script.js"></script>
 </body>
 </html>
