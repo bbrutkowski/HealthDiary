@@ -45,7 +45,7 @@ namespace HealthDiary.API.MediatR.Handlers
 
         private async Task<string> ValidateUser(User newUser, CancellationToken cancellationToken)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == newUser.Name && x.Email == newUser.Email, cancellationToken);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == newUser.Name || x.Email == newUser.Email, cancellationToken);
 
             if (existingUser is not null) 
             {
