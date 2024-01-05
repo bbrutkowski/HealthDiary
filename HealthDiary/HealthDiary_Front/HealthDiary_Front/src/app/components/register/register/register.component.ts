@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
   private registerSubscription: Subscription | undefined;
   public registerError = false;
   public registerSuccess = false;
+  public errorMessage: string;
 
   public constructor (private formBuilder: FormBuilder,
                       private loginService: LoginService,
@@ -68,23 +69,22 @@ export class RegisterComponent implements OnInit, OnDestroy{
   public onRegister(){
     if(!this.registerForm.valid) return this.validateForm(this.registerForm);
 
-    const registerUserName = this.registerForm.get('registerUserName')?.value;
-    const registerPassword = this.registerForm.get('registerPassword')?.value;
-    const registerEmail = this.registerForm.get('registerEmail')?.value;
-
     const registerUserData: RegisterUserData = {
-      name: registerUserName,
-      password: registerPassword,
-      email: registerEmail
+      name: this.registerForm.get('registerUserName')?.value,
+      password: this.registerForm.get('registerPassword')?.value,
+      email: this.registerForm.get('registerEmail')?.value
     }
 
     this.registerSubscription = this.loginService.register(registerUserData).pipe(take(1)).subscribe(response => {
-      this.registerSuccess = true;
-      timer(2000).subscribe(() => {
+      if(response.isSuccess){
+        this.registerSuccess = true;
+        timer(2000).subscribe(() => {
         this.router.navigate(['login'])
       });
+      }
     }, (error) => {
       this.registerError = true;
+      this.errorMessage = error.error.errorMessage;
     });
   }
 

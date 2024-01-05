@@ -40,7 +40,7 @@
                             </div>    
                             <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid" class="text-danger">Must be same as password</small>  
                             <button (click)="onRegister()" type="submit" [disabled]="registerForm.invalid" class="button-basic">Register</button>                          
-                            <small *ngIf="registerError" class="login-error">An error occurred during registration</small>    
+                            <small *ngIf="registerError" class="error-text">{{errorMessage}}</small>    
                             <small *ngIf="registerSuccess" class="register-success">Registration successful!</small>                                       
                             <div class="text-center pt-4 text-muted">Already have account?
                                 <a id="no-account" routerLink="/login">Login</a> 
