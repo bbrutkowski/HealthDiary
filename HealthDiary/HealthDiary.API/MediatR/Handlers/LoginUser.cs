@@ -1,8 +1,13 @@
 ﻿using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
+using HealthDiary.API.Context.Model.Main;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace HealthDiary.API.MediatR.Handlers
 {
@@ -24,7 +29,33 @@ namespace HealthDiary.API.MediatR.Handlers
 
             if (!PasswordHasher.Verify(request.Password, user.Password)) return OperationResultExtensions.Failure(UserCredentialsError);
 
+            user.Token = CreateJwtToken(user);
+
             return OperationResultExtensions.Success(user);
+        }
+
+        private static string CreateJwtToken(User user)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF32.GetBytes("applicationKey");
+
+            var identity = new ClaimsIdentity(new Claim[]
+            {
+                new(ClaimTypes.Role, user.Role.ToString()),
+                new(ClaimTypes.Name, user.Name)
+            });
+
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = identity,
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = credentials
+            };
+
+            var token = jwtTokenHandler.CreateToken(tokenDescriptor);
+            return jwtTokenHandler.WriteToken(token);
         }
     }
 }

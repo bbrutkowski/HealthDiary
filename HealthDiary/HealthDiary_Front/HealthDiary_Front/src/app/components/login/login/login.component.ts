@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(
         (response) => {
             if (response.isSuccess) {
-              localStorage.setItem('loggedUser', JSON.stringify(response.data));
+              sessionStorage.setItem('loggedUser', JSON.stringify(response.data));
               this.router.navigate(['dashboard']);
             } else {
               this.loginForm.reset();

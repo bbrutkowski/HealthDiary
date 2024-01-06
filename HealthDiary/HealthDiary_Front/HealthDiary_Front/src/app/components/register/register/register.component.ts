@@ -24,9 +24,8 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
   public constructor (private formBuilder: FormBuilder,
                       private loginService: LoginService,
-                      private router: Router,
-                      ) {}  
-                     
+                      private router: Router) {} 
+                                        
   ngOnDestroy(): void {
     if (this.registerSubscription) {
       this.registerSubscription.unsubscribe();

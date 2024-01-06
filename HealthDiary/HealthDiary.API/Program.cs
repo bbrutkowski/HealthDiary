@@ -1,6 +1,9 @@
 using HealthDiary.API.Context.DataContext;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 internal class Program
 {
@@ -29,6 +32,23 @@ internal class Program
         builder.Services.AddDbContext<DataContext>(option =>
         {
             option.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString"));
+        });
+
+        builder.Services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+        }).AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes("applicationKey")),
+                ValidateAudience = false,
+            };
         });
 
         var app = builder.Build();
