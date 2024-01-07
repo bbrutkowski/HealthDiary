@@ -4,19 +4,21 @@ import { Injectable } from "@angular/core";
     providedIn: 'root',
 })
 export class AuthService {
-    private isAuthenticated = false;
 
-    login() {
-        debugger      
-        this.isAuthenticated = true;
-    }
+  public storeToken(): void{
+    const loggedUserData = localStorage.getItem('loggedUser');
+    const userData = JSON.parse(loggedUserData!);
 
-    logout() {
-        // Logika wylogowywania, resetowanie stanu zalogowania itp.
-        this.isAuthenticated = false;
-      }
-    
-      isLoggedIn() {
-        return this.isAuthenticated;
-      }
+    const token = userData.token;
+    localStorage.setItem('token', token);
+  }
+
+  public getToken(): string | null{
+    return localStorage.getItem('token');
+  }  
+
+  public isLoggedIn(): boolean{
+    return !!localStorage.getItem('token');
+  }
+  
 }

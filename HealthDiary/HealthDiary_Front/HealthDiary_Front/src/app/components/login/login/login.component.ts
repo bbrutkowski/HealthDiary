@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { OperationResult} from 'src/app/models/operation-result';
+import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   public constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private router: Router) 
+    private router: Router,
+    private authService: AuthService) 
   {}
 
   get userName(){
@@ -64,7 +66,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     .subscribe(
         (response) => {
             if (response.isSuccess) {
-              sessionStorage.setItem('loggedUser', JSON.stringify(response.data));
+              localStorage.setItem('loggedUser', JSON.stringify(response.data));
+              this.authService.storeToken();
               this.router.navigate(['dashboard']);
             } else {
               this.loginForm.reset();

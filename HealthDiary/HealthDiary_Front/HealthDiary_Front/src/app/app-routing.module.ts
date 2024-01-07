@@ -4,8 +4,14 @@ import { LoginComponent } from './components/login/login/login.component';
 import { RegisterComponent } from './components/register/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component';
+import { AuthService } from './services/auth.service/auth.service';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: LoginComponent
+  },
   {
     path: 'login',
     component: LoginComponent
@@ -16,12 +22,9 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
-  {
-    path: 'sidebar',
-    component: SidebarComponent
-  }
 ];
 
 @NgModule({
