@@ -15,8 +15,9 @@
         <header>
             <div class="image-text">
                 <div class="text header-text">
-                    <span class="name">Health Diary</span>
-                </div>
+                    <img src="../../../../assets/logo.png" alt="logo">
+                    <span class="name">Health Diary</span>                   
+                </div>               
             </div>
         </header>
         <div class="menu-bar">
@@ -50,12 +51,12 @@
                 </ul>
             </div>
             <div class="bottom-content">
-                <li class="logout">
-                    <a href="#">
-                        <i class='bx bx-log-out icon'></i>
+                <button (click)="logout()">
+                    <div class="button-icon">
+                        <i class='bx bx-log-out'></i>
+                    </div>
                         <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
+                </button>              
             </div>
         </div>
     </nav>

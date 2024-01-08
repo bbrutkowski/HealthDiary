@@ -11,7 +11,6 @@ export class DashboardComponent implements OnInit {
   public constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    debugger
     this.authService.storeToken();
   }
 
