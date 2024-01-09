@@ -51,7 +51,7 @@
                 </ul>
             </div>
             <div class="bottom-content">
-                <button (click)="logout()">
+                <button (click)="logout(modalTemplate)">
                     <div class="button-icon">
                         <i class='bx bx-log-out'></i>
                     </div>
@@ -60,5 +60,8 @@
             </div>
         </div>
     </nav>
+    <ng-template #modalTemplate>
+        <div>Logout</div>
+    </ng-template>
 </body>
 </html>

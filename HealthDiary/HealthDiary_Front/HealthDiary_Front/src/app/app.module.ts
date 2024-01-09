@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    SidebarComponent   
+    SidebarComponent,
+    PopupModalComponent   
   ],
   imports: [
     BrowserModule,
