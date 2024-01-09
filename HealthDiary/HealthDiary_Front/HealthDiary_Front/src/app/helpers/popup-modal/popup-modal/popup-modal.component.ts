@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Inject} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-popup-modal',
@@ -6,24 +7,25 @@ import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/cor
   styleUrl: './popup-modal.component.css'
 })
 export class PopupModalComponent {
-  @Input() public modalBody?: string; 
-  @Input() public modalTitle?: string;
+  public modalBody?: string; 
+  public modalTitle?: string;
 
-  @Output() closeEvent = new EventEmitter();
-  @Output() submitEvent = new EventEmitter();
+  public confirmationEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public constructor(private elementRef: ElementRef) {}
-
-  close(){
-    this.elementRef.nativeElement.remove();
-    this.closeEvent.emit();
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private dialogRef: MatDialogRef<any>) {
+    this.modalBody = data.modalBody;
+    this.modalTitle = data.modalTitle;
   }
 
-  submit(){
-    this.elementRef.nativeElement.remove();
-    this.submitEvent.emit();
+  public cancel(): void {
+    this.dialogRef.close(false);
   }
 
+  public confirm(): void {
+    this.confirmationEvent.emit(true);
+    this.dialogRef.close(true);
+  }
 }
 
 
