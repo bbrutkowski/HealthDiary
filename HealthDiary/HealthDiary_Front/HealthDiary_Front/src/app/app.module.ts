@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard/dashboard.c
 import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-mod
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
