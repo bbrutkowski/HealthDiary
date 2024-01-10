@@ -100,10 +100,35 @@ input[type='password'] {
 
 .button-basic:hover {
     background-color:#4B0082;
-    transition: 0.7s;
+    transition: 0.4s;
 }
 
 .button-basic:disabled {
     background-color: #DCDCDC; 
     color: #808080; 
+}
+
+.modal-button {
+    width: 80px;
+    height: 35px;
+    margin: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #ebe6e6;
+    transition: 0.3s;
+}
+
+.modal-button.primary {
+    background-color: #6A5ACD;
+    color: white;
+}
+
+.modal-button:hover {
+    background: #f8f2f2;
+    transition: 0.3s;
+}
+
+.modal-button.primary:hover {
+    background: #4B0082;
+    transition: 0.3s;
 }
