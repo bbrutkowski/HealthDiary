@@ -12,7 +12,6 @@ import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { WeatherInfoBarComponent } from './components/weather-info-bar/weather-info-bar/weather-info-bar.component';
 
 
 @NgModule({
@@ -22,8 +21,7 @@ import { WeatherInfoBarComponent } from './components/weather-info-bar/weather-i
     RegisterComponent,
     DashboardComponent,
     SidebarComponent,
-    PopupModalComponent,
-    WeatherInfoBarComponent  
+    PopupModalComponent 
   ],
   imports: [
     BrowserModule,

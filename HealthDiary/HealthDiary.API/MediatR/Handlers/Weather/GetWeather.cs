@@ -19,7 +19,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
         {
             var randomId = new Random().Next(1, 6);
 
-            var weatherContent = await _context.WeatherInformations.Where(x => x.IsActive).Select(x => x.Content).FirstOrDefaultAsync(cancellationToken);
+            var weatherContent = await _context.WeatherInformations.Where(x => x.Id == randomId && x.IsActive).Select(x => x.Content).FirstOrDefaultAsync(cancellationToken);
 
             if (weatherContent is null) return OperationResultExtensions.Failure(ContentNotFoundError + $"{randomId}");
 
