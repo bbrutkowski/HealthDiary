@@ -13,6 +13,6 @@ export class WeatherService {
   private baseUrl: string = 'https://localhost:7241/api/WeatherInfo/'
 
   public getWeather() : Observable<OperationResult<Boolean>>{
-    return this.http.get<OperationResult<Boolean>>(`${this.baseUrl}GetWeather`)
- }
+    return this.http.get<OperationResult<Boolean>>(`${this.baseUrl}GetWeather`);
+  }
 }

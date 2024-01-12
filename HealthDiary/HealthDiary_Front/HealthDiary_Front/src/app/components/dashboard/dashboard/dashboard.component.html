@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 </head>
-<body>
+<body *ngIf="dataLoaded">
     <div class="sidebar-contener">
         <app-sidebar></app-sidebar>
     </div>
@@ -31,7 +31,9 @@
             </div>
         </div>
         <div class="info-bar">
-            <app-weather-info-bar></app-weather-info-bar>
+            <div class="weather-info">
+                {{weatherContent}}
+            </div>
         </div>
     </div>
 </body>

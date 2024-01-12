@@ -61,5 +61,26 @@ body {
     width: 100%;
     height: 30px;
     border: 2px blue solid;
+    overflow: hidden;
 }
 
+.weather-info {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    animation: scrollText 45s linear infinite; 
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 20%, white); 
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+/* animation: scrollText 45s linear infinite;  */
