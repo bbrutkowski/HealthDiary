@@ -1,4 +1,4 @@
-﻿using HealthDiary.API.MediatR.Handlers;
+﻿using HealthDiary.API.MediatR.Handlers.User;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

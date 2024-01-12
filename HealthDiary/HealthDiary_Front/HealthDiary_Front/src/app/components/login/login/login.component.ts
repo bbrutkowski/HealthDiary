@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { OperationResult} from 'src/app/models/operation-result';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/services/login.service/login.service';
 
 @Component({
   selector: 'app-login',
