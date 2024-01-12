@@ -12,7 +12,7 @@ import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { InfoBarComponent } from './components/information-bar/info-bar/info-bar.component';
+import { WeatherInfoBarComponent } from './components/weather-info-bar/weather-info-bar/weather-info-bar.component';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { InfoBarComponent } from './components/information-bar/info-bar/info-bar
     DashboardComponent,
     SidebarComponent,
     PopupModalComponent,
-    InfoBarComponent   
+    WeatherInfoBarComponent  
   ],
   imports: [
     BrowserModule,

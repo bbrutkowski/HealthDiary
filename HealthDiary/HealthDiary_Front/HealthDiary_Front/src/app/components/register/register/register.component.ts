@@ -5,7 +5,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { Subscription, delay, take, timer } from 'rxjs';
 import { passwordMatchValidator } from 'src/app/helpers/password-match-directive/password-match-validator';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/services/login.service/login.service';
 
 @Component({
   selector: 'app-register',

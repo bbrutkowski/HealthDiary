@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoBarComponent } from './info-bar.component';
+import { WeatherInfoBarComponent } from './weather-info-bar.component';
 
-describe('InfoBarComponent', () => {
-  let component: InfoBarComponent;
-  let fixture: ComponentFixture<InfoBarComponent>;
+describe('WeatherInfoBarComponent', () => {
+  let component: WeatherInfoBarComponent;
+  let fixture: ComponentFixture<WeatherInfoBarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InfoBarComponent]
+      imports: [WeatherInfoBarComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(InfoBarComponent);
+    fixture = TestBed.createComponent(WeatherInfoBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

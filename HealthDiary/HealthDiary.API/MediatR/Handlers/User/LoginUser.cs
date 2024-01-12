@@ -1,6 +1,5 @@
 ﻿using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
-using HealthDiary.API.Context.Model.Main;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using UserAlias = HealthDiary.API.Context.Model.Main.User;
 
-namespace HealthDiary.API.MediatR.Handlers
+namespace HealthDiary.API.MediatR.Handlers.User
 {
     public record LoginUserRequest(string UserName, string Password) : IRequest<OperationResult>;
 
@@ -34,7 +34,7 @@ namespace HealthDiary.API.MediatR.Handlers
             return OperationResultExtensions.Success(user);
         }
 
-        private static string CreateJwtToken(User user)
+        private static string CreateJwtToken(UserAlias user)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF32.GetBytes("applicationKey");
