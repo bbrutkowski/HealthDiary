@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard/dashboard.c
 import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component';
 import { AuthService } from './services/auth.service/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { UserComponent } from './components/user/user/user.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

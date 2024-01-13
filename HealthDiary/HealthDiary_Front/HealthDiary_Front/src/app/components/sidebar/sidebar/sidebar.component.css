@@ -102,6 +102,7 @@ body {
     background: #6A5ACD;
     color: #FFF;
     border: none;
+    margin-top: 4px;
 }
 
 .sidebar button .button-icon{
