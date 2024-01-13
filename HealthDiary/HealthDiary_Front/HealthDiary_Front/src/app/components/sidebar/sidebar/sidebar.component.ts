@@ -30,4 +30,21 @@ export class SidebarComponent {
         }
       });
     }
+
+    public openUserProfile():void {
+      const userRef = this.dialog.open(PopupModalComponent, {
+        data: {
+          modalTitle: 'User profile',
+          modalBody: 'Do you want to go to the user`s profile?',
+        }
+      });
+
+      userRef.afterClosed().subscribe(() => {});
+
+      userRef.componentInstance.confirmationEvent.subscribe((result: boolean) => {
+        if (result) {
+          this.router.navigate(['/user']);        
+        }
+      });
+    }
 }

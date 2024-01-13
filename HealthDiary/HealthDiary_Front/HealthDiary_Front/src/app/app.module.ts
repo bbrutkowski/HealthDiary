@@ -12,6 +12,7 @@ import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { UserComponent } from './components/user/user/user.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     RegisterComponent,
     DashboardComponent,
     SidebarComponent,
-    PopupModalComponent 
+    PopupModalComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
