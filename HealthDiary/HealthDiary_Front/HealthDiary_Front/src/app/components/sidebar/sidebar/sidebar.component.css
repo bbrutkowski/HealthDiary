@@ -17,9 +17,9 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    width: 250px;
+    width: 15%;
     padding: 10px 14px;
-    background: linear-gradient(to right, #f4f3ee, rgba(244, 243, 238, 0));
+    background: white;
 }
 
 .sidebar li {
@@ -28,6 +28,7 @@ body {
     list-style: none;
     display: flex;
     align-items: center;
+    background: #FFF;
 }
 
 .sidebar li .icon {
@@ -46,7 +47,7 @@ body {
 
 .sidebar header { 
     height: 45px; 
-    border-bottom: 2px solid rgba(#6A5ACD, 0.5);
+    border-bottom: 1px #707070 solid;
 }
 
 .sidebar .image-text img{
@@ -98,7 +99,9 @@ body {
     align-items: center;
     transition: 0.4s;  
     border-radius: 4px;
-    border: #6A5ACD 1px solid
+    background: #6A5ACD;
+    color: #FFF;
+    border: none;
 }
 
 .sidebar button .button-icon{
@@ -108,7 +111,7 @@ body {
 
 .sidebar button:hover{
     transition: 0.4s;
-    background: #6A5ACD;
+    background: #4B0082;
 }
 
 .sidebar button:hover span,
