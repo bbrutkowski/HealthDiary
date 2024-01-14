@@ -1,0 +1,23 @@
+.site-nav a {
+    height: 50px;
+    margin-top: 15px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    text-decoration: none;
+    color: black
+}
+
+.site-nav li .icon {
+    min-width: 60px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.site-nav a:hover {
+    color: #4B0082;
+    transition: 0.3s;
+}
