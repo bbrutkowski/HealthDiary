@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private authService: AuthService) 
   {}
 
-  get userName(){
-    return this.loginForm.controls['userName'];
+  get login(){
+    return this.loginForm.controls['login'];
   }
 
   get password(){
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      userName: ['', [Validators.required]],
+      login: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
 
