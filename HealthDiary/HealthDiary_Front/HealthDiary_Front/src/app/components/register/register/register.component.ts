@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
  
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      registerUserName: ['', Validators.required],
+      registerLogin: ['', Validators.required],
       registerEmail: ['', Validators.required],
       registerPassword: ['', Validators.required],
       registerConfirmPassword: ['', Validators.required]
@@ -43,8 +43,8 @@ export class RegisterComponent implements OnInit, OnDestroy{
     })
   }
 
-  public get registerUserName(){
-    return this.registerForm.controls['registerUserName'];
+  public get registerLogin(){
+    return this.registerForm.controls['registerLogin'];
   }
 
   public get registerPassword(){
