@@ -11,7 +11,7 @@ using UserAlias = HealthDiary.API.Context.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.User
 {
-    public record LoginUserRequest(string UserName, string Password) : IRequest<OperationResult>;
+    public record LoginUserRequest(string Login, string Password) : IRequest<OperationResult>;
 
     public class LoginUser : IRequestHandler<LoginUserRequest, OperationResult>
     {
@@ -24,7 +24,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
 
         public async Task<OperationResult> Handle(LoginUserRequest request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == request.UserName, cancellationToken);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Login == request.Login, cancellationToken);
             if (user is null) return OperationResultExtensions.Failure(UserNotFoundError);
 
             if (!PasswordHasher.Verify(request.Password, user.Password)) return OperationResultExtensions.Failure(UserCredentialsError);
@@ -42,7 +42,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
             var identity = new ClaimsIdentity(new Claim[]
             {
                 new(ClaimTypes.Role, user.Role.ToString()),
-                new(ClaimTypes.Name, user.Name)
+                new(ClaimTypes.Name, user.Login)
             });
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);

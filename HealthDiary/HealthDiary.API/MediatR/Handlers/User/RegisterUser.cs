@@ -1,6 +1,5 @@
 ﻿using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
-using HealthDiary.API.Context.Model.Main;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using UserAlias = HealthDiary.API.Context.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.User
 {
-    public record RegisterUserRequest(string Name, string Password, string Email) : IRequest<OperationResult>;
+    public record RegisterUserRequest(string RegisterLogin, string Password, string Email) : IRequest<OperationResult>;
 
     public class RegisterUser : IRequestHandler<RegisterUserRequest, OperationResult>
     {
@@ -23,7 +22,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
         {
             var user = new UserAlias()
             {
-                Name = request.Name,
+                Login = request.RegisterLogin,
                 Email = request.Email,
                 Password = PasswordHasher.Hash(request.Password)
             };
@@ -46,11 +45,11 @@ namespace HealthDiary.API.MediatR.Handlers.User
 
         private async Task<string> ValidateUser(UserAlias newUser, CancellationToken cancellationToken)
         {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Name == newUser.Name || x.Email == newUser.Email, cancellationToken);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Login == newUser.Login || x.Email == newUser.Email, cancellationToken);
 
             if (existingUser is not null)
             {
-                if (existingUser.Name == newUser.Name) return UserNameValidationError;
+                if (existingUser.Login == newUser.Login) return UserNameValidationError;
                 if (existingUser.Email == newUser.Email) return EmailValidationError;
             }
 

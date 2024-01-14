@@ -21,3 +21,9 @@
     color: #4B0082;
     transition: 0.3s;
 }
+
+.user-profile{
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+}

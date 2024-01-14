@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -6,6 +7,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit, OnDestroy {
+  public userProfile!: FormGroup;
 
   public constructor(){}
 
