@@ -15,9 +15,63 @@
             </a>
         </li>    
     </div>  
-    <div class="user-profile">
+    <div *ngIf="dataLoaded">
         <form [formGroup]="userProfile">
-
+            <div class="basic-information">
+                <div class="separator">
+                    <span>Basic information</span>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="name">Name</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="surname">Surname</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="date" autocomplete="off">
+                    <label for="birthDate">Birth date</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="select" autocomplete="off">
+                    <label for="gender">Gender</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="email">Email</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="phone">Phone</label>
+                </div>
+            </div>  
+            <div class="address">
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="country">Country</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="city">City</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="street">Street</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="number" autocomplete="off">
+                    <label for="buildingNumber">Building number</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="number" autocomplete="off">
+                    <label for="apartmentNumber">Apartment number</label>
+                </div>
+                <div class="inputGroup">
+                    <input type="text" autocomplete="off">
+                    <label for="postalCode">Postal code</label>
+                </div>
+            </div>       
         </form>
     </div>  
 </body>
