@@ -14,11 +14,13 @@ export class UserComponent implements OnInit, OnDestroy {
   private userDataSubscription: Subscription | undefined;
   public userDto: any;
   public loadError = false;
+  public dataLoaded = false;
 
   public constructor(private userService: UserService){}
 
   ngOnInit(): void {
     this.getLoggedUserData();
+    this.dataLoaded = true;
   }
 
   ngOnDestroy(): void {
