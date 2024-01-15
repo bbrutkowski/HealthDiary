@@ -17,7 +17,8 @@
     justify-content: center;
 }
 
-.site-nav a:hover {
+.site-nav a:hover,
+.site-nav li .icon:hover {
     color: #4B0082;
     transition: 0.3s;
 }

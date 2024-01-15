@@ -6,6 +6,7 @@ import { Subscription, delay, take, timer } from 'rxjs';
 import { passwordMatchValidator } from 'src/app/helpers/password-match-directive/password-match-validator';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { LoginService } from 'src/app/services/login.service/login.service';
+import { UserService } from 'src/app/services/user.service/user.service';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
   public errorMessage: string;
 
   public constructor (private formBuilder: FormBuilder,
-                      private loginService: LoginService,
+                      private userService: UserService,
                       private router: Router) {} 
                                         
   ngOnDestroy(): void {
@@ -69,12 +70,12 @@ export class RegisterComponent implements OnInit, OnDestroy{
     if(!this.registerForm.valid) return this.validateForm(this.registerForm);
 
     const registerUserData: RegisterUserData = {
-      name: this.registerForm.get('registerUserName')?.value,
+      login: this.registerForm.get('registerLogin')?.value,
       password: this.registerForm.get('registerPassword')?.value,
       email: this.registerForm.get('registerEmail')?.value
     }
 
-    this.registerSubscription = this.loginService.register(registerUserData).pipe(take(1)).subscribe(response => {
+    this.registerSubscription = this.userService.register(registerUserData).pipe(take(1)).subscribe(response => {
       if(response.isSuccess){
         this.registerSuccess = true;
         timer(2000).subscribe(() => {

@@ -1,5 +1,5 @@
 export interface RegisterUserData {
-    name: string;
+    login: string;
     password: string;
     email: string;
     token?: string;
