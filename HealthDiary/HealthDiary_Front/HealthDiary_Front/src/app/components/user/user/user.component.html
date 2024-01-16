@@ -17,61 +17,60 @@
     </div>  
     <div *ngIf="dataLoaded">
         <form [formGroup]="userProfile">
+            <div class="basic-information-title">
+                <span>Basic information</span>
+            </div> 
             <div class="basic-information">
-                <div class="separator">
-                    <span>Basic information</span>
-                </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
+                <div class="input-label">
                     <label for="name">Name</label>
-                </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
+                    <input id="name" type="text">
+                </div>    
+                <div class="input-label">
                     <label for="surname">Surname</label>
-                </div>
-                <div class="inputGroup">
-                    <input type="date" autocomplete="off">
-                    <label for="birthDate">Birth date</label>
-                </div>
-                <div class="inputGroup">
-                    <input type="select" autocomplete="off">
+                    <input id="surname" type="text">
+                </div>    
+                <div class="input-label">
+                    <label for="birthDate">Date od birth</label>
+                    <input id="birthDate" type="date">
+                </div> 
+                <div class="input-label">
+                    <label for="phoneNumber">Phone number</label>
+                    <input id="phoneNumber" type="text">
+                </div>   
+                <div class="input-label">
                     <label for="gender">Gender</label>
-                </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
-                    <label for="email">Email</label>
-                </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
-                    <label for="phone">Phone</label>
-                </div>
-            </div>  
-            <div class="address">
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
+                    <input id="gender" type="select">
+                </div>        
+            </div>
+            
+            <!-- <div class="address">
+                <span>Address</span>
+                <div class="input-label">
                     <label for="country">Country</label>
+                    <input id="country" type="text">
                 </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
-                    <label for="city">City</label>
+                <div class="input-label">
+                    <label for="country">City</label>
+                    <input id="country" type="text">
                 </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
+                <div class="input-label">
                     <label for="street">Street</label>
+                    <input id="street" type="text">
                 </div>
-                <div class="inputGroup">
-                    <input type="number" autocomplete="off">
+                <div class="input-label">
                     <label for="buildingNumber">Building number</label>
+                    <input id="buildingNumber" type="number" min="0">
                 </div>
-                <div class="inputGroup">
-                    <input type="number" autocomplete="off">
+                <div class="input-label">
                     <label for="apartmentNumber">Apartment number</label>
+                    <input id="apartmentNumber" type="number" min="0">
                 </div>
-                <div class="inputGroup">
-                    <input type="text" autocomplete="off">
+                <div class="input-label">
                     <label for="postalCode">Postal code</label>
+                    <input id="postalCode" type="text">
                 </div>
-            </div>       
+        
+            </div>        -->
         </form>
     </div>  
 </body>

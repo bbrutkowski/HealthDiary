@@ -1,83 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .site-nav a {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    height: 50px;
-    margin-top: 15px;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    text-decoration: none;
-    color: black
+  font-size: 20px;
+  height: 50px;
+  margin-top: 15px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  text-decoration: none;
+  color: black
 }
 
 .site-nav li .icon {
-    min-width: 60px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  min-width: 60px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .site-nav a:hover,
 .site-nav li .icon:hover {
-    color: #4B0082;
-    transition: 0.3s;
+  color: #4B0082;
+  transition: 0.3s;
 }
 
-.basic-information{
-    border: 1px red solid;
-    display: flex;
+.basic-information {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.basic-information-title {
+  display: flex;
+  justify-content: center;
+}
+
+.basic-information-title span {
+  font-size: 22px;
+  border-bottom: 2px #6A5ACD solid;
 }
 
 .separator {
-    font-family: 'Poppins', sans-serif;
-    font-size: 22px;
-    width: 100%;
-    background-color: transparent;
-    border-bottom: 1px #707070 solid;
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  width: 100%;
+  background-color: transparent;
+  border-bottom: 1px #707070 solid;
 }
 
-.inputGroup {
-    font-family: 'Poppins UI', sans-serif;
-    margin: 2em 0 1em 0;
-    max-width: 190px;
-    position: relative;
-  }
-  
-  .inputGroup input {
-    font-size: 100%;
-    padding: 0.8em;
-    outline: none;
-    border: 2px solid rgb(200, 200, 200);
-    background-color: transparent;
-    border-radius: 20px;
-    width: 100%;
-    height: 50px;
-  }
-  
-  .inputGroup label {
-    font-size: 100%;
-    position: absolute;
-    left: 0;
-    padding: 0.8em;
-    margin-left: 0.5em;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    color: rgb(100, 100, 100);
-    background-color: transparent;
-  }
-  
-  .inputGroup :is(input:focus, input:valid)~label {
-    transform: translateY(-50%) scale(.9);
-    margin: 0em;
-    margin-left: 1.3em;
-    padding: 0.4em;
-    background-color: white;
-  }
-  
-  .inputGroup :is(input:focus, input:valid) {
-    border-color: #6A5ACD;
-  }
+.input-label {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.input-label label {
+  font-family: 'Poppins', sans-serif;
+}
+
+.input-label input {
+  width: 150px;
+  margin-left: 15px;
+  background-color: aliceblue;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.input-label input:focus {
+  border-bottom: 2px #4B0082 solid;
+}
