@@ -73,14 +73,14 @@ input[type='password'] {
     position: relative;
 }
 
-.error-text {
+.text-danger {
     color: red;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.register-success {
+.text-success {
     color: green;
     display: flex;
     flex-direction: column;
