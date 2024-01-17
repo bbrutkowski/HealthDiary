@@ -10,7 +10,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
     {
         public record UpdateUserRequest(
             int Id, string Name, string Surname, string Email, DateTime BirthDate, string PhoneNumber, Gender Gender,
-            string City, string Street, int BuildingNumber, int ApartmentNumber, string PostalCode) : IRequest<OperationResult>;
+            string Country, string City, string Street, int BuildingNumber, int ApartmentNumber, string PostalCode) : IRequest<OperationResult>;
 
         public sealed class Handler : IRequestHandler<UpdateUserRequest, OperationResult>
         {
@@ -25,7 +25,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
             {
                 if(request.Id == 0) return OperationResultExtensions.Failure(UserIdError);
 
-                var userToUpdate = await _context.Users.FirstAsync(x => x.Id == request.Id, cancellationToken);
+                var userToUpdate = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
                 if (userToUpdate == null) return OperationResultExtensions.Failure(UserNotFoundError);
 
                 userToUpdate.Name = request.Name;
@@ -34,6 +34,10 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 userToUpdate.BirthDate = request.BirthDate;
                 userToUpdate.PhoneNumber = request.PhoneNumber;
                 userToUpdate.Gender = request.Gender;
+
+                userToUpdate.Address ??= new Address();
+
+                userToUpdate.Address.Country = request.Country;
                 userToUpdate.Address.City = request.City;
                 userToUpdate.Address.Street = request.Street;
                 userToUpdate.Address.BuildingNumber = request.BuildingNumber;
@@ -42,7 +46,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return OperationResultExtensions.Success();
-            }
+            }       
         }
     }
 }

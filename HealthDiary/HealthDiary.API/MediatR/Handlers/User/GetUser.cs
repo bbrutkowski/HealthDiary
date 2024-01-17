@@ -22,7 +22,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
             {
                 if (request.Id <= 0) return OperationResultExtensions.Failure(UserIdError);
 
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+                var user = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
                 if (user is null) return OperationResultExtensions.Failure(UserNotFoundError);
 
                 return OperationResultExtensions.Success(user);
