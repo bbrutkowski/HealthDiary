@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OperationResult } from 'src/app/models/operation-result';
+import { UserDto } from 'src/app/models/user-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,12 @@ export class UserService {
     return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Register`, registerData);
   }
 
-  public getUserById(paramValue: number){
+  public getUserById(paramValue: number): Observable<OperationResult<Boolean>>{
     const params = new HttpParams().set('Id', paramValue);
     return this.http.get<OperationResult<boolean>>(`${this.baseUrl}GetUserById`, { params: params });
+  }
+
+  public updateUser(userData: UserDto) : Observable<OperationResult<Boolean>> {
+    return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Update`, userData);
   }
 }

@@ -24,7 +24,7 @@
                             </div> 
                             <small *ngIf="password.dirty && loginForm.hasError('required', 'password')" class="text-danger">Password is required</small> 
                             <button (click)="onSubmit()" type="submit" [disabled]="loginForm.invalid" class="button-basic">Login</button>             
-                            <small *ngIf="loginError" class="error-text">User not found</small>                              
+                            <small *ngIf="loginError" class="text-danger">User not found</small>                              
                             <div class="text-center pt-4 text-muted">Don't have account?
                                 <a id="no-account" routerLink="/register">Register</a>
                             </div>
