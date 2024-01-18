@@ -4,6 +4,7 @@ using HealthDiary.API.Context.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealthDiary.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240118163353_WeightTable")]
+    partial class WeightTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace HealthDiary.API.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("HealthDiary.API.Context.Model.Main.User", b =>
@@ -110,7 +112,7 @@ namespace HealthDiary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("HealthDiary.API.Context.Model.Main.WeatherInfoBar", b =>
@@ -129,7 +131,7 @@ namespace HealthDiary.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WeatherInformations");
+                    b.ToTable("WeatherInfoBar", (string)null);
                 });
 
             modelBuilder.Entity("HealthDiary.API.Context.Model.Main.Weight", b =>
@@ -146,8 +148,8 @@ namespace HealthDiary.API.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(4,2)");
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

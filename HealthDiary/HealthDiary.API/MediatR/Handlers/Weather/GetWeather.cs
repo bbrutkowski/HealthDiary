@@ -5,25 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.MediatR.Handlers.Weather
 {
-    public record GetWeatherRequest() : IRequest<OperationResult>;
-
-    public class GetWeather : IRequestHandler<GetWeatherRequest, OperationResult>
+    public static class GetWeather 
     {
-        private readonly DataContext _context;
+        public record GetWeatherRequest() : IRequest<OperationResult>;
 
-        private const string ContentNotFoundError = "No forecast with given Id";
-
-        public GetWeather(DataContext context) => _context = context;
-
-        public async Task<OperationResult> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
+        public sealed class Handler : IRequestHandler<GetWeatherRequest, OperationResult>
         {
-            var randomId = new Random().Next(1, 6);
+            private readonly DataContext _context;
 
-            var weatherContent = await _context.WeatherInformations.Where(x => x.Id == randomId && x.IsActive).Select(x => x.Content).FirstOrDefaultAsync(cancellationToken);
+            public Handler(DataContext context) => _context = context;
 
-            if (weatherContent is null) return OperationResultExtensions.Failure(ContentNotFoundError + $"{randomId}");
+            private const string ContentNotFoundError = "No forecast with given Id";
 
-            return OperationResultExtensions.Success(weatherContent);
-        }
+            public async Task<OperationResult> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
+            {
+                var randomId = new Random().Next(1, 6);
+
+                var weatherContent = await _context.WeatherInformations.Where(x => x.Id == randomId && x.IsActive).Select(x => x.Content).FirstOrDefaultAsync(cancellationToken);
+
+                if (weatherContent is null) return OperationResultExtensions.Failure(ContentNotFoundError + $"{randomId}");
+
+                return OperationResultExtensions.Success(weatherContent);
+            }
+        }       
     }
 }

@@ -123,4 +123,12 @@ body {
 
 .bottom-content {
     margin-bottom: 20%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user-welcome {
+    display: flex;
+    justify-content: center;
 }

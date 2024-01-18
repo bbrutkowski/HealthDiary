@@ -54,9 +54,8 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private getLoggedUserData(): void {
-    const loggedUser = localStorage.getItem('loggedUser') as string;
-    if(loggedUser) {
-      const userId = JSON.parse(loggedUser).id;
+    const userId = localStorage.getItem('userId') as unknown as number;
+    if(userId) {
 
       this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe(response => {
         if(response.isSuccess){
@@ -97,7 +96,6 @@ export class UserComponent implements OnInit, OnDestroy {
 
   public onSaved(): void { 
     const formData = this.userProfile.value as UserDto
-    debugger
     this.userService.updateUser(formData).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
         this.isUpdateSuccessful = true;
