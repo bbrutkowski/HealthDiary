@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public weatherContent: any;
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
+  private userId: number;
 
   public constructor(
     private authService: AuthService,
@@ -19,7 +20,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.storeToken();
-    this.GetWeather();
+    this.getUserId();
+    this.initWeather();
+    this.initWeight();
     this.dataLoaded = true;
   }
 
@@ -28,7 +31,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private GetWeather() {
+  private getUserId(): void {
+    this.userId = localStorage.getItem('userId') as unknown as number;
+  }
+
+  private initWeather() {
     this.weatherService.getWeather().pipe(take(1)).subscribe(response => {
       if (response.isSuccess) {
         this.weatherContent = response.data;
@@ -44,6 +51,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.weatherContent = response.data;
         }
       });
+  }
+
+  private initWeight(): void{
+    
+
+
   }
 
 }

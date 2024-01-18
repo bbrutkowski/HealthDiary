@@ -10,7 +10,10 @@ export class AuthService {
     const userData = JSON.parse(loggedUserData!);
 
     const token = userData.token;
+    const userId = userData.id;
+
     localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
   }
 
   public getToken(): string | null{
