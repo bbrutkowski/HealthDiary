@@ -1,7 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, interval, switchMap, take } from 'rxjs';
+import { WeightDto } from 'src/app/models/weight-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
+import { WeightService } from 'src/app/services/weight.service/weight.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +15,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
   private userId: number;
+  private userWeights: Array<WeightDto> = [];
 
   public constructor(
     private authService: AuthService,
-    private weatherService: WeatherService) {}
+    private weatherService: WeatherService,
+    private weightService: WeightService) {}
 
   ngOnInit(): void {
     this.authService.storeToken();
@@ -54,9 +58,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initWeight(): void{
-    
-
-
+    this.weightService.getWeightsByUserId(this.userId).pipe(take(1)).subscribe(result => {
+      if(result.isSuccess){
+        this.userWeights = result.data
+      }
+    })
   }
 
 }
