@@ -26,7 +26,7 @@ body {
 
 .site-nav a:hover,
 .site-nav li .icon:hover {
-  color: #4B0082;
+  color: #294A66;
   transition: 0.3s;
 }
 
@@ -56,7 +56,7 @@ body {
 .address-title span,
 .basic-information-title span {
   font-size: 22px;
-  border-bottom: 2px #6A5ACD solid;
+  border-bottom: 2px #294A66 solid;
 }
 
 .input-label {
@@ -82,4 +82,8 @@ body {
   width: 20%;
   margin: 20px 0% 0% 40%;
   flex-direction: column;
+}
+
+.profile-save-button button {
+  color: #F0F5F9;
 }
