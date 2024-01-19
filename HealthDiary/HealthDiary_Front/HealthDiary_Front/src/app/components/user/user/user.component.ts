@@ -13,7 +13,7 @@ import { UserService } from 'src/app/services/user.service/user.service';
 export class UserComponent implements OnInit, OnDestroy {
   public userProfile!: FormGroup;
   private userDataSubscription: Subscription | undefined;
-  public userDto: any;
+  public userDto: UserDto;
   public isLoadError = false;
   public isDataLoaded = false;
   public isUpdateSuccessful = false;

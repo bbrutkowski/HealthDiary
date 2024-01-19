@@ -1,6 +1,6 @@
-﻿using HealthDiary.API.MediatR.Handlers.Weather;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static HealthDiary.API.MediatR.Handlers.Weather.GetWeather;
 
 namespace HealthDiary.API.Controllers
 {
