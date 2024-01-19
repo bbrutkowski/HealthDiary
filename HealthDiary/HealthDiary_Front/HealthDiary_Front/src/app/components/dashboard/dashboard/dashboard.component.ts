@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initWeight(): void{
-    this.weightService.getWeightsByUserId(this.userId).pipe(take(1)).subscribe(result => {
+    this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
         this.userWeights = result.data
       }
