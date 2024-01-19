@@ -16,9 +16,9 @@ export class UserService {
     return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Register`, registerData);
   }
 
-  public getUserById(paramValue: number): Observable<OperationResult<Boolean>>{
+  public getUserById(paramValue: number): Observable<OperationResult<UserDto>>{
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<OperationResult<boolean>>(`${this.baseUrl}GetUserById`, { params: params });
+    return this.http.get<OperationResult<UserDto>>(`${this.baseUrl}GetUserById`, { params: params });
   }
 
   public updateUser(userData: UserDto) : Observable<OperationResult<Boolean>> {

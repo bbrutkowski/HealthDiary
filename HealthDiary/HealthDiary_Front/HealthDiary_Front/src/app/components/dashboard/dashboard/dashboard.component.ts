@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import * as Highcharts from 'highcharts';
 import { Subject, interval, switchMap, take } from 'rxjs';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
@@ -16,6 +17,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   private userId: number;
   private userWeights: Array<WeightDto> = [];
+
+  public Highcharts: typeof Highcharts = Highcharts;
+  public chartConstructor: string = 'chart';
 
   public constructor(
     private authService: AuthService,

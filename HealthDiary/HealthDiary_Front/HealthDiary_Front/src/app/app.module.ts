@@ -13,6 +13,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PopupModalComponent } from './helpers/popup-modal/popup-modal/popup-modal.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { UserComponent } from './components/user/user/user.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ChartComponent } from './helpers/chart/chart/chart.component';
 
 
 @NgModule({
@@ -23,14 +25,16 @@ import { UserComponent } from './components/user/user/user.component';
     DashboardComponent,
     SidebarComponent,
     PopupModalComponent,
-    UserComponent
+    UserComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    HighchartsChartModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
