@@ -93,20 +93,19 @@ input[type='password'] {
     width: 100%;
     border-radius: 15px;
     background-color: #4075A0;
-    color: black;
+    color: #F0F5F9;
     border: none;
     transition: background-color 0.7s ease;
 }
 
 .button-basic:hover {
-    color: #F0F5F9;
     background-color:#294A66;
     transition: 0.7s;
 }
 
 .button-basic:disabled {
     background-color: #A7C4DC; 
-    color: black; 
+    color: #F0F5F9; 
 }
 
 .modal-button {
