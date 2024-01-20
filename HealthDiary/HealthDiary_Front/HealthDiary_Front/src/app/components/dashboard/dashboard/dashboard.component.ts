@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Subject, interval, switchMap, take } from 'rxjs';
 import { WeightDto } from 'src/app/models/weight-dto';
@@ -12,6 +12,8 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  @Output() userWeightsChange: EventEmitter<WeightDto[]> = new EventEmitter<WeightDto[]>();
+
   public weatherContent: any;
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
@@ -64,7 +66,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initWeight(): void{
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
-        this.userWeights = result.data
+        this.userWeights = result.data;
+        this.userWeightsChange.emit(this.userWeights);
       }
     })
   }

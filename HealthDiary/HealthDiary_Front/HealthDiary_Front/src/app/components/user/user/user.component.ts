@@ -26,7 +26,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getLoggedUserData();
     this.createForm();
-    this.isDataLoaded = true;
   }
 
   ngOnDestroy(): void {
@@ -61,6 +60,7 @@ export class UserComponent implements OnInit, OnDestroy {
         if(response.isSuccess){
           this.userDto = response.data;
           this.populateForm();
+          this.isDataLoaded = true;
         }
       }, (error) => {
         this.isLoadError = true;

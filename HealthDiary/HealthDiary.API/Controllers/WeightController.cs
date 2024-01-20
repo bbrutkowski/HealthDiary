@@ -24,9 +24,9 @@ namespace HealthDiary.API.Controllers
 
         [HttpGet]
         [Route(nameof(GetWeightsByMonth))]
-        public async Task<IActionResult> GetWeightsByMonth(GetWeightsByMonthRequest request, CancellationToken token)
+        public async Task<IActionResult> GetWeightsByMonth(int Id, CancellationToken token)
         {
-            var result = await _mediator.Send(request, token);
+            var result = await _mediator.Send(new GetWeightsByMonthRequest(Id), token);
             if (result.IsFailure) return BadRequest(result);
             return Ok(result);
         }
