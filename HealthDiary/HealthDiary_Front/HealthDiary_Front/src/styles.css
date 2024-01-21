@@ -13,10 +13,12 @@
     margin-left: auto;
     text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
+    color: #4075A0;
 }
 
-.a:hover {
-    text-decoration: none;
+#no-account:hover {
+    color: #294A66;
 }
 
 .form-inline label {

@@ -21,6 +21,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 
                 var weightsByMonth = await _context.Weights
                     .Where(x => x.UserId == request.Id && x.CreationDate.Month == currentMonth)
+                    .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
                 return OperationResultExtensions.Success(weightsByMonth);
