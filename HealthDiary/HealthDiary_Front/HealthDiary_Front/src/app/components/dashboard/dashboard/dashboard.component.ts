@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   private userId: number;
   public userWeights: Array<WeightDto> = [];
+  public latestUpdate: Date;
 
   public Highcharts: typeof Highcharts = Highcharts;
   public chartConstructor: string = 'chart';
@@ -65,8 +66,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
         this.userWeights = result.data;
+        this.latestUpdate = this.getLatestWeightUpdate(this.userWeights) as Date;
       }
     });  
+  }
+
+  private getLatestWeightUpdate(weights: any): Date | null {
+    const weightArray = Array.isArray(weights) ? weights : (weights.values || []);
+  
+    if (weightArray.length > 0) {
+      const sortedWeights = weightArray
+            .sort((a: { creationDate: Date; }, b: { creationDate: Date; }) => new Date(b.creationDate)
+            .getTime() - new Date(a.creationDate).getTime());
+
+      return new Date(sortedWeights[0]?.creationDate) || null;
+    }
+  
+    return null;
   }
 
 }
