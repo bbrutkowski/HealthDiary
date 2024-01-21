@@ -7,38 +7,49 @@ import { WeightDto } from 'src/app/models/weight-dto';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnChanges { 
-  @Input()
-  set userWeights(value: WeightDto[]) {
-    this._userWeights = value;
-    this.updateChart();
-  }
-
-  private _userWeights: WeightDto[] = [];
+export class ChartComponent implements OnChanges {
+  @Input() weights: any; 
 
   public Highcharts: typeof Highcharts = Highcharts;
   public chartConstructor: string = 'chart';
-  public chartOptions: any = {
-    series: [{
-      type: 'line',
-      data: [],
-    }],
-  };
+  public chartOptions: any;
   public updateFlag: boolean = false;
   public oneToOneFlag: boolean = true;
-  public runOutsideAngular: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userWeights']) {
+    const weightsChange = changes['weights'];
+
+    if (weightsChange && weightsChange.currentValue) {
+      this.weights = weightsChange.currentValue;
       this.updateChart();
     }
   }
 
   private updateChart(): void {
-    this.chartOptions.series[0].data = this._userWeights.map((weight) => ({
-      x: weight.creationDate.getTime(),
-      y: weight.value,
+    const chartData = this.weights['$values'].map((data: { creationDate: string | number | Date; value: number; }) => ({
+      x: new Date(data.creationDate).getDate(),
+      y: data.value,
     }));
+  
+    this.chartOptions = {
+      series: [{
+        type: 'line',
+        data: chartData
+      }],
+      title: {
+        text: 'Weights',
+      },
+      subtitle: {
+        text: 'Weight for the current month',
+      },
+      legend: {
+        enabled: false
+      },
+      chart: {
+        width: null, 
+      },
+    }
+  
     this.updateFlag = true;
   }
 }
