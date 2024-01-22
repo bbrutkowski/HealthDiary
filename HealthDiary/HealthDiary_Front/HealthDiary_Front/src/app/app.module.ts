@@ -15,6 +15,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { UserComponent } from './components/user/user/user.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './helpers/chart/chart/chart.component';
+import { WeightComponent } from './components/weight/weight/weight.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ChartComponent } from './helpers/chart/chart/chart.component';
     SidebarComponent,
     PopupModalComponent,
     UserComponent,
-    ChartComponent
+    ChartComponent,
+    WeightComponent
   ],
   imports: [
     BrowserModule,

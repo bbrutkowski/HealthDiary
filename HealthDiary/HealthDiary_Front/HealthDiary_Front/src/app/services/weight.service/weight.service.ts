@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OperationResult } from 'src/app/models/operation-result';
+import { Result } from 'src/app/models/operation-result';
 import { WeightDto } from 'src/app/models/weight-dto';
 
 @Injectable({
@@ -13,13 +13,13 @@ export class WeightService {
 
   private baseUrl: string = 'https://localhost:7241/api/Weight/';
 
-  public getWeightsByUserId(paramValue: number): Observable<OperationResult<Array<WeightDto>>> {
+  public getWeightsByUserId(paramValue: number): Observable<Result<Array<WeightDto>>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<OperationResult<Array<WeightDto>>>(`${this.baseUrl}GetWeightsByUserId`, { params: params })
+    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}GetWeightsByUserId`, { params: params })
   }
 
-  public getUserWeightsByMonth(paramValue: number): Observable<OperationResult<Array<WeightDto>>> {
+  public getUserWeightsByMonth(paramValue: number): Observable<Result<Array<WeightDto>>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<OperationResult<Array<WeightDto>>>(`${this.baseUrl}GetWeightsByMonth`, { params: params });
+    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}GetWeightsByMonth`, { params: params });
   }
 }

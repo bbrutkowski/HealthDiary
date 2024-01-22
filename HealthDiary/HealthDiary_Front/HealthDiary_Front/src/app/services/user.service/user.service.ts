@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OperationResult } from 'src/app/models/operation-result';
+import { Result } from 'src/app/models/operation-result';
 import { UserDto } from 'src/app/models/user-dto';
 
 @Injectable({
@@ -12,16 +12,16 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public register(registerData: any) : Observable<OperationResult<Boolean>>{
-    return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Register`, registerData);
+  public register(registerData: any) : Observable<Result<Boolean>>{
+    return this.http.post<Result<Boolean>>(`${this.baseUrl}Register`, registerData);
   }
 
-  public getUserById(paramValue: number): Observable<OperationResult<UserDto>>{
+  public getUserById(paramValue: number): Observable<Result<UserDto>>{
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<OperationResult<UserDto>>(`${this.baseUrl}GetUserById`, { params: params });
+    return this.http.get<Result<UserDto>>(`${this.baseUrl}GetUserById`, { params: params });
   }
 
-  public updateUser(userData: UserDto) : Observable<OperationResult<Boolean>> {
-    return this.http.post<OperationResult<Boolean>>(`${this.baseUrl}Update`, userData);
+  public updateUser(userData: UserDto) : Observable<Result<Boolean>> {
+    return this.http.post<Result<Boolean>>(`${this.baseUrl}Update`, userData);
   }
 }
