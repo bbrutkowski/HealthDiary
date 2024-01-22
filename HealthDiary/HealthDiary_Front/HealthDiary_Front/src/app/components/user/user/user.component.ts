@@ -58,7 +58,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
       this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe(response => {
         if(response.isSuccess){
-          this.userDto = response.data;
+          this.userDto = response.data as UserDto;
           this.populateForm();
           this.isDataLoaded = true;
         }

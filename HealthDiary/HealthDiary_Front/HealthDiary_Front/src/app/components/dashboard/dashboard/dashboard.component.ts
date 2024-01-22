@@ -65,13 +65,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initWeight(): void {
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
-        this.userWeights = result.data;
+        this.userWeights = result.data as Array<WeightDto>;
         this.latestUpdate = this.getLatestWeightUpdate(this.userWeights) as Date;
       }
     });  
   }
 
   private getLatestWeightUpdate(weights: any): Date | null {
+    debugger
     const weightArray = Array.isArray(weights) ? weights : (weights.values || []);
   
     if (weightArray.length > 0) {

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
-import { OperationResult} from 'src/app/models/operation-result';
+import { Result} from 'src/app/models/operation-result';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service/login.service';
 
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm!: FormGroup;
   private loginSubscription: Subscription | undefined;
   public loginError = false;
-  public loginResult: OperationResult<Boolean> | undefined;
+  public loginResult: Result<Boolean> | undefined;
 
   public constructor(
     private formBuilder: FormBuilder,
