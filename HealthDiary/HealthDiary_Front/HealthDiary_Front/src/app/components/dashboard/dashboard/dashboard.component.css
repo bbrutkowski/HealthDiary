@@ -20,13 +20,13 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin-left: 5px;
-    border: 5px red solid;
 }
 
 .container {
     flex-basis: calc(50% - 16px); 
     height: calc(50% - 16px); 
     border: 3px solid;
+    border: #D3E2EE 3px solid;
     border-radius: 10px;
 }
 
@@ -42,7 +42,6 @@ body {
 .sleep,
 .food,
 .exercises {
-    width: 100%;
     height: 100%;
     background-color: white;
     border-radius: 15px;

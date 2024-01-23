@@ -10,47 +10,34 @@ import { WeightDto } from 'src/app/models/weight-dto';
 export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
 
-  public Highcharts: typeof Highcharts = Highcharts;
-  public chartConstructor: string = 'chart';
   public chartOptions: any;
-  public updateFlag: boolean = false;
-  public oneToOneFlag: boolean = true;
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
 
     if (weightsChange && weightsChange.currentValue) {
       this.weights = weightsChange.currentValue;
-      this.updateChart();
+      this.updateWeightChart();
     }
   }
 
-  private updateChart(): void {
-    debugger
+  private updateWeightChart(): void {
     const chartData = this.weights.map((data: { creationDate: Date; value: number; }) => ({
       x: new Date(data.creationDate).getDate(),
       y: data.value,
-    }));
-  
+    })).sort((a, b) => a.x - b.x);
+
     this.chartOptions = {
-      series: [{
-        type: 'line',
-        data: chartData
-      }],
+      animationEnabled: true,
       title: {
-        text: 'Weights',
+        text: "Monthly Weight"
       },
-      subtitle: {
-        text: 'Weight for the current month',
-      },
-      legend: {
-        enabled: false
-      },
-      chart: {
-        width: null, 
-      },
-    }
-  
-    this.updateFlag = true;
+      data: [{
+        type: 'splineArea',
+        color: '#A7C4DC',
+        xValueFormatString: 'Weight',
+        dataPoints: chartData
+      }]
+    }	
   }
 }

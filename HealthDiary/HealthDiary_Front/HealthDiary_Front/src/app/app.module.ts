@@ -16,6 +16,7 @@ import { UserComponent } from './components/user/user/user.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './helpers/chart/chart/chart.component';
 import { WeightComponent } from './components/weight/weight/weight.component';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { WeightComponent } from './components/weight/weight/weight.component';
     HttpClientModule,
     ReactiveFormsModule,
     MatDialogModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    CanvasJSAngularChartsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
