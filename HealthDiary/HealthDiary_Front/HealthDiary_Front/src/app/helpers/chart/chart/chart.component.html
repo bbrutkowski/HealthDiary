@@ -6,14 +6,8 @@
     <title>Chart</title>
 </head>
 <body>
-    <div class="chart-container">
-        <highcharts-chart
-        [Highcharts]="Highcharts"
-        [constructorType]="chartConstructor"
-        [options]="chartOptions"
-        [(update)]="updateFlag"
-        [oneToOne]="oneToOneFlag"
-        ></highcharts-chart>
+    <div>
+        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
     </div>
 </body>
 </html>

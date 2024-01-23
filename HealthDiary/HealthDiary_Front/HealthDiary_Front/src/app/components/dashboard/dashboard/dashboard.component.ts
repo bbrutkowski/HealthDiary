@@ -33,7 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getUserId();
     this.initWeather();
     this.initWeight();
-    this.dataLoaded = true;
   }
 
   ngOnDestroy(): void {
@@ -67,20 +66,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
         this.userWeights = result.data;
-        this.latestUpdate = this.getLatestWeightUpdate(this.userWeights) as Date;
+        this.dataLoaded = true;
       }
     });  
   }
-
-  private getLatestWeightUpdate(weights: Array<WeightDto>): Date {
-    if (weights.length > 0) {
-      const sortedWeights = weights.sort((a: { creationDate: Date; }, b: { creationDate: Date; }) => new Date(b.creationDate)
-        .getTime() - new Date(a.creationDate).getTime());
-
-      return sortedWeights[0]?.creationDate;
-    }
-  
-    return null;
-  }
-
 }

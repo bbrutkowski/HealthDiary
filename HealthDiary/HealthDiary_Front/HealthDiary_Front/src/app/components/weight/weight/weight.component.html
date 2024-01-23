@@ -1,4 +1,23 @@
-<div class="weight-chart">
-    <app-chart [weights]="weights"></app-chart>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight</title>
+</head>
+<body>
+    <div class="weight">
+        <div class="chart">
+            <app-chart [weights]="weights"></app-chart>           
+        </div>
+        <div class="footer-content">
+            <span>The weight was last updated: {{latestUpdate | date:'dd-MM-yyyy'}}</span>
+            <div class="update-weight" *ngIf="canUpdateWeight">
+                <span>Update your weight!</span>
+                <button class="button-basic">Add weight</button> 
+            </div>
+        </div>      
+    </div>   
+</body>
+</html>
 
