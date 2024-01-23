@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Subject, interval, switchMap, take, timer } from 'rxjs';
+import { WeatherDto } from 'src/app/models/weather-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
@@ -12,7 +13,7 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  public weatherContent: any;
+  public weatherContent: WeatherDto;
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
   private userId: number;
@@ -65,22 +66,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private initWeight(): void {
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
-        this.userWeights = result.data as Array<WeightDto>;
+        this.userWeights = result.data;
         this.latestUpdate = this.getLatestWeightUpdate(this.userWeights) as Date;
       }
     });  
   }
 
-  private getLatestWeightUpdate(weights: any): Date | null {
-    debugger
-    const weightArray = Array.isArray(weights) ? weights : (weights.values || []);
-  
-    if (weightArray.length > 0) {
-      const sortedWeights = weightArray
-            .sort((a: { creationDate: Date; }, b: { creationDate: Date; }) => new Date(b.creationDate)
-            .getTime() - new Date(a.creationDate).getTime());
+  private getLatestWeightUpdate(weights: Array<WeightDto>): Date {
+    if (weights.length > 0) {
+      const sortedWeights = weights.sort((a: { creationDate: Date; }, b: { creationDate: Date; }) => new Date(b.creationDate)
+        .getTime() - new Date(a.creationDate).getTime());
 
-      return new Date(sortedWeights[0]?.creationDate) || null;
+      return sortedWeights[0]?.creationDate;
     }
   
     return null;

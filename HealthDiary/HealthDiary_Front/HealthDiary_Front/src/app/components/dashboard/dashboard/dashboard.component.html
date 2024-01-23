@@ -12,8 +12,8 @@
     <div class="workplace">
         <div class="container">
             <div class="weight">
-                <!-- <app-weight [weights]="userWeights"></app-weight> -->
-                <span>The weight was last updated: {{latestUpdate}}</span>              
+                <app-weight [weights]="userWeights"></app-weight>
+                <span>The weight was last updated: {{latestUpdate | date:'dd-MM-yyyy'}}</span>              
             </div>
         </div>
         <div class="container">
