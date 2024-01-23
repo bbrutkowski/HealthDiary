@@ -2,23 +2,23 @@ export class Result<T> {
     public data: T;
     public isSuccess: boolean;
     public isFailure: boolean;
-    public error: string;
+    public errorMessage: string;
 
     static Success<T>(data: T): Result<T> {
         return {
             isSuccess: true,
             isFailure: false,           
             data: data,
-            error: null
+            errorMessage: null
         };
     }
 
-    static Failure<T>(error: string): Result<T> {
+    static Failure<T>(errorMessage: string): Result<T> {
         return {
             isSuccess: false,
             isFailure: true,
             data: null,
-            error: error
+            errorMessage: errorMessage
         };
     }
 }

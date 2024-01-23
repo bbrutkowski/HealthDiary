@@ -8,7 +8,7 @@ import { WeightDto } from 'src/app/models/weight-dto';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnChanges {
-  @Input() weights: any; 
+  @Input() weights: Array<WeightDto>; 
 
   public Highcharts: typeof Highcharts = Highcharts;
   public chartConstructor: string = 'chart';
@@ -26,7 +26,8 @@ export class ChartComponent implements OnChanges {
   }
 
   private updateChart(): void {
-    const chartData = this.weights['$values'].map((data: { creationDate: string | number | Date; value: number; }) => ({
+    debugger
+    const chartData = this.weights.map((data: { creationDate: Date; value: number; }) => ({
       x: new Date(data.creationDate).getDate(),
       y: data.value,
     }));
