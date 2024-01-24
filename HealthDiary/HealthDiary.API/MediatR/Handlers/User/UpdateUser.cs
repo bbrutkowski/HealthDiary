@@ -1,4 +1,5 @@
-﻿using HealthDiary.API.Context.DataContext;
+﻿using FluentValidation;
+using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
 using HealthDiary.API.Context.Model.Main;
 using MediatR;
@@ -15,15 +16,20 @@ namespace HealthDiary.API.MediatR.Handlers.User
         public sealed class Handler : IRequestHandler<UpdateUserRequest, OperationResult>
         {
             private readonly DataContext _context;
+            private readonly IValidator<UpdateUserRequest> _requestValidator;
 
             private const string UserNotFoundError = "User with given Id not found";
-            private const string UserIdError = "User Id must be greater than 0";
 
-            public Handler(DataContext context) => _context = context;
+            public Handler(DataContext context, IValidator<UpdateUserRequest> validator)
+            {
+                _context = context;
+                _requestValidator = validator;
+            }
 
             public async Task<OperationResult> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
             {
-                if(request.Id == 0) return OperationResultExtensions.Failure(UserIdError);
+                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
+                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var userToUpdate = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
                 if (userToUpdate == null) return OperationResultExtensions.Failure(UserNotFoundError);
@@ -47,6 +53,16 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 await _context.SaveChangesAsync(cancellationToken);
                 return OperationResultExtensions.Success();
             }       
+        }
+
+        public sealed class Validator : AbstractValidator<UpdateUserRequest>
+        {
+            public const string UserIdValidation = "User Id must be greater than 0";
+
+            public Validator()
+            {
+                RuleFor(x => x.Id).GreaterThan(0).WithMessage(UserIdValidation);
+            }
         }
     }
 }

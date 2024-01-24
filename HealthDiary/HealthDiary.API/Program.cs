@@ -1,8 +1,10 @@
+using FluentValidation.AspNetCore;
 using HealthDiary.API.Context.DataContext;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -18,7 +20,10 @@ internal class Program
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        }); 
+        });
+
+        builder.Services.AddControllers()
+            .AddFluentValidation(x => x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
