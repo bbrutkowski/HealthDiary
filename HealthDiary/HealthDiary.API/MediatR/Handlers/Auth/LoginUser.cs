@@ -1,4 +1,5 @@
-﻿using HealthDiary.API.Context.DataContext;
+﻿using FluentValidation;
+using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
 using HealthDiary.API.Helpers;
 using MediatR;
@@ -18,12 +19,22 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
         public sealed class Handler : IRequestHandler<LoginUserRequest, OperationResult>
         {
             private readonly DataContext _context;
-            public Handler(DataContext dataContext) => _context = dataContext;
+            private readonly IValidator<LoginUserRequest> _requestValidator;
 
             private const string UserNotFoundError = "User not found";
             private const string UserCredentialsError = "User name or password not valid";
+
+            public Handler(DataContext dataContext, IValidator<LoginUserRequest> validator)
+            {
+                _context = dataContext;
+                _requestValidator = validator;
+            }
+
             public async Task<OperationResult> Handle(LoginUserRequest request, CancellationToken cancellationToken)
             {
+                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
+                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+
                 var user = await _context.Users.Where(x => x.IsActive && x.Login == request.Login)
                                    .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
                                    .FirstOrDefaultAsync(cancellationToken);
@@ -59,6 +70,18 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 
                 var token = jwtTokenHandler.CreateToken(tokenDescriptor);
                 return jwtTokenHandler.WriteToken(token);
+            }
+        }
+
+        public sealed class Validator : AbstractValidator<LoginUserRequest>
+        {
+            public const string LoginValidationError = "Login is null or empty";
+            public const string PasswordValidationError = "Password is null or empty";
+
+            public Validator()
+            {
+                RuleFor(x => x.Login).NotNull().NotEmpty().WithMessage(LoginValidationError);
+                RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage(PasswordValidationError);
             }
         }
     }

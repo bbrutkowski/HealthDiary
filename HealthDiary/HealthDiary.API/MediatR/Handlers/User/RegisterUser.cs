@@ -1,4 +1,5 @@
-﻿using HealthDiary.API.Context.DataContext;
+﻿using FluentValidation;
+using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model;
 using HealthDiary.API.Helpers;
 using MediatR;
@@ -14,14 +15,22 @@ namespace HealthDiary.API.MediatR.Handlers.User
         public sealed class Handler : IRequestHandler<RegisterUserRequest, OperationResult>
         {
             private readonly DataContext _context;
-
-            public Handler(DataContext dataContext) => _context = dataContext;
+            private readonly IValidator<RegisterUserRequest> _requestValidator;
 
             private const string UserNameValidationError = "User name already exists";
             private const string EmailValidationError = "Email adress is taken";
 
+            public Handler(DataContext dataContext, IValidator<RegisterUserRequest> validator)
+            {
+                _context = dataContext;
+                _requestValidator = validator;
+            }
+
             public async Task<OperationResult> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
             {
+                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
+                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+
                 var user = new UserAlias()
                 {
                     Login = request.Login,
@@ -31,7 +40,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
 
                 try
                 {
-                    var validationResult = await ValidateUser(user, cancellationToken);
+                    var validationResult = await ChaeckUserCredentialsAsync(user, cancellationToken);
                     if (validationResult.ToString() != string.Empty) return OperationResultExtensions.Failure(validationResult.ToString());
 
                     await _context.Users.AddAsync(user, cancellationToken);
@@ -45,7 +54,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 }
             }
 
-            private async Task<string> ValidateUser(UserAlias newUser, CancellationToken cancellationToken)
+            private async Task<string> ChaeckUserCredentialsAsync(UserAlias newUser, CancellationToken cancellationToken)
             {
                 var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Login == newUser.Login || x.Email == newUser.Email, cancellationToken);
 
@@ -56,6 +65,20 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 }
 
                 return string.Empty;
+            }
+        }
+
+        public sealed class Validator : AbstractValidator<RegisterUserRequest>
+        {
+            public const string UserLoginValidation = "User login is null or empty";
+            public const string PasswordValidation = "Password is null or empty";
+            public const string EmailValidation = "Email is null or empty";
+           
+            public Validator()
+            {
+                RuleFor(x => x.Login).NotEmpty().NotNull().WithMessage(UserLoginValidation);
+                RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage(PasswordValidation);
+                RuleFor(x => x.Email).NotNull().NotEmpty().WithMessage(EmailValidation);
             }
         }
     }   
