@@ -1,6 +1,5 @@
 ﻿using HealthDiary.API.Context.Model.Main;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HealthDiary.API.Context.DataContext
 {
@@ -12,6 +11,7 @@ namespace HealthDiary.API.Context.DataContext
         public DbSet<WeatherInfoBar> WeatherInformations { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Weight> Weights { get; set; }
+        public DbSet<Sleep> Sleeps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,11 @@ namespace HealthDiary.API.Context.DataContext
                 .HasOne(w => w.User)
                 .WithMany(u => u.Weights)
                 .HasForeignKey(w => w.UserId);
+
+            modelBuilder.Entity<Sleep>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.Sleeps)
+                .HasForeignKey(s => s.UserId);
 
             base.OnModelCreating(modelBuilder);
         }
