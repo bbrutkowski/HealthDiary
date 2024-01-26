@@ -33,6 +33,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getUserId();
     this.initWeather();
     this.initWeight();
+    timer(3000).subscribe(() => {
+      this.dataLoaded = true;
+    })
   }
 
   ngOnDestroy(): void {
@@ -66,7 +69,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess){
         this.userWeights = result.data;
-        this.dataLoaded = true;
       }
     });  
   }
