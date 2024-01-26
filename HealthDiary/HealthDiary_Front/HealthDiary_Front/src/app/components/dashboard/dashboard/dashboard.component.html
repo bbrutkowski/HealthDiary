@@ -5,36 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 </head>
-<body *ngIf="dataLoaded">
-    <div class="sidebar-contener">
-        <app-sidebar></app-sidebar>
+<body>
+    <div class="loading-screen" *ngIf="!dataLoaded">
+        <img src="../../../../assets/Health Diary.png" alt="HealthDiaryLoading">    
     </div>
-    <div class="workplace">
-        <div class="container">
-            <div class="weight">
-                <app-weight [weights]="userWeights"></app-weight>            
+    <div class="dashboard-content" *ngIf="dataLoaded">
+        <div class="sidebar-contener">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="workplace">
+            <div class="container">
+                <div class="weight">
+                    <app-weight [weights]="userWeights"></app-weight>            
+                </div>
+            </div>
+            <div class="container">
+                <div class="exercises">
+                    Exercises
+                </div>            
+            </div>
+            <div class="container">
+                <div class="food">
+                    Food
+                </div>           
+            </div>
+            <div class="container">
+                <div class="sleep">
+                    Sleep
+                </div>
+            </div>
+            <div class="info-bar">
+                <div class="weather-info">
+                    {{weatherContent}}
+                </div>
             </div>
         </div>
-        <div class="container">
-            <div class="exercises">
-                Exercises
-            </div>            
-        </div>
-        <div class="container">
-            <div class="food">
-                Food
-            </div>           
-        </div>
-        <div class="container">
-            <div class="sleep">
-                Sleep
-            </div>
-        </div>
-        <div class="info-bar">
-            <div class="weather-info">
-                {{weatherContent}}
-            </div>
-        </div>
-    </div>
+    </div>  
 </body>
 </html>
