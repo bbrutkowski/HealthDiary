@@ -12,6 +12,7 @@ namespace HealthDiary.API.Context.DataContext
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Weight> Weights { get; set; }
         public DbSet<Sleep> Sleeps { get; set; }
+        public DbSet<Activity> Activities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,11 @@ namespace HealthDiary.API.Context.DataContext
             modelBuilder.Entity<Sleep>()
                 .HasOne(s => s.User)
                 .WithMany(u => u.Sleeps)
+                .HasForeignKey(s => s.UserId);
+
+            modelBuilder.Entity<Activity>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.Activities)
                 .HasForeignKey(s => s.UserId);
 
             base.OnModelCreating(modelBuilder);
