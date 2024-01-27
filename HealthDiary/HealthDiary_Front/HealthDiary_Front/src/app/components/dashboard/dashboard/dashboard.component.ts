@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Subject, interval, switchMap, take, timer } from 'rxjs';
+import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeatherDto } from 'src/app/models/weather-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
+import { ActivityService } from 'src/app/services/activity.service/activity.service';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
@@ -18,17 +20,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   private userId: number;
   public userWeights: Array<WeightDto> = [];
+  public totalMonthlyActivities: TotalActivityDto;
 
   public constructor(
     private authService: AuthService,
     private weatherService: WeatherService,
-    private weightService: WeightService) {}
+    private weightService: WeightService,
+    private activityService: ActivityService) {}
 
   ngOnInit(): void {
     this.authService.storeToken();
     this.getUserId();
     this.initWeather();
     this.initWeight();
+    this.initActivities();
+
+
     timer(3000).subscribe(() => {
       this.dataLoaded = true;
     })
@@ -67,5 +74,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.userWeights = result.data;
       }
     });  
+  }
+
+  private initActivities(): void {
+    this.activityService.getMonthlyActivityByUserId(this.userId).pipe(take(1)).subscribe(result => {
+      if(result.isSuccess) {
+        this.totalMonthlyActivities = result.data;
+      }     
+    }, err => {
+      console.log(err.error.errorMessage)
+    })
   }
 }

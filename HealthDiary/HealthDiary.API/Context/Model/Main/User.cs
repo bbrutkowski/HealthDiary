@@ -17,6 +17,7 @@ namespace HealthDiary.API.Context.Model.Main
         public Address Address { get; set; }
         public List<Weight> Weights { get; set; }
         public List<Sleep> Sleeps { get; set; }
+        public List<Activity> Activities { get; set; }
         public DateTime? BirthDate { get; set; }
         public double Weight { get; set; }
         public string? Token { get; set; }
