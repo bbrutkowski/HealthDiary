@@ -16,7 +16,7 @@ body {
     display: flex;
     justify-content: center;
     opacity: 0;
-    animation: fade 0.5s ease-in-out forwards;
+    animation: fade 0.6s ease-in-out forwards;
 }
 
 @keyframes fade {
@@ -29,6 +29,8 @@ body {
   }
 
 .dashboard-content {
+    width: 100vw;
+    height: 100vh;
     display: flex;
 }
 
@@ -42,40 +44,22 @@ body {
     width: 85%;
     display: flex;
     flex-wrap: wrap;
-    margin-left: 5px;
 }
 
 .container {
-    flex-basis: calc(50% - 16px); 
-    height: calc(50% - 16px); 
+    width: 48%;
+    height: 48%;
     border: 3px solid;
     border: #D3E2EE 3px solid;
     border-radius: 10px;
-}
-
-.container:nth-child(odd) {
-    order: 1;
-}
-
-.container:nth-child(even) {
-    order: 2;
-}
-
-.weight,
-.sleep,
-.food,
-.exercises {
-    height: 100%;
     background-color: white;
-    border-radius: 15px;
 }
 
 .info-bar {
-    position: relative;
     width: 100%;
     height: 30px;
     overflow: hidden;
-    margin: 0 8px;
+    margin: 4px 20px;
 }
 
 .weather-info {

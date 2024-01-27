@@ -18,10 +18,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public dataLoaded = false;
   private userId: number;
   public userWeights: Array<WeightDto> = [];
-  public latestUpdate: Date;
-
-  public Highcharts: typeof Highcharts = Highcharts;
-  public chartConstructor: string = 'chart';
 
   public constructor(
     private authService: AuthService,

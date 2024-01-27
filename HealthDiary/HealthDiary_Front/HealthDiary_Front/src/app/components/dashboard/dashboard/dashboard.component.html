@@ -14,30 +14,22 @@
             <app-sidebar></app-sidebar>
         </div>
         <div class="workplace">
-            <div class="container">
-                <div class="weight">
-                    <app-weight [weights]="userWeights"></app-weight>            
-                </div>
-            </div>
-            <div class="container">
-                <div class="exercises">
-                    Exercises
-                </div>            
-            </div>
-            <div class="container">
-                <div class="food">
-                    Food
-                </div>           
-            </div>
-            <div class="container">
-                <div class="sleep">
-                    Sleep
-                </div>
-            </div>
             <div class="info-bar">
                 <div class="weather-info">
                     {{weatherContent}}
                 </div>
+            </div>
+            <div class="container">
+                <app-weight [weights]="userWeights"></app-weight> 
+            </div>
+            <div class="container">
+                Exercises            
+            </div>
+            <div class="container">
+                Food           
+            </div>
+            <div class="container">
+                Sleep
             </div>
         </div>
     </div>  
