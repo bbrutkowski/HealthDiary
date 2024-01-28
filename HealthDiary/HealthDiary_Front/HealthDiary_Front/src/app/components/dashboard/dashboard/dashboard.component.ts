@@ -55,6 +55,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (response.isSuccess) {
         this.weatherContent = response.data;
       }
+    }, err => {
+      console.log(err.error.errorMessage);
     });
 
     interval(5 * 60 * 1000)  
@@ -65,6 +67,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (response.isSuccess) {
           this.weatherContent = response.data;
         }
+      }, err => {
+        console.log(err.error.errorMessage);
       });
   }
 
@@ -73,6 +77,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(result.isSuccess){
         this.userWeights = result.data;
       }
+    }, err => {
+      console.log(err.error.errorMessage);
     });  
   }
 
@@ -82,7 +88,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.totalMonthlyActivities = result.data;
       }     
     }, err => {
-      console.log(err.error.errorMessage)
+      console.log(err.error.errorMessage);
     })
   }
 }

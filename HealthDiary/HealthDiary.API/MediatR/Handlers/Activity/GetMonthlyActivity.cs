@@ -27,16 +27,19 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
                 if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
-                var currentMonth = DateTime.Now.Month;
+                var today = DateTime.Now;
+                var currentMonth = today.Month;
 
                 var activities = await _context.Activities.Where(x => x.UserId == request.Id && x.CreationDate.Month == currentMonth)
+                    .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
                 var totalActivity = new TotalMonthlyActivityDto()
                 {
                     TotalCalorieConsumption = activities.Sum(x => x.TotalCalorieConsumption),
                     TotalDistance = activities.Sum(x => x.TotalDistance),
-                    TotalExerciseTime = activities.Sum(x => x.TotalExerciseTime)
+                    TotalExerciseTime = activities.Sum(x => x.TotalExerciseTime),
+                    LastUpdate = activities.Select(x => x.CreationDate).LastOrDefault()
                 };
 
                 return OperationResultExtensions.Success(totalActivity);
