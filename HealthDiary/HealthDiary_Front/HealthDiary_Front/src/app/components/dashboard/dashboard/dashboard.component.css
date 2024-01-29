@@ -104,6 +104,7 @@ body {
     justify-content: center;
     align-items: center;
     color: black; 
+    font-weight: 400;
 }
 
 .text-overlay span {

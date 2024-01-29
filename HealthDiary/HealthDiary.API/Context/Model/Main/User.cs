@@ -11,13 +11,13 @@ namespace HealthDiary.API.Context.Model.Main
         public string Email { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public int Age { get; set; }
         public string? PhoneNumber { get; set; }
         public Gender? Gender { get; set; }
         public Address Address { get; set; }
         public List<Weight> Weights { get; set; }
         public List<Sleep> Sleeps { get; set; }
         public List<Activity> Activities { get; set; }
+        public List<Food> Foods { get; set; }
         public DateTime? BirthDate { get; set; }
         public double Weight { get; set; }
         public string? Token { get; set; }
