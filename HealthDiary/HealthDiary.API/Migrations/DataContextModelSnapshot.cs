@@ -38,13 +38,13 @@ namespace HealthDiary.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalCalorieConsumption")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,3)");
 
                     b.Property<decimal>("TotalDistance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,3)");
 
                     b.Property<decimal>("TotalExerciseTime")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,3)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -93,6 +93,42 @@ namespace HealthDiary.API.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("HealthDiary.API.Context.Model.Main.Food", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Carbohydrates")
+                        .HasColumnType("decimal(4,2)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Fat")
+                        .HasColumnType("decimal(4,2)");
+
+                    b.Property<int>("Kcal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Protein")
+                        .HasColumnType("decimal(4,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Foods");
+                });
+
             modelBuilder.Entity("HealthDiary.API.Context.Model.Main.Sleep", b =>
                 {
                     b.Property<int>("Id")
@@ -124,9 +160,6 @@ namespace HealthDiary.API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
@@ -236,6 +269,17 @@ namespace HealthDiary.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HealthDiary.API.Context.Model.Main.Food", b =>
+                {
+                    b.HasOne("HealthDiary.API.Context.Model.Main.User", "User")
+                        .WithMany("Foods")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("HealthDiary.API.Context.Model.Main.Sleep", b =>
                 {
                     b.HasOne("HealthDiary.API.Context.Model.Main.User", "User")
@@ -264,6 +308,8 @@ namespace HealthDiary.API.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Foods");
 
                     b.Navigation("Sleeps");
 
