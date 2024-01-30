@@ -8,7 +8,7 @@ import { UserDto } from 'src/app/models/user-dto';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl: string = 'https://localhost:7241/api/User/'
+  private baseUrl: string = 'https://localhost:7241/api/user/'
 
   constructor(private http: HttpClient) { }
 

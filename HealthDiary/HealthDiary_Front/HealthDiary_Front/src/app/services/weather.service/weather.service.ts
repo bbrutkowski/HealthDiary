@@ -11,7 +11,7 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = 'https://localhost:7241/api/WeatherInfo/'
+  private baseUrl: string = 'https://localhost:7241/api/weatherInfo/'
 
   public getWeather() : Observable<Result<WeatherDto>>{
     return this.http.get<Result<WeatherDto>>(`${this.baseUrl}GetWeather`);

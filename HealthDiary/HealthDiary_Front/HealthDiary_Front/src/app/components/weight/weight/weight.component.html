@@ -6,13 +6,9 @@
     <title>Weight</title>
 </head>
 <body>
-    <div class="weight">
-        <div class="chart">
-            <app-chart [weights]="weights"></app-chart>           
-        </div>
-        <div class="footer-content">
-            <span>The weight was last updated: {{latestUpdate | date:'dd-MM-yyyy'}}</span>
-        </div>      
+    <app-chart [weights]="weights"></app-chart>  
+    <div class="footer-content">
+        <span>The weight was last updated: {{latestUpdate | date:'dd-MM-yyyy'}}</span>
     </div>   
 </body>
 </html>

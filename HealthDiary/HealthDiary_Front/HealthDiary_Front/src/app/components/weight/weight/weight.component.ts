@@ -10,11 +10,9 @@ export class WeightComponent implements OnInit {
   @Input() weights: Array<WeightDto>;
 
   public latestUpdate: Date;
-  public canUpdateWeight = false;
 
   ngOnInit(): void {
     this.latestUpdate = this.getLatestWeightUpdate();
-    this.isAbleToUpdate();
   }
 
   private getLatestWeightUpdate(): Date {
@@ -27,14 +25,4 @@ export class WeightComponent implements OnInit {
   
     return null;
   }
-
-  private isAbleToUpdate(): void {
-    if(this.weights.length === 0) return;
-
-    const currentDate: string = new Date().toLocaleString();
-    const latestUpdateDate: Date = new Date(this.latestUpdate); 
-    const latestUpdateDateLocale: string = latestUpdateDate.toLocaleString();
-    this.canUpdateWeight = latestUpdateDateLocale !== currentDate;
-  }
-
 }

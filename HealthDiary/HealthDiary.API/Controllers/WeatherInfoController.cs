@@ -4,7 +4,7 @@ using static HealthDiary.API.MediatR.Handlers.Weather.GetWeather;
 
 namespace HealthDiary.API.Controllers
 {
-    [Route("api/WeatherInfo")]
+    [Route("api/weatherInfo")]
     [ApiController]
     public class WeatherInfoController : ControllerBase
     {

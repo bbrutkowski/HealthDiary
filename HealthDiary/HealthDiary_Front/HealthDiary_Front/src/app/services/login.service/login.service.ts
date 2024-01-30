@@ -12,7 +12,7 @@ import { UserDto } from "src/app/models/user-dto";
 export class LoginService  {
 
    constructor(private http: HttpClient){}
-   private baseUrl: string = 'https://localhost:7241/api/Auth/'
+   private baseUrl: string = 'https://localhost:7241/api/auth/'
 
    public login(loginData: any) : Observable<Result<UserDto>>{
       return this.http.post<Result<UserDto>>(`${this.baseUrl}Login`, loginData)

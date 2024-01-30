@@ -11,7 +11,7 @@ export class WeightService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = 'https://localhost:7241/api/Weight/';
+  private baseUrl: string = 'https://localhost:7241/api/weight/';
 
   public getWeightsByUserId(paramValue: number): Observable<Result<Array<WeightDto>>> {
     const params = new HttpParams().set('Id', paramValue);
