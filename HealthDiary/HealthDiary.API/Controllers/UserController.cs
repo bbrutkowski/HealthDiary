@@ -6,7 +6,7 @@ using static HealthDiary.API.MediatR.Handlers.User.UpdateUser;
 
 namespace HealthDiary.API.Controllers
 {
-    [Route("api/User")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {

@@ -23,5 +23,4 @@ export class AuthService {
   public isLoggedIn(): boolean{
     return !!localStorage.getItem('token');
   }
-  
 }

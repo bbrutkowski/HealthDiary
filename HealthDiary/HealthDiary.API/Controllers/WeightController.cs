@@ -5,7 +5,7 @@ using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 
 namespace HealthDiary.API.Controllers
 {
-    [Route("api/Weight")]
+    [Route("api/weight")]
     [ApiController]
     public class WeightController : ControllerBase
     {

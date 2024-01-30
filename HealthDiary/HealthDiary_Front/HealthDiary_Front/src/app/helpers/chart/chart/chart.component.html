@@ -6,8 +6,11 @@
     <title>Chart</title>
 </head>
 <body>
-    <div>
-        <canvasjs-chart [options]="chartOptions"></canvasjs-chart>
+    <div *ngIf="weights?.length">
+        <canvasjs-chart [options]="weightsChartOprions"></canvasjs-chart>
+    </div>
+    <div *ngIf="meal">
+        <canvasjs-chart [options]="mealInfoChartOprions"></canvasjs-chart>
     </div>
 </body>
 </html>

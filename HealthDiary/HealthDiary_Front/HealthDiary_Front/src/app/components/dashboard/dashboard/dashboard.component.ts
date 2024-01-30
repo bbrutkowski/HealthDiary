@@ -39,10 +39,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initWeight();
     this.initActivities();
     this.initFood();
-
-    timer(3000).subscribe(() => {
+  
+    setTimeout(() => {
       this.dataLoaded = true;
-    })
+    }, 3000);
   }
 
   ngOnDestroy(): void {
@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private getUserId(): void {
-    this.userId = localStorage.getItem('userId') as unknown as number;
+    this.userId = +localStorage.getItem('userId');
   }
 
   private initWeather() {
@@ -59,9 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (response.isSuccess) {
         this.weatherContent = response.data;
       }
-    }, err => {
-      console.log(err.error.errorMessage);
-    });
+    }, err => this.handleError(err));
 
     interval(5 * 60 * 1000)  
       .pipe(
@@ -71,9 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (response.isSuccess) {
           this.weatherContent = response.data;
         }
-      }, err => {
-        console.log(err.error.errorMessage);
-      });
+      }, err => this.handleError(err));
   }
 
   private initWeight(): void {
@@ -81,9 +77,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(result.isSuccess){
         this.userWeights = result.data;
       }
-    }, err => {
-      console.log(err.error.errorMessage);
-    });  
+    }, err => this.handleError(err));  
   }
 
   private initActivities(): void {
@@ -91,9 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(result.isSuccess) {
         this.totalMonthlyActivities = result.data;
       }     
-    }, err => {
-      console.log(err.error.errorMessage);
-    })
+    }, err => this.handleError(err))
   }
 
   private initFood(): void {
@@ -101,8 +93,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(result.isSuccess) {
         this.mealDto = result.data
       }
-    }, err => {
-      console.log(err.error.errorMessage);
-    })
+    }, err => this.handleError(err));
+  }
+
+  private handleError(error: any): void {
+    console.log(error.error.errorMessage);
   }
 }

@@ -17,6 +17,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartComponent } from './helpers/chart/chart/chart.component';
 import { WeightComponent } from './components/weight/weight/weight.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { FoodComponent } from './components/food/food/food.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     PopupModalComponent,
     UserComponent,
     ChartComponent,
-    WeightComponent
+    WeightComponent,
+    FoodComponent
   ],
   imports: [
     BrowserModule,

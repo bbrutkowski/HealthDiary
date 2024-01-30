@@ -5,7 +5,7 @@ using static HealthDiary.API.MediatR.Handlers.Auth.LoginUser;
 
 namespace HealthDiary.API.Controllers
 {
-    [Route("api/Auth")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {

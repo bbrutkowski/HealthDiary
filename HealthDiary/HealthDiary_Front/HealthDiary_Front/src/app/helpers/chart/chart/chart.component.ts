@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { MealDto } from 'src/app/models/meal-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 
 @Component({
@@ -9,15 +10,23 @@ import { WeightDto } from 'src/app/models/weight-dto';
 })
 export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
+  @Input() meal: MealDto;
 
-  public chartOptions: any;
+  public weightsChartOprions: any;
+  public mealInfoChartOprions: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
+    const mealInfo = changes['meal'];
 
     if (weightsChange && weightsChange.currentValue) {
       this.weights = weightsChange.currentValue;
       this.updateWeightChart();
+    }
+
+    if (mealInfo && mealInfo.currentValue) {
+      this.meal = mealInfo.currentValue;
+      this.updateMealInfoChart();
     }
   }
 
@@ -27,7 +36,7 @@ export class ChartComponent implements OnChanges {
       y: data.value,
     })).sort((a, b) => a.x - b.x);
 
-    this.chartOptions = {
+    this.weightsChartOprions = {
       animationEnabled: true,
       title: {
         text: "Monthly Weight"
@@ -39,5 +48,28 @@ export class ChartComponent implements OnChanges {
         dataPoints: chartData
       }]
     }	
+  }
+
+  private updateMealInfoChart(): void {
+    this.mealInfoChartOprions = {
+      title:{
+        text: "Nutritional values"
+      },
+      animationEnabled: true,
+      axisY: {
+        includeZero: true,
+        suffix: "g"
+      },
+      data: [{
+        type: "bar",
+        indexLabel: "{y}",
+        yValueFormatString: "#,##g",
+        dataPoints: [
+          { label: "Protein", y: this.meal.protein },
+          { label: "Fat", y: this.meal.fat },
+          { label: "Carbohydrates", y: this.meal.carbohydrates }
+        ]
+      }]
+    }	 
   }
 }
