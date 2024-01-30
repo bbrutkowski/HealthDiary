@@ -5,4 +5,5 @@ export class MealDto {
     public fat: number;
     public carbohydrates: number;
     public kcal: number
+    public lastUpdate: Date;
 }

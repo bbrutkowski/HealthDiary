@@ -16,6 +16,7 @@ namespace HealthDiary.API.Context.Model.Main
         [Column(TypeName = "decimal(4,2)")]
         public decimal Carbohydrates { get; set; }
         public int Kcal {  get; set; }
+        public DateTime CreationDate { get; set; }
         public int UserId { get; set;}
         public User User { get; set; }
     }

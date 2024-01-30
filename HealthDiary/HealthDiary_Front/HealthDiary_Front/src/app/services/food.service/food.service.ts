@@ -13,7 +13,7 @@ export class FoodService {
 
   private baseUrl: string = 'https://localhost:7241/api/food/';
 
-  public getMonthlyActivityByUserId(paramValue: number): Observable<Result<MealDto>> {
+  public getLastMealInformationByUserId(paramValue: number): Observable<Result<MealDto>> {
     const params = new HttpParams().set('Id', paramValue);
     return this.http.get<Result<MealDto>>(`${this.baseUrl}GetLastMealInformationByUserId`, { params: params });
   }
