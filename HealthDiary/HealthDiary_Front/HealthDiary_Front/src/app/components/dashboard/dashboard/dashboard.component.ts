@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Subject, interval, switchMap, take, timer } from 'rxjs';
+import { MealDto } from 'src/app/models/meal-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeatherDto } from 'src/app/models/weather-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
+import { FoodService } from 'src/app/services/food.service/food.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
@@ -21,12 +23,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private userId: number;
   public userWeights: Array<WeightDto> = [];
   public totalMonthlyActivities: TotalActivityDto;
+  public mealDto: MealDto;
 
   public constructor(
     private authService: AuthService,
     private weatherService: WeatherService,
     private weightService: WeightService,
-    private activityService: ActivityService) {}
+    private activityService: ActivityService,
+    private foodService: FoodService) {}
 
   ngOnInit(): void {
     this.authService.storeToken();
@@ -34,7 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initWeather();
     this.initWeight();
     this.initActivities();
-
+    this.initFood();
 
     timer(3000).subscribe(() => {
       this.dataLoaded = true;
@@ -87,6 +91,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if(result.isSuccess) {
         this.totalMonthlyActivities = result.data;
       }     
+    }, err => {
+      console.log(err.error.errorMessage);
+    })
+  }
+
+  private initFood(): void {
+    this.foodService.getLastMealInformationByUserId(this.userId).pipe(take(1)).subscribe(result => {
+      if(result.isSuccess) {
+        this.mealDto = result.data
+      }
     }, err => {
       console.log(err.error.errorMessage);
     })
