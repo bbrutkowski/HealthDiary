@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MealDto } from 'src/app/models/meal-dto';
+import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 
 @Component({
   selector: 'app-food',
@@ -7,6 +8,6 @@ import { MealDto } from 'src/app/models/meal-dto';
   styleUrl: './food.component.css'
 })
 export class FoodComponent {
-  @Input() mealDto: MealDto;
+  @Input() weeklyNutritionDto: WeeklyNutritionDto;
 
 }

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { MealDto } from 'src/app/models/meal-dto';
+import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 
 @Component({
@@ -10,14 +11,14 @@ import { WeightDto } from 'src/app/models/weight-dto';
 })
 export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
-  @Input() meal: MealDto;
+  @Input() weeklyNutrition: WeeklyNutritionDto;
 
   public weightsChartOprions: any;
   public mealInfoChartOprions: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
-    const mealInfo = changes['meal'];
+    const mealInfo = changes['weeklyNutrition'];
 
     if (weightsChange && weightsChange.currentValue) {
       this.weights = weightsChange.currentValue;
@@ -25,7 +26,7 @@ export class ChartComponent implements OnChanges {
     }
 
     if (mealInfo && mealInfo.currentValue) {
-      this.meal = mealInfo.currentValue;
+      this.weeklyNutrition = mealInfo.currentValue;
       this.updateMealInfoChart();
     }
   }
@@ -63,11 +64,12 @@ export class ChartComponent implements OnChanges {
       data: [{
         type: "bar",
         indexLabel: "{y}",
-        yValueFormatString: "#,##g",
+        yValueFormatString: "###g",
         dataPoints: [
-          { label: "Protein", y: this.meal.protein },
-          { label: "Fat", y: this.meal.fat },
-          { label: "Carbohydrates", y: this.meal.carbohydrates }
+          { label: "Kcal", y: this.weeklyNutrition.kcal },
+          { label: "Protein", y: this.weeklyNutrition.protein },
+          { label: "Fat", y: this.weeklyNutrition.fat },
+          { label: "Carbohydrates", y: this.weeklyNutrition.carbohydrates },         
         ]
       }]
     }	 
