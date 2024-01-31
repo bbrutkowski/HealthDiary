@@ -18,6 +18,8 @@ import { ChartComponent } from './helpers/chart/chart/chart.component';
 import { WeightComponent } from './components/weight/weight/weight.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { FoodComponent } from './components/food/food/food.component';
+import { ChartModule } from 'primeng/chart';
+import { SleepComponent } from './components/sleep/sleep/sleep.component';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { FoodComponent } from './components/food/food/food.component';
     UserComponent,
     ChartComponent,
     WeightComponent,
-    FoodComponent
+    FoodComponent,
+    SleepComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { FoodComponent } from './components/food/food/food.component';
     ReactiveFormsModule,
     MatDialogModule,
     HighchartsChartModule,
-    CanvasJSAngularChartsModule
+    CanvasJSAngularChartsModule,
+    ChartModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
