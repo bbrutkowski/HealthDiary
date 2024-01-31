@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { MealDto } from 'src/app/models/meal-dto';
+import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 
@@ -12,6 +13,7 @@ import { WeightDto } from 'src/app/models/weight-dto';
 export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
   @Input() weeklyNutrition: WeeklyNutritionDto;
+  @Input() lastSleepInfo: SleepInfoDto;
 
   public weightsChartOprions: any;
   public mealInfoChartOprions: any;

@@ -23,6 +23,7 @@
     "@canvasjs/angular-charts": "^1.0.3",
     "@canvasjs/charts": "^3.7.35",
     "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.1",
     "highcharts-angular": "^4.0.0",
     "ng-angular-popup": "^0.5.2",
     "primeng": "^17.1.0",
