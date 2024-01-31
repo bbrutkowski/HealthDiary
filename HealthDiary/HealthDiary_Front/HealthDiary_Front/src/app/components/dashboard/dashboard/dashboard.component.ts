@@ -4,6 +4,7 @@ import { Subject, interval, switchMap, take, timer } from 'rxjs';
 import { MealDto } from 'src/app/models/meal-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeatherDto } from 'src/app/models/weather-dto';
+import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private userId: number;
   public userWeights: Array<WeightDto> = [];
   public totalMonthlyActivities: TotalActivityDto;
-  public mealDto: MealDto;
+  public weeklyNutritionDto: WeeklyNutritionDto;
 
   public constructor(
     private authService: AuthService,
@@ -89,9 +90,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initFood(): void {
-    this.foodService.getLastMealInformationByUserId(this.userId).pipe(take(1)).subscribe(result => {
+    this.foodService.getWeeklyMealInformationByUserId(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess) {
-        this.mealDto = result.data
+        this.weeklyNutritionDto = result.data
       }
     }, err => this.handleError(err));
   }

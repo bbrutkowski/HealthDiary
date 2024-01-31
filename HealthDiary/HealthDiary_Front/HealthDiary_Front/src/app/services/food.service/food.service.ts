@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MealDto } from 'src/app/models/meal-dto';
 import { Result } from 'src/app/models/operation-result';
+import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,10 @@ export class FoodService {
   public getLastMealInformationByUserId(paramValue: number): Observable<Result<MealDto>> {
     const params = new HttpParams().set('Id', paramValue);
     return this.http.get<Result<MealDto>>(`${this.baseUrl}GetLastMealInformationByUserId`, { params: params });
+  }
+
+  public getWeeklyMealInformationByUserId(paramValue: number): Observable<Result<WeeklyNutritionDto>> {
+    const params = new HttpParams().set('Id', paramValue);
+    return this.http.get<Result<WeeklyNutritionDto>>(`${this.baseUrl}GetMealNutritionFromWeekByUserId`, { params: params });
   }
 }
