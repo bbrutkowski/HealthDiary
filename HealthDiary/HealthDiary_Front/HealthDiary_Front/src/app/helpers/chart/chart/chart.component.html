@@ -12,6 +12,9 @@
     <div *ngIf="weeklyNutrition">
         <canvasjs-chart [options]="mealInfoChartOprions"></canvasjs-chart>
     </div>
+    <div *ngIf="lastSleepInfo">
+        <canvasjs-chart [options]="lastSleepChartOprions"></canvasjs-chart>
+    </div>
 </body>
 </html>
 

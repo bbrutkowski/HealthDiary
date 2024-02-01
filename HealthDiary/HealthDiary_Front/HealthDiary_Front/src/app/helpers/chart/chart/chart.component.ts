@@ -17,10 +17,12 @@ export class ChartComponent implements OnChanges {
 
   public weightsChartOprions: any;
   public mealInfoChartOprions: any;
+  public lastSleepChartOprions: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
     const mealInfo = changes['weeklyNutrition'];
+    const lastSleepInfo = changes['lastSleepInfo'];
 
     if (weightsChange && weightsChange.currentValue) {
       this.weights = weightsChange.currentValue;
@@ -30,6 +32,11 @@ export class ChartComponent implements OnChanges {
     if (mealInfo && mealInfo.currentValue) {
       this.weeklyNutrition = mealInfo.currentValue;
       this.updateMealInfoChart();
+    }
+
+    if (lastSleepInfo && lastSleepInfo.currentValue) {
+      this.lastSleepInfo = lastSleepInfo.currentValue;
+      this.updateLastSleepInfoChart();
     }
   }
 
@@ -75,5 +82,22 @@ export class ChartComponent implements OnChanges {
         ]
       }]
     }	 
+  }
+
+  private updateLastSleepInfoChart(): void {
+    this.lastSleepChartOprions = {
+      animationEnabled: true,
+      title:{
+      text: null
+      },
+      data: [{
+      type: "doughnut",
+      yValueFormatString: "##.##'h'",
+      indexLabel: "{name}",
+      dataPoints: [
+        { y: this.lastSleepInfo.sleepTime, name: 'Sleep hours' },       
+      ]
+      }]
+    }	
   }
 }
