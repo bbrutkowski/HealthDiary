@@ -1,6 +1,4 @@
 import { Observable } from "rxjs";
-import { RegisterUserData } from "../../models/login-user-data-dto";
-import { RequestHelperService } from "../request-helper/request-helper.service";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Result } from "../../models/operation-result";
