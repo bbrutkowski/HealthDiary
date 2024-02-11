@@ -9,3 +9,7 @@ body span {
     justify-content: space-between;
     align-items: center;
 }
+
+.weight-empty img {
+    display: flex;
+}
