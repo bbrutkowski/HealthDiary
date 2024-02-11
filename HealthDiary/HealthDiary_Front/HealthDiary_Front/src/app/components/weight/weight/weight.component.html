@@ -6,10 +6,12 @@
     <title>Weight</title>
 </head>
 <body>
-    <app-chart [weights]="weights"></app-chart>  
-    <div class="footer-content">
+    <div *ngIf="weights.length">
+        <app-chart [weights]="weights"></app-chart> 
+    </div> 
+    <div class="footer-content" *ngIf="weights.length">
         <span>The weight was last updated: {{latestUpdate | date:'dd-MM-yyyy'}}</span>
-    </div>   
+    </div>  
 </body>
 </html>
 

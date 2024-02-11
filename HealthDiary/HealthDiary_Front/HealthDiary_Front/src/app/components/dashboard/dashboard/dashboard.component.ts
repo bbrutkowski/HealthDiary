@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public weatherContent: WeatherDto;
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
-  private userId: number;
+  public userId: number;
   public userWeights: Array<WeightDto> = [];
   public totalMonthlyActivities: TotalActivityDto;
   public weeklyNutritionDto: WeeklyNutritionDto;

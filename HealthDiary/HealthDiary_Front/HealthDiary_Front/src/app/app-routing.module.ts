@@ -7,6 +7,9 @@ import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component
 import { AuthService } from './services/auth.service/auth.service';
 import { AuthGuard } from './guards/auth.guard';
 import { UserComponent } from './components/user/user/user.component';
+import { WeightComponent } from './components/weight/weight/weight.component';
+import { SleepComponent } from './components/sleep/sleep/sleep.component';
+import { FoodComponent } from './components/food/food/food.component';
 
 const routes: Routes = [
   {
@@ -30,7 +33,27 @@ const routes: Routes = [
     path: 'user',
     component: UserComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'weight',
+    component: WeightComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'sleep',
+    component: SleepComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'food',
+    component: FoodComponent,
+    canActivate: [AuthGuard]
+  },
+  // {
+  //   path: 'activity',
+  //   component: ,
+  //   canActivate: [AuthGuard]
+  // }
 ];
 
 @NgModule({
