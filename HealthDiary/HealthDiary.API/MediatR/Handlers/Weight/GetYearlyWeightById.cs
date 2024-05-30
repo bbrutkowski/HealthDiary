@@ -4,6 +4,7 @@ using HealthDiary.API.Context.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
+using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeightById;
 
 namespace HealthDiary.API.MediatR.Handlers.Weight
 {
@@ -39,7 +40,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
         }
     }
 
-    public sealed class Validator : AbstractValidator<GetWeightsByMonthRequest>
+    public sealed class Validator : AbstractValidator<GetYearlyWeightByIdRequest>
     {
         public const string UserIdValidation = "User Id must be greater than 0";
 

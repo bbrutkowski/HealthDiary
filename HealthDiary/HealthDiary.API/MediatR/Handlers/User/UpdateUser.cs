@@ -4,6 +4,7 @@ using HealthDiary.API.Context.Model;
 using HealthDiary.API.Context.Model.Main;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using UserAlias = HealthDiary.API.Context.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.User
 {
@@ -34,25 +35,30 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 var userToUpdate = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
                 if (userToUpdate == null) return OperationResultExtensions.Failure(UserNotFoundError);
 
-                userToUpdate.Name = request.Name;
-                userToUpdate.Surname = request.Surname;
-                userToUpdate.Email = request.Email;
-                userToUpdate.BirthDate = request.BirthDate;
-                userToUpdate.PhoneNumber = request.PhoneNumber;
-                userToUpdate.Gender = request.Gender;
-
-                userToUpdate.Address ??= new Address();
-
-                userToUpdate.Address.Country = request.Country;
-                userToUpdate.Address.City = request.City;
-                userToUpdate.Address.Street = request.Street;
-                userToUpdate.Address.BuildingNumber = request.BuildingNumber;
-                userToUpdate.Address.ApartmentNumber = request.ApartmentNumber;
-                userToUpdate.Address.PostalCode = request.PostalCode;
+                UpdateUserInformation(userToUpdate, request);
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return OperationResultExtensions.Success();
-            }       
+            }
+
+            private static void UpdateUserInformation(UserAlias user, UpdateUserRequest updateRequest)
+            {
+                user.Name = updateRequest.Name;
+                user.Surname = updateRequest.Surname;
+                user.Email = updateRequest.Email;
+                user.BirthDate = updateRequest.BirthDate;
+                user.PhoneNumber = updateRequest.PhoneNumber;
+                user.Gender = updateRequest.Gender;
+
+                user.Address ??= new Address();
+
+                user.Address.Country = updateRequest.Country;
+                user.Address.City = updateRequest.City;
+                user.Address.Street = updateRequest.Street;
+                user.Address.BuildingNumber = updateRequest.BuildingNumber;
+                user.Address.ApartmentNumber = updateRequest.ApartmentNumber;
+                user.Address.PostalCode = updateRequest.PostalCode;
+            }
         }
 
         public sealed class Validator : AbstractValidator<UpdateUserRequest>
