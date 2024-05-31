@@ -19,7 +19,8 @@ namespace HealthDiary.API.MediatR.Handlers.Sleep
 
             public async Task<OperationResult> Handle(GetLastSleepInfoByUserIdRequest request, CancellationToken cancellationToken)
             {
-                var sleepInformation = await _context.Sleeps.Where(x => x.UserId == request.Id)
+                var sleepInformation = await _context.Sleeps
+                    .Where(x => x.UserId == request.Id)
                     .OrderBy(x => x.CreationDate)
                     .LastOrDefaultAsync(cancellationToken);
 
