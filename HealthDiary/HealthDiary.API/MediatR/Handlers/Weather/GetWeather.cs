@@ -16,12 +16,14 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
             public Handler(DataContext context) => _context = context;
 
             private const string ContentNotFoundError = "No forecast with given Id";
-
             public async Task<OperationResult> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
             {
                 var randomId = new Random().Next(1, 6);
 
-                var weatherContent = await _context.WeatherInformations.Where(x => x.Id == randomId && x.IsActive).Select(x => x.Content).FirstOrDefaultAsync(cancellationToken);
+                var weatherContent = await _context.WeatherInformations
+                    .Where(x => x.Id == randomId && x.IsActive)
+                    .Select(x => x.Content)
+                    .FirstOrDefaultAsync(cancellationToken);
 
                 if (weatherContent is null) return OperationResultExtensions.Failure(ContentNotFoundError + $"{randomId}");
 

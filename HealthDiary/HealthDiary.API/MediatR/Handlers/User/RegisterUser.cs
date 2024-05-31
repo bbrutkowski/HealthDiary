@@ -40,7 +40,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
 
                 try
                 {
-                    var validationResult = await ChaeckUserCredentialsAsync(user, cancellationToken);
+                    var validationResult = await CheckUserCredentialsAsync(user, cancellationToken);
                     if (validationResult.ToString() != string.Empty) return OperationResultExtensions.Failure(validationResult.ToString());
 
                     await _context.Users.AddAsync(user, cancellationToken);
@@ -54,7 +54,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 }
             }
 
-            private async Task<string> ChaeckUserCredentialsAsync(UserAlias newUser, CancellationToken cancellationToken)
+            private async Task<string> CheckUserCredentialsAsync(UserAlias newUser, CancellationToken cancellationToken)
             {
                 var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.IsActive && x.Login == newUser.Login || x.Email == newUser.Email, cancellationToken);
 

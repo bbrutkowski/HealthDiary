@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, take, timer } from 'rxjs';
@@ -19,11 +19,15 @@ export class UserComponent implements OnInit, OnDestroy {
   public isUpdateSuccessful = false;
   public isUpdateError = false; 
 
+  @Output() opened = new EventEmitter<void>();
+  @Output() closed = new EventEmitter<void>();
+
   public constructor(private fb: FormBuilder, 
     private userService: UserService,
     private router: Router) {}
 
   ngOnInit(): void {
+    this.opened.emit();
     this.getLoggedUserData();
     this.createForm();
   }
@@ -32,6 +36,10 @@ export class UserComponent implements OnInit, OnDestroy {
     if (this.userDataSubscription) {
       this.userDataSubscription.unsubscribe();
     }
+  }
+
+  onClosed() {
+    this.closed.emit();
   }
 
   private createForm(): void {

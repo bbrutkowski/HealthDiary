@@ -54,6 +54,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   public openUserProfile():void {
+    document.body.classList.add('blurred-background');
+
     const userRef = this.dialog.open(PopupModalComponent, {
       data: {
         modalTitle: 'User profile',
@@ -61,12 +63,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }
     });
 
-    userRef.afterClosed().subscribe(() => {});
-
     userRef.componentInstance.confirmationEvent.subscribe((result: boolean) => {
       if (result) {
         this.router.navigate(['/user']);        
       }
+    });
+
+    userRef.afterClosed().subscribe(() => {
+      document.body.classList.remove('blurred-background');
     });
   }
 }

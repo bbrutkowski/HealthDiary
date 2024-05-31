@@ -30,7 +30,8 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 var today = DateTime.Now;
                 var currentMonth = today.Month;
 
-                var activities = await _context.Activities.Where(x => x.UserId == request.Id && x.CreationDate.Month == currentMonth)
+                var activities = await _context.Activities
+                    .Where(x => x.UserId == request.Id && x.CreationDate.Month == currentMonth)
                     .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 

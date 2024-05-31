@@ -35,9 +35,10 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
                 if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
-                var user = await _context.Users.Where(x => x.IsActive && x.Login == request.Login)
-                                   .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
-                                   .FirstOrDefaultAsync(cancellationToken);
+                var user = await _context.Users
+                    .Where(x => x.IsActive && x.Login == request.Login)
+                    .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
+                    .FirstOrDefaultAsync(cancellationToken);
 
                 if (user is null) return OperationResultExtensions.Failure(UserNotFoundError);
 
@@ -48,7 +49,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 return OperationResultExtensions.Success(user);
             }
 
-            private string CreateJwtToken(UserAlias user)
+            private static string CreateJwtToken(UserAlias user)
             {
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF32.GetBytes("applicationKey");
