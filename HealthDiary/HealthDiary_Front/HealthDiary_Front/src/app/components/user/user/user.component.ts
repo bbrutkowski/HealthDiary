@@ -19,15 +19,11 @@ export class UserComponent implements OnInit, OnDestroy {
   public isUpdateSuccessful = false;
   public isUpdateError = false; 
 
-  @Output() opened = new EventEmitter<void>();
-  @Output() closed = new EventEmitter<void>();
-
   public constructor(private fb: FormBuilder, 
     private userService: UserService,
     private router: Router) {}
 
   ngOnInit(): void {
-    this.opened.emit();
     this.getLoggedUserData();
     this.createForm();
   }
@@ -37,11 +33,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.userDataSubscription.unsubscribe();
     }
   }
-
-  onClosed() {
-    this.closed.emit();
-  }
-
+  
   private createForm(): void {
     this.userProfile = this.fb.group({
       id: [''],

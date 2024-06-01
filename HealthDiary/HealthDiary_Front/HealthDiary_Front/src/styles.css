@@ -159,7 +159,3 @@ input[type='password'] {
     color: #294A66;
     transition: 0.3s;
 }
-
-.blurred-background {
-    filter: blur(5px);
-  }

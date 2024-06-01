@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     const userRef = this.dialog.open(PopupModalComponent, {
       data: {
         modalTitle: 'User profile',
-        modalBody: 'Do you want to go to the user`s profile?',
+        modalBody: 'Do you want to go to the user`s profile?'
       }
     });
 
