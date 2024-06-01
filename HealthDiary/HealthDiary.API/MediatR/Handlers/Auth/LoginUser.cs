@@ -53,7 +53,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
             {
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.UTF32.GetBytes("applicationKey");
-
+ 
                 var identity = new ClaimsIdentity(new Claim[]
                 {
                    new(ClaimTypes.Role, user.Role.ToString()),

@@ -89,7 +89,6 @@
         </form>
         <div class="profile-save-button">
             <button (click)="onSaved()" type="submit" [disabled]="userProfile.get('phoneNumber')?.hasError('onlyDigits')" class="button-basic">Save</button>
-            <button (click)="onClosed()" type="submit" class="button-basic">Close</button>  
             <small *ngIf="isUpdateSuccessful" class="text-success">User update successful!</small>   
             <small *ngIf="isUpdateError" class="text-danger">Error during user update</small>    
         </div>    
