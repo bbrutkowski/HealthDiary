@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, take, timer } from 'rxjs';
@@ -56,16 +56,19 @@ export class UserComponent implements OnInit, OnDestroy {
     const userId = localStorage.getItem('userId') as unknown as number;
     if(userId) {
 
-      this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe(response => {
-        if(response.isSuccess){
-          this.userDto = response.data as UserDto;
-          this.populateForm();
-          this.isDataLoaded = true;
+      this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe({
+        next: response => {
+          if(response.isSuccess){
+            this.userDto = response.value as UserDto;
+            this.populateForm();
+            this.isDataLoaded = true;
+          }
+        },
+        error: err => {
+          this.isLoadError = true;
+          console.log(err.message)
         }
-      }, (error) => {
-        this.isLoadError = true;
-        console.log(error.error.errorMessage);
-      })
+      });
     }   
   }
 
@@ -96,15 +99,20 @@ export class UserComponent implements OnInit, OnDestroy {
 
   public onSaved(): void { 
     const formData = this.userProfile.value as UserDto
-    this.userService.updateUser(formData).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess){
-        this.isUpdateSuccessful = true;
-        timer(3000).subscribe(() => {
-          this.router.navigate(['dashboard']);
-        })    
-      }
-    }, (err) => {
-      this.isUpdateError = true;
+    this.userService.updateUser(formData).pipe(take(1)).subscribe({
+      next: result => { 
+        if(result.isSuccess){
+          this.isUpdateSuccessful = true;
+          timer(3000).subscribe(() => {
+            this.router.navigate(['dashboard']);
+          })    
+        }
+      },
+      error: err =>
+      {
+        this.isUpdateError = true;
+        console.log(err.message)
+      } 
     })
   }
 }

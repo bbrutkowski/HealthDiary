@@ -1,18 +1,17 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeightById;
 
 namespace HealthDiary.API.MediatR.Handlers.Weight
 {
     public static class GetYearlyWeightById
     {
-        public record GetYearlyWeightByIdRequest(int Id) : IRequest<OperationResult>;
+        public record GetYearlyWeightByIdRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetYearlyWeightByIdRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<GetYearlyWeightByIdRequest, Result>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetYearlyWeightByIdRequest> _requestValidator;
@@ -23,10 +22,10 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 _requestValidator = requestValidator;
             }
 
-            public async Task<OperationResult> Handle(GetYearlyWeightByIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetYearlyWeightByIdRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var currentMonth = DateTime.Now.Year;
 
@@ -35,7 +34,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                     .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
-                return OperationResultExtensions.Success(weightsByMonth);
+                return Result.Success(weightsByMonth);
             }
         }
     }

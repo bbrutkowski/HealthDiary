@@ -35,7 +35,7 @@ export class WeightComponent implements OnInit {
   private initYearlyWeight(): void {
     this.weightServce.getUserYearlyWeightById(this.userId).pipe(take(1)).subscribe(result => {
       if(result.isSuccess) {
-        this.weights = result.data;
+        this.weights = result.value;
       }
     }, err => {
       console.log(err.error.errorMessage);

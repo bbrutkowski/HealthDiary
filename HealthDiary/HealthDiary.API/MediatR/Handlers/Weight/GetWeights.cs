@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 {
     public static class GetWeights
     {
-        public record GetWeightsRequest(int Id) : IRequest<OperationResult>;
+        public record GetWeightsRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetWeightsRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<GetWeightsRequest, Result>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetWeightsRequest> _requestValidator;
@@ -21,15 +21,15 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 _requestValidator = validator;
             }
 
-            public async Task<OperationResult> Handle(GetWeightsRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetWeightsRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var userWeights = await _context.Weights.Where(x => x.UserId == request.Id)
                     .ToListAsync(cancellationToken);
 
-                return OperationResultExtensions.Success(userWeights);
+                return Result.Success(userWeights);
             }
         }
 

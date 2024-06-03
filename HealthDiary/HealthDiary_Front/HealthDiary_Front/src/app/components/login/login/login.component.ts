@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { Result} from 'src/app/models/operation-result';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service/login.service';
@@ -61,26 +60,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   public onSubmit() : void{
     if(!this.loginForm.valid) return this.validateForm(this.loginForm);
 
-    this.loginService.login(this.loginForm.value)
-    .pipe(take(1))
-    .subscribe(
-        (response) => {
-            if (response.isSuccess) {
-              localStorage.setItem('loggedUser', JSON.stringify(response.data));
-              this.authService.storeToken();
-              this.router.navigate(['dashboard']);
-            } else {
-              this.loginForm.reset();
-              this.loginError = true;
-            }
-        },
-        (error) => {
-            console.error('An error occurred during user login:', error);
-            this.loginForm.reset();
-            this.loginError = true;
+    this.loginService.login(this.loginForm.value).pipe(take(1)).subscribe({
+      next: response => {
+        if (response.isSuccess) {
+          localStorage.setItem('loggedUser', JSON.stringify(response.value));
+          this.authService.storeToken();
+          this.router.navigate(['dashboard']);
+        } else {
+          this.loginForm.reset();
+          this.loginError = true;
         }
-    );    
+      },
+      error: err => this.handleError(err)
+    });
   }
+
+  private handleError(error: any): void {
+    console.log(error.message)
+  } 
 
   private validateForm(formGroup: FormGroup) : void {
     Object.keys(formGroup.controls).forEach(field => {

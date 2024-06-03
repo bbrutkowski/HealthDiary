@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -39,9 +38,9 @@ import { SleepComponent } from './components/sleep/sleep/sleep.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     ReactiveFormsModule,
     MatDialogModule,
+    HttpClientModule,
     HighchartsChartModule,
     CanvasJSAngularChartsModule,
     ChartModule

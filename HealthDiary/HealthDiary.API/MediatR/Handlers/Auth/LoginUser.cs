@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,9 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 {
     public static class LoginUser
     {
-        public record LoginUserRequest(string Login, string Password) : IRequest<OperationResult>;
+        public record LoginUserRequest(string Login, string Password) : IRequest<Result<UserAlias>>;
 
-        public sealed class Handler : IRequestHandler<LoginUserRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<LoginUserRequest, Result<UserAlias>>
         {
             private readonly DataContext _context;
             private readonly IValidator<LoginUserRequest> _requestValidator;
@@ -30,23 +30,23 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 _requestValidator = validator;
             }
 
-            public async Task<OperationResult> Handle(LoginUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result<UserAlias>> Handle(LoginUserRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure<UserAlias>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var user = await _context.Users
                     .Where(x => x.IsActive && x.Login == request.Login)
                     .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
                     .FirstOrDefaultAsync(cancellationToken);
 
-                if (user is null) return OperationResultExtensions.Failure(UserNotFoundError);
+                if (user is null) return Result.Failure<UserAlias>(UserNotFoundError);
 
-                if (!PasswordHasher.Verify(request.Password, user.Password)) return OperationResultExtensions.Failure(UserCredentialsError);
+                if (!PasswordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserAlias>(UserCredentialsError);
 
                 user.Token = CreateJwtToken(user);
 
-                return OperationResultExtensions.Success(user);
+                return Result.Success(user);
             }
 
             private static string CreateJwtToken(UserAlias user)

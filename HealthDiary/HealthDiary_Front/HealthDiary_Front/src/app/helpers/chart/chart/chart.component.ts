@@ -61,6 +61,7 @@ export class ChartComponent implements OnChanges {
   }
 
   private updateMealInfoChart(): void {
+    if(this.weeklyNutrition == null) return;
     this.mealInfoChartOprions = {
       title:{
         text: "Nutritional values"
@@ -85,6 +86,7 @@ export class ChartComponent implements OnChanges {
   }
 
   private updateLastSleepInfoChart(): void {
+    if(this.lastSleepInfo == null) return;
     this.lastSleepChartOprions = {
       animationEnabled: true,
       title:{
