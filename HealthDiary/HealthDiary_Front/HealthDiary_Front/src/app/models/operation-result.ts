@@ -1,24 +1,24 @@
 export class Result<T> {
-    public data: T;
+    public value: T;
     public isSuccess: boolean;
     public isFailure: boolean;
-    public errorMessage: string;
+    public error: string;
 
-    static Success<T>(data: T): Result<T> {
+    static Success<T>(value: T): Result<T> {
         return {
             isSuccess: true,
             isFailure: false,           
-            data: data,
-            errorMessage: null
+            value: value,
+            error: null
         };
     }
 
-    static Failure<T>(errorMessage: string): Result<T> {
+    static Failure<T>(error: string): Result<T> {
         return {
             isSuccess: false,
             isFailure: true,
-            data: null,
-            errorMessage: errorMessage
+            value: null,
+            error: error
         };
     }
 }

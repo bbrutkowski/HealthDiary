@@ -59,56 +59,74 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initWeather() {
-    this.weatherService.getWeather().pipe(take(1)).subscribe(response => {
-      if (response.isSuccess) {
-        this.weatherContent = response.data;
-      }
-    }, err => this.handleError(err));
+    this.weatherService.getWeather().pipe(take(1)).subscribe({
+      next: response => {
+        if (response.isSuccess) {
+          this.weatherContent = response.value;
+        }
+      },
+      error: err => this.handleError(err)
+    })
 
     interval(5 * 60 * 1000)  
       .pipe(
         switchMap(() => this.weatherService.getWeather().pipe(take(1)))
       )
-      .subscribe(response => {
-        if (response.isSuccess) {
-          this.weatherContent = response.data;
-        }
-      }, err => this.handleError(err));
+      .subscribe({
+        next: response => {
+          if (response.isSuccess) {
+            this.weatherContent = response.value;
+          }
+        },
+        error: err => this.handleError(err)
+      });
   }
 
-  private initWeight(): void {
-    this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess){
-        this.userWeights = result.data;
-      }
-    }, err => this.handleError(err));  
+  private initWeight(): void { 
+    this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe({
+      next: result => {
+        if(result.isSuccess){
+          this.userWeights = result.value;
+        }
+      },
+      error: err => this.handleError(err)
+    })
   }
 
   private initActivities(): void {
-    this.activityService.getMonthlyActivityByUserId(this.userId).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess) {
-        this.totalMonthlyActivities = result.data;
-      }     
-    }, err => this.handleError(err))
+    this.activityService.getMonthlyActivityByUserId(this.userId).pipe(take(1)).subscribe({
+      next: result => {
+        if(result.isSuccess) {
+          this.totalMonthlyActivities = result.value;
+        }    
+      }, 
+      error: err => this.handleError(err)
+    })
   }
 
   private initFood(): void {
-    this.foodService.getWeeklyMealInformationByUserId(this.userId).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess) {
-        this.weeklyNutritionDto = result.data
-      }
-    }, err => this.handleError(err));
+    this.foodService.getWeeklyMealInformationByUserId(this.userId).pipe(take(1)).subscribe({
+      next: result => {
+        if(result.isSuccess) {
+          this.weeklyNutritionDto = result.value;
+        }
+      },
+      error: err => this.handleError(err)
+    });
   }
 
   private initSleep(): void {
-    this.sleepService.getLastSleepInformationByUserId(this.userId).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess) {
-        this.lastSleepInfo = result.data
-      }
-    }, err => this.handleError(err));
+    this.sleepService.getLastSleepInformationByUserId(this.userId).pipe(take(1)).subscribe({
+      next: result => {
+        if(result.isSuccess) {
+          this.lastSleepInfo = result.value
+        }
+      },
+      error: err => this.handleError(err)
+    })
   }
 
   private handleError(error: any): void {
-    console.log(error.error.errorMessage);
+    console.log(error.message);
   }
 }

@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +10,9 @@ namespace HealthDiary.API.MediatR.Handlers.User
 {
     public static class RegisterUser
     {
-        public record RegisterUserRequest(string Login, string Password, string Email) : IRequest<OperationResult>;
+        public record RegisterUserRequest(string Login, string Password, string Email) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<RegisterUserRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<RegisterUserRequest, Result>
         {
             private readonly DataContext _context;
             private readonly IValidator<RegisterUserRequest> _requestValidator;
@@ -26,10 +26,10 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 _requestValidator = validator;
             }
 
-            public async Task<OperationResult> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var user = new UserAlias()
                 {
@@ -41,16 +41,16 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 try
                 {
                     var validationResult = await CheckUserCredentialsAsync(user, cancellationToken);
-                    if (validationResult.ToString() != string.Empty) return OperationResultExtensions.Failure(validationResult.ToString());
+                    if (validationResult.ToString() != string.Empty) return Result.Failure(validationResult.ToString());
 
                     await _context.Users.AddAsync(user, cancellationToken);
                     await _context.SaveChangesAsync(cancellationToken);
 
-                    return OperationResultExtensions.Success();
+                    return Result.Success();
                 }
                 catch (Exception e)
                 {
-                    return OperationResultExtensions.Failure(e.Message);
+                    return Result.Failure(e.Message);
                 }
             }
 

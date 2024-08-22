@@ -1,5 +1,5 @@
-﻿using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
+﻿using CSharpFunctionalExtensions;
+using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Context.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +8,9 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 {
     public static class GetMealNutritionFromWeek
     {
-        public record GetMealNutritionFromWeekByUserIdRequest(int Id) : IRequest<OperationResult>;
+        public record GetMealNutritionFromWeekByUserIdRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetMealNutritionFromWeekByUserIdRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<GetMealNutritionFromWeekByUserIdRequest, Result>
         {
             private readonly DataContext _context;
 
@@ -18,14 +18,14 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 
             public Handler(DataContext context) => _context = context;
 
-            public async Task<OperationResult> Handle(GetMealNutritionFromWeekByUserIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetMealNutritionFromWeekByUserIdRequest request, CancellationToken cancellationToken)
             {
                 DateTime today = DateTime.Now;;
 
                 var weeklyMeals = await _context.Foods.Where(x => x.UserId == request.Id && x.CreationDate >= today.AddDays(-7) && x.CreationDate <= today)
                     .ToArrayAsync(cancellationToken);
 
-                if(!weeklyMeals.Any()) return OperationResultExtensions.Failure(MealsNotFoundError);
+                if(!weeklyMeals.Any()) return Result.Failure(MealsNotFoundError);
 
                 var weeklyNutritionInfo = new WeeklyNutritionDto()
                 {
@@ -35,7 +35,7 @@ namespace HealthDiary.API.MediatR.Handlers.Food
                     Carbohydrates = weeklyMeals.Sum(x => x.Carbohydrates)
                 };
 
-                return OperationResultExtensions.Success(weeklyNutritionInfo);
+                return Result.Success(weeklyNutritionInfo);
             }
         }
     }

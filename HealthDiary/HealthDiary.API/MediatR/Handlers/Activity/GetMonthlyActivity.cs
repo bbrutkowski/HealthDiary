@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using HealthDiary.API.Context.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +9,14 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
 {
     public static class GetMonthlyActivity
     {
-        public record GetMonthlyActivityByUserIdRequest(int Id) : IRequest<OperationResult>;
+        public record GetMonthlyActivityByUserIdRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetMonthlyActivityByUserIdRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<GetMonthlyActivityByUserIdRequest, Result>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetMonthlyActivityByUserIdRequest> _requestValidator;
+
+            const string ActivitiesNotFoundErrorMessage = "Activities not found";
 
             public Handler(DataContext dataContext, IValidator<GetMonthlyActivityByUserIdRequest> validator)
             {
@@ -22,10 +24,10 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 _requestValidator = validator;
             }
 
-            public async Task<OperationResult> Handle(GetMonthlyActivityByUserIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetMonthlyActivityByUserIdRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var today = DateTime.Now;
                 var currentMonth = today.Month;
@@ -35,6 +37,8 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                     .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
+                if (!activities.Any()) return Result.Failure<TotalMonthlyActivityDto>(ActivitiesNotFoundErrorMessage);
+
                 var totalActivity = new TotalMonthlyActivityDto()
                 {
                     TotalCalorieConsumption = activities.Sum(x => x.TotalCalorieConsumption),
@@ -43,7 +47,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                     LastUpdate = activities.Select(x => x.CreationDate).LastOrDefault()
                 };
 
-                return OperationResultExtensions.Success(totalActivity);
+                return Result.Success<TotalMonthlyActivityDto>(totalActivity);
             }
         }
 

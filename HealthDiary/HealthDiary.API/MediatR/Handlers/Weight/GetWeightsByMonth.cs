@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using CSharpFunctionalExtensions;
+using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +8,9 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 {
     public static class GetWeightsByMonth
     {
-        public record GetWeightsByMonthRequest(int Id) : IRequest<OperationResult>;
+        public record GetWeightsByMonthRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetWeightsByMonthRequest, OperationResult>
+        public sealed class Handler : IRequestHandler<GetWeightsByMonthRequest, Result>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetWeightsByMonthRequest> _requestValidator;
@@ -21,10 +21,10 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 _requestValidator = requestValidator;
             } 
 
-            public async Task<OperationResult> Handle(GetWeightsByMonthRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetWeightsByMonthRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return OperationResultExtensions.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var currentMonth = DateTime.Now.Month;
 
@@ -33,7 +33,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                     .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
-                return OperationResultExtensions.Success(weightsByMonth);
+                return Result.Success(weightsByMonth);
             }
         }
 
