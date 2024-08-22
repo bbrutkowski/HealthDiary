@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
+using HealthDiary.API.Context.Model.DTO;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,9 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 {
     public static class LoginUser
     {
-        public record LoginUserRequest(string Login, string Password) : IRequest<Result<UserAlias>>;
+        public record LoginUserRequest(string Login, string Password) : IRequest<Result<UserDto>>;
 
-        public sealed class Handler : IRequestHandler<LoginUserRequest, Result<UserAlias>>
+        public sealed class Handler : IRequestHandler<LoginUserRequest, Result<UserDto>>
         {
             private readonly DataContext _context;
             private readonly IValidator<LoginUserRequest> _requestValidator;
@@ -30,23 +31,23 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 _requestValidator = validator;
             }
 
-            public async Task<Result<UserAlias>> Handle(LoginUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result<UserDto>> Handle(LoginUserRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure<UserAlias>(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure<UserDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var user = await _context.Users
                     .Where(x => x.IsActive && x.Login == request.Login)
                     .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
                     .FirstOrDefaultAsync(cancellationToken);
 
-                if (user is null) return Result.Failure<UserAlias>(UserNotFoundError);
+                if (user is null) return Result.Failure<UserDto>(UserNotFoundError);
 
-                if (!PasswordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserAlias>(UserCredentialsError);
+                if (!PasswordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserDto>(UserCredentialsError);
 
                 user.Token = CreateJwtToken(user);
 
-                return Result.Success(user);
+                return Result.Success(new UserDto { Id = user.Id, Name = user.Login, Token = user.Token });
             }
 
             private static string CreateJwtToken(UserAlias user)
@@ -81,8 +82,15 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 
             public Validator()
             {
-                RuleFor(x => x.Login).NotNull().NotEmpty().WithMessage(LoginValidationError);
-                RuleFor(x => x.Password).NotNull().NotEmpty().WithMessage(PasswordValidationError);
+                RuleFor(x => x.Login)
+                    .NotNull()
+                    .NotEmpty()
+                    .WithMessage(LoginValidationError);
+
+                RuleFor(x => x.Password)
+                    .NotNull()
+                    .NotEmpty()
+                    .WithMessage(PasswordValidationError);
             }
         }
     }

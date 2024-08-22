@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { take } from 'rxjs/operators';
 import { Result} from 'src/app/models/operation-result';
+import { UserDto } from 'src/app/models/user-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service/login.service';
 
@@ -17,9 +19,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   private isText: boolean = false;
   public eyeIcon: string = 'fa-eye-slash'
   public loginForm!: FormGroup;
-  private loginSubscription: Subscription | undefined;
+  private loginSubscription: Subscription;
   public loginError = false;
-  public loginResult: Result<Boolean> | undefined;
+  private messageError: string;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -57,26 +59,24 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.isText ? this.type = 'text' : this.type = 'password';   
   }
 
-  public onSubmit() : void{
-    if(!this.loginForm.valid) return this.validateForm(this.loginForm);
+  public onSubmit(): void {
+    if (!this.loginForm.valid) {
+      return this.validateForm(this.loginForm);
+    }
 
     this.loginService.login(this.loginForm.value).pipe(take(1)).subscribe({
-      next: response => {
-        if (response.isSuccess) {
-          localStorage.setItem('loggedUser', JSON.stringify(response.value));
-          this.authService.storeToken();
-          this.router.navigate(['dashboard']);
-        } else {
+      next: (response: UserDto | string) => {
+        if (typeof response === 'string') {
           this.loginForm.reset();
           this.loginError = true;
+          this.messageError = response;
+        } else {
+          localStorage.setItem('loggedUser', JSON.stringify(response));
+          this.authService.storeToken();
+          this.router.navigate(['dashboard']);
         }
-      },
-      error: err => this.handleError(err)
+      }
     });
-  }
-
-  private handleError(error: any): void {
-    console.log(error.message)
   } 
 
   private validateForm(formGroup: FormGroup) : void {
