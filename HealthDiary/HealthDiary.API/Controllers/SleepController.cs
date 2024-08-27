@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Sleep.GetLastSleepInfo;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/sleep")]
     [ApiController]
     public class SleepController : ControllerBase
@@ -12,11 +14,10 @@ namespace HealthDiary.API.Controllers
 
         public SleepController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet]
-        [Route(nameof(GetLastSleepInformationByUserId))]
-        public async Task<IActionResult> GetLastSleepInformationByUserId(int id, CancellationToken token)
+        [HttpGet("getSleepInfo")]
+        public async Task<IActionResult> GetSleepInfoByUserId(int id, CancellationToken token)
         {
-            var result = await _mediator.Send(new GetLastSleepInfoByUserIdRequest(id), token);
+            var result = await _mediator.Send(new GetSleepInfoRequest(id), token);
             if (result.IsFailure) return BadRequest(result);
             return Ok(result);
         }

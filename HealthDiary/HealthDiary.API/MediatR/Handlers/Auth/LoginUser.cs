@@ -15,23 +15,23 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 {
     public static class LoginUser
     {
-        public record LoginUserRequest(string Login, string Password) : IRequest<Result<UserDto>>;
+        public record LoginRequest(string Login, string Password) : IRequest<Result<UserDto>>;
 
-        public sealed class Handler : IRequestHandler<LoginUserRequest, Result<UserDto>>
+        public sealed class Handler : IRequestHandler<LoginRequest, Result<UserDto>>
         {
             private readonly DataContext _context;
-            private readonly IValidator<LoginUserRequest> _requestValidator;
+            private readonly IValidator<LoginRequest> _requestValidator;
 
             private const string UserNotFoundError = "User not found";
             private const string UserCredentialsError = "User name or password not valid";
 
-            public Handler(DataContext dataContext, IValidator<LoginUserRequest> validator)
+            public Handler(DataContext dataContext, IValidator<LoginRequest> validator)
             {
                 _context = dataContext;
                 _requestValidator = validator;
             }
 
-            public async Task<Result<UserDto>> Handle(LoginUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result<UserDto>> Handle(LoginRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
                 if (!requestValidationResult.IsValid) return Result.Failure<UserDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
@@ -75,7 +75,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
             }
         }
 
-        public sealed class Validator : AbstractValidator<LoginUserRequest>
+        public sealed class Validator : AbstractValidator<LoginRequest>
         {
             public const string LoginValidationError = "Login is null or empty";
             public const string PasswordValidationError = "Password is null or empty";

@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static HealthDiary.API.MediatR.Handlers.Weight.GetWeights;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeightById;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/weight")]
     [ApiController]
     public class WeightController : ControllerBase
@@ -14,17 +15,7 @@ namespace HealthDiary.API.Controllers
 
         public WeightController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet]
-        [Route(nameof(GetWeightsByUserId))]
-        public async Task<IActionResult> GetWeightsByUserId(GetWeightsRequest request, CancellationToken token)
-        {
-            var result = await _mediator.Send(request, token);
-            if (result.IsFailure) return BadRequest(result);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route(nameof(GetWeightsByMonth))]
+        [HttpGet("getWeightsByMonth")]
         public async Task<IActionResult> GetWeightsByMonth(int Id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetWeightsByMonthRequest(Id), token);
@@ -32,7 +23,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("getYearlyWeightById")]
         [Route(nameof(GetYearlyWeightById))]
         public async Task<IActionResult> GetYearlyWeightById(int id, CancellationToken token)
         {

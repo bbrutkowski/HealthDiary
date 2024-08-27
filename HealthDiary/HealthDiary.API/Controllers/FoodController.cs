@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Food.GetLastMealInformation;
 using static HealthDiary.API.MediatR.Handlers.Food.GetMealNutritionFromWeek;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/food")]
     [ApiController]
     public class FoodController : ControllerBase
@@ -13,20 +15,18 @@ namespace HealthDiary.API.Controllers
 
         public FoodController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet]
-        [Route(nameof(GetLastMealInformationByUserId))]
-        public async Task<IActionResult> GetLastMealInformationByUserId(int id, CancellationToken token)
+        [HttpGet("getMealInfo")]
+        public async Task<IActionResult> GetLastMealByUserId(int id, CancellationToken token)
         {
-            var result = await _mediator.Send(new GetLastMealInformationByUserIdRequest(id), token);
+            var result = await _mediator.Send(new GetMealInfoRequest(id), token);
             if (result.IsFailure) return BadRequest(result);
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route(nameof(GetMealNutritionFromWeekByUserId))]
-        public async Task<IActionResult> GetMealNutritionFromWeekByUserId(int id, CancellationToken token)
+        [HttpGet("getNutritionInfo")]
+        public async Task<IActionResult> GetMealNutritionByUserId(int id, CancellationToken token)
         {
-            var result = await _mediator.Send(new GetMealNutritionFromWeekByUserIdRequest(id), token);
+            var result = await _mediator.Send(new GetNutritionInfoRequest(id), token);
             if (result.IsFailure) return BadRequest(result);
             return Ok(result);
         }

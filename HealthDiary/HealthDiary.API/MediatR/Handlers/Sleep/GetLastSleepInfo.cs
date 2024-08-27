@@ -7,9 +7,9 @@ namespace HealthDiary.API.MediatR.Handlers.Sleep
 {
     public static class GetLastSleepInfo
     {
-        public record GetLastSleepInfoByUserIdRequest(int Id) : IRequest<Result>;
+        public record GetSleepInfoRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetLastSleepInfoByUserIdRequest, Result>
+        public sealed class Handler : IRequestHandler<GetSleepInfoRequest, Result>
         {
             private readonly DataContext _context;
 
@@ -17,7 +17,7 @@ namespace HealthDiary.API.MediatR.Handlers.Sleep
 
             public Handler(DataContext context) => _context = context;
 
-            public async Task<Result> Handle(GetLastSleepInfoByUserIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetSleepInfoRequest request, CancellationToken cancellationToken)
             {
                 try
                 {

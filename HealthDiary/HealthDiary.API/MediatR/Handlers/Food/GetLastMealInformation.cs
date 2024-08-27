@@ -9,22 +9,22 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 {
     public static class GetLastMealInformation
     {
-        public record GetLastMealInformationByUserIdRequest(int Id) : IRequest<Result>;
+        public record GetMealInfoRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetLastMealInformationByUserIdRequest, Result>
+        public sealed class Handler : IRequestHandler<GetMealInfoRequest, Result>
         {
             private readonly DataContext _context;
-            private readonly IValidator<GetLastMealInformationByUserIdRequest> _requestValidator;
+            private readonly IValidator<GetMealInfoRequest> _requestValidator;
 
             public const string MealInformationNotFound = "Meal information not found";
 
-            public Handler(DataContext context, IValidator<GetLastMealInformationByUserIdRequest> requestValidator)
+            public Handler(DataContext context, IValidator<GetMealInfoRequest> requestValidator)
             {
                 _context = context;
                 _requestValidator = requestValidator;
             }
 
-            public async Task<Result> Handle(GetLastMealInformationByUserIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetMealInfoRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
                 if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
@@ -50,7 +50,7 @@ namespace HealthDiary.API.MediatR.Handlers.Food
             }
         }
 
-        public sealed class Validator : AbstractValidator<GetLastMealInformationByUserIdRequest>
+        public sealed class Validator : AbstractValidator<GetMealInfoRequest>
         {
             public const string UserIdValidation = "User Id must be greater than 0";
 

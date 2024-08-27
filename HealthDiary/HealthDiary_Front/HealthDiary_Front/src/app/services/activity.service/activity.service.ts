@@ -15,6 +15,6 @@ export class ActivityService {
 
   public getMonthlyActivityByUserId(paramValue: number): Observable<Result<TotalActivityDto>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<TotalActivityDto>>(`${this.baseUrl}GetMonthlyActivityByUserId`, { params: params });
+    return this.http.get<Result<TotalActivityDto>>(`${this.baseUrl}getActivity`, { params: params });
   }
 }

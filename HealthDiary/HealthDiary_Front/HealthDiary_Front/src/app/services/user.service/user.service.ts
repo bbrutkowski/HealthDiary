@@ -13,15 +13,15 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public register(registerData: any) : Observable<Result<Boolean>>{
-    return this.http.post<Result<Boolean>>(`${this.baseUrl}Register`, registerData);
+    return this.http.post<Result<Boolean>>(`${this.baseUrl}register`, registerData);
   }
 
   public getUserById(paramValue: number): Observable<Result<UserDto>>{
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<UserDto>>(`${this.baseUrl}GetUserById`, { params: params });
+    return this.http.get<Result<UserDto>>(`${this.baseUrl}getUserInfo`, { params: params });
   }
 
   public updateUser(userData: UserDto) : Observable<Result<Boolean>> {
-    return this.http.post<Result<Boolean>>(`${this.baseUrl}Update`, userData);
+    return this.http.post<Result<Boolean>>(`${this.baseUrl}update`, userData);
   }
 }
