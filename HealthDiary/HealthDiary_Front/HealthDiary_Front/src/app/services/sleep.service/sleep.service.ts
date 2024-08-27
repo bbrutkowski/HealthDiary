@@ -15,6 +15,6 @@ export class SleepService {
 
   public getLastSleepInformationByUserId(paramValue: number): Observable<Result<SleepInfoDto>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<SleepInfoDto>>(`${this.baseUrl}GetLastSleepInformationByUserId`, { params: params });
+    return this.http.get<Result<SleepInfoDto>>(`${this.baseUrl}getSleepInfo`, { params: params });
   }
 }

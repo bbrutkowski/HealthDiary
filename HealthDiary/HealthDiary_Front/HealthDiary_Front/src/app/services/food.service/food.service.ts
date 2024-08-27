@@ -16,11 +16,11 @@ export class FoodService {
 
   public getLastMealInformationByUserId(paramValue: number): Observable<Result<MealDto>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<MealDto>>(`${this.baseUrl}GetLastMealInformationByUserId`, { params: params });
+    return this.http.get<Result<MealDto>>(`${this.baseUrl}getMealInfo`, { params: params });
   }
 
   public getWeeklyMealInformationByUserId(paramValue: number): Observable<Result<WeeklyNutritionDto>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<WeeklyNutritionDto>>(`${this.baseUrl}GetMealNutritionFromWeekByUserId`, { params: params });
+    return this.http.get<Result<WeeklyNutritionDto>>(`${this.baseUrl}getNutritionInfo`, { params: params });
   }
 }

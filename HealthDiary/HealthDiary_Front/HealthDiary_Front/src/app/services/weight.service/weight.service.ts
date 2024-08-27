@@ -15,11 +15,11 @@ export class WeightService {
 
   public getUserWeightsByMonth(paramValue: number): Observable<Result<Array<WeightDto>>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}GetWeightsByMonth`, { params: params });
+    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}getWeightsByMonth`, { params: params });
   }
 
   public getUserYearlyWeightById(paramValue: number): Observable<Result<Array<WeightDto>>> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}GetYearlyWeightById`, { params: params });
+    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}getYearlyWeightById`, { params: params });
   }
 }

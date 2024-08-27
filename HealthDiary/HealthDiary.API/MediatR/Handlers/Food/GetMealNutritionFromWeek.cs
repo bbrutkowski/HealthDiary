@@ -8,9 +8,9 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 {
     public static class GetMealNutritionFromWeek
     {
-        public record GetMealNutritionFromWeekByUserIdRequest(int Id) : IRequest<Result>;
+        public record GetNutritionInfoRequest(int Id) : IRequest<Result>;
 
-        public sealed class Handler : IRequestHandler<GetMealNutritionFromWeekByUserIdRequest, Result>
+        public sealed class Handler : IRequestHandler<GetNutritionInfoRequest, Result>
         {
             private readonly DataContext _context;
 
@@ -18,7 +18,7 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 
             public Handler(DataContext context) => _context = context;
 
-            public async Task<Result> Handle(GetMealNutritionFromWeekByUserIdRequest request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(GetNutritionInfoRequest request, CancellationToken cancellationToken)
             {
                 DateTime today = DateTime.Now;;
 
