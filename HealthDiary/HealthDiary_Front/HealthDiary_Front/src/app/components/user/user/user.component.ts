@@ -53,9 +53,10 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private getLoggedUserData(): void {
-    const userId = localStorage.getItem('userId') as unknown as number;
-    if(userId) {
+    const userIdString = localStorage.getItem('userId');
+    const userId = userIdString ? parseInt(userIdString) : null;
 
+    if (userId !== null) {
       this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe({
         next: response => {
           if(response.isSuccess){

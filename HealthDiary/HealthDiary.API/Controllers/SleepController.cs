@@ -1,11 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Sleep.GetLastSleepInfo;
 
 namespace HealthDiary.API.Controllers
 {
-    [Authorize]
     [Route("api/sleep")]
     [ApiController]
     public class SleepController : ControllerBase

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.User.GetUser;
 using static HealthDiary.API.MediatR.Handlers.User.RegisterUser;
@@ -7,7 +6,6 @@ using static HealthDiary.API.MediatR.Handlers.User.UpdateUser;
 
 namespace HealthDiary.API.Controllers
 {
-    [Authorize]
     [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
