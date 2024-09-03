@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { Result } from 'src/app/models/operation-result';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 
@@ -13,8 +13,15 @@ export class ActivityService {
 
   private baseUrl: string = 'https://localhost:7241/api/activity/';
 
-  public getMonthlyActivityByUserId(paramValue: number): Observable<Result<TotalActivityDto>> {
+  public getMonthlyActivityByUserId(paramValue: number): Observable<TotalActivityDto> {
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<TotalActivityDto>>(`${this.baseUrl}getActivity`, { params: params });
+
+    return this.http.get<TotalActivityDto>(`${this.baseUrl}getActivity`, { params: params })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching activities:', error);
+          return of(new TotalActivityDto);
+        })
+    )
   }
 }
