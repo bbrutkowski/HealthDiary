@@ -9,9 +9,9 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
 {
     public static class GetMonthlyActivity
     {
-        public record GetActivityRequest(int Id) : IRequest<Result>;
+        public record GetActivityRequest(int UserId) : IRequest<Result<TotalMonthlyActivityDto>>;
 
-        public sealed class Handler : IRequestHandler<GetActivityRequest, Result>
+        public sealed class Handler : IRequestHandler<GetActivityRequest, Result<TotalMonthlyActivityDto>>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetActivityRequest> _requestValidator;
@@ -24,16 +24,17 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 _requestValidator = validator;
             }
 
-            public async Task<Result> Handle(GetActivityRequest request, CancellationToken cancellationToken)
+            public async Task<Result<TotalMonthlyActivityDto>> Handle(GetActivityRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure<TotalMonthlyActivityDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var today = DateTime.Now;
                 var currentMonth = today.Month;
 
                 var activities = await _context.Activities
-                    .Where(x => x.UserId == request.Id && x.CreationDate.Month == currentMonth)
+                    .AsNoTracking()
+                    .Where(x => x.UserId == request.UserId && x.CreationDate.Month == currentMonth)
                     .OrderBy(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
@@ -47,7 +48,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                     LastUpdate = activities.Select(x => x.CreationDate).LastOrDefault()
                 };
 
-                return Result.Success<TotalMonthlyActivityDto>(totalActivity);
+                return Result.Success(totalActivity);
             }
         }
 
@@ -57,7 +58,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
 
             public Validator()
             {
-                RuleFor(x => x.Id).GreaterThan(0).WithMessage(UserIdValidation);
+                RuleFor(x => x.UserId).GreaterThan(0).WithMessage(UserIdValidation);
             }
         }
     }

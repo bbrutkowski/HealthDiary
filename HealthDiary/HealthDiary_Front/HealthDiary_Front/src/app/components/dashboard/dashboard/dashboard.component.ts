@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject, Subscription, interval, switchMap, take, timer } from 'rxjs';
+import { Subject, Subscription, catchError, interval, of, switchMap, take, tap, timer } from 'rxjs';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -87,23 +87,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initWeight(): void { 
-    this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe({
-      next: result => {
-        this.userWeights = result;
-      },
-      error: err => this.handleError(err)
-    })
-  }
+    this.weightService.getUserWeightsByMonth(this.userId).pipe(
+        take(1),
+        catchError(err => {
+          this.handleError(err);
+          return of([]); 
+        })
+    ).subscribe(weights => {
+      this.userWeights = weights; 
+  });
+}
 
   private initActivities(): void {
-    this.activityService.getMonthlyActivityByUserId(this.userId).pipe(take(1)).subscribe({
-      next: result => {
-        if(result.isSuccess) {
-          this.totalMonthlyActivities = result.value;
-        }    
-      }, 
-      error: err => this.handleError(err)
-    })
+    this.activityService.getMonthlyActivityByUserId(this.userId).pipe(
+      take(1),
+      catchError(err => {
+        this.handleError(err);
+        return of(new TotalActivityDto)
+      })
+    ).subscribe(activities => {
+      this.totalMonthlyActivities = activities;
+    });
   }
 
   private initFood(): void {
