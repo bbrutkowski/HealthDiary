@@ -1,4 +1,4 @@
-﻿namespace HealthDiary.API.Context.Model.DTO
+﻿namespace HealthDiary.API.Model.DTO
 {
     public record UserDto
     {

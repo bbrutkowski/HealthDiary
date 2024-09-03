@@ -40,7 +40,5 @@ export class WeightComponent implements OnInit {
     }, err => {
       console.log(err.error.errorMessage);
     })
-
-
   }
 }

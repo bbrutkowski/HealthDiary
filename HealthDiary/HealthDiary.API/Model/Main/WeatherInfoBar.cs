@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HealthDiary.API.Context.Model.Main
+namespace HealthDiary.API.Model.Main
 {
     public class WeatherInfoBar
     {

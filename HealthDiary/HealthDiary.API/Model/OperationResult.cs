@@ -1,5 +1,4 @@
-﻿
-namespace HealthDiary.API.Context.Model
+﻿namespace HealthDiary.API.Model
 {
     public class OperationResult
     {

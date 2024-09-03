@@ -1,15 +1,15 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model.DTO;
 using HealthDiary.API.Helpers;
+using HealthDiary.API.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using UserAlias = HealthDiary.API.Context.Model.Main.User;
+using UserAlias = HealthDiary.API.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.Auth
 {
@@ -37,6 +37,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 if (!requestValidationResult.IsValid) return Result.Failure<UserDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var user = await _context.Users
+                    .AsNoTracking()
                     .Where(x => x.IsActive && x.Login == request.Login)
                     .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
                     .FirstOrDefaultAsync(cancellationToken);

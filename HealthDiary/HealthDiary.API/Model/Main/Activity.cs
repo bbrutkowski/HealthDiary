@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HealthDiary.API.Context.Model.Main
+namespace HealthDiary.API.Model.Main
 {
     public class Activity
     {

@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Result } from 'src/app/models/operation-result';
-import { WeatherDto } from 'src/app/models/weather-dto';
+import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,12 @@ export class WeatherService {
 
   private baseUrl: string = 'https://localhost:7241/api/weather/'
 
-  public getWeather() : Observable<Result<WeatherDto>>{
-    return this.http.get<Result<WeatherDto>>(`${this.baseUrl}getWeather`);
+  public getWeather(): Observable<string> {
+    return this.http.get(`${this.baseUrl}getWeather`, { responseType: 'text' }).pipe(
+      catchError(error => {
+        console.error('Weather API error:', error);
+        return of(`Error: ${error.message}`);
+      })
+    );
   }
 }
