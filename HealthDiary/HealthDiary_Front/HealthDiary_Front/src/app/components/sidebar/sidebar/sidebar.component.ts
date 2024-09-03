@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
-  public userName?: string;
+  public userName: string;
 
   constructor(private router: Router,
     private dialog: MatDialog) {}
@@ -27,8 +27,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private getUserLogin(): void {
-    const loggedUser = localStorage.getItem('loggedUser') as string;
-    this.userName = JSON.parse(loggedUser).login
+    const loggedUser = localStorage.getItem('loggedUser');
+    this.userName = JSON.parse(loggedUser).name
   }
 
   public logout(): void {

@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject, interval, switchMap, take, timer } from 'rxjs';
+import { Subject, Subscription, interval, switchMap, take, timer } from 'rxjs';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
-import { WeatherDto } from 'src/app/models/weather-dto';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
-import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { FoodService } from 'src/app/services/food.service/food.service';
 import { SleepService } from 'src/app/services/sleep.service/sleep.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
@@ -18,7 +16,7 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  public weatherContent: WeatherDto;
+  public weatherContent: string;
   private destroy$ = new Subject<void>();
   public dataLoaded = false;
   public userId: number;
@@ -26,9 +24,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public totalMonthlyActivities: TotalActivityDto;
   public weeklyNutritionDto: WeeklyNutritionDto;
   public lastSleepInfo: SleepInfoDto;
+  private weatherSubscription: Subscription;
 
   public constructor(
-    private authService: AuthService,
     private weatherService: WeatherService,
     private weightService: WeightService,
     private activityService: ActivityService,
@@ -36,7 +34,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private sleepService: SleepService) {}
 
   ngOnInit(): void {
-    this.authService.storeToken();
     this.getUserId();
     this.initWeather();
     this.initWeight();
@@ -52,6 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.weatherSubscription?.unsubscribe();
   }
 
   private getUserId(): void {
@@ -59,35 +57,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initWeather() {
-    this.weatherService.getWeather().pipe(take(1)).subscribe({
-      next: response => {
-        if (response.isSuccess) {
-          this.weatherContent = response.value;
-        }
-      },
-      error: err => this.handleError(err)
-    })
+    this.fetchWeatherData();
 
-    interval(5 * 60 * 1000)  
+    this.weatherSubscription = interval(5 * 60 * 1000)
       .pipe(
         switchMap(() => this.weatherService.getWeather().pipe(take(1)))
       )
       .subscribe({
-        next: response => {
-          if (response.isSuccess) {
-            this.weatherContent = response.value;
-          }
-        },
-        error: err => this.handleError(err)
+        next: (response) => this.handleWeatherResponse(response),
+        error: (err) => this.handleError(err)
       });
+  }
+
+  private fetchWeatherData(): void {
+    this.weatherService.getWeather()
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => this.handleWeatherResponse(response),
+        error: (err) => this.handleError(err)
+      });
+  }
+
+  private handleWeatherResponse(response: string): void {
+    if (typeof response === 'string') {
+      this.weatherContent = response;
+    } else {
+      this.handleError(new Error(response));
+    }
   }
 
   private initWeight(): void { 
     this.weightService.getUserWeightsByMonth(this.userId).pipe(take(1)).subscribe({
       next: result => {
-        if(result.isSuccess){
-          this.userWeights = result.value;
-        }
+        this.userWeights = result;
       },
       error: err => this.handleError(err)
     })

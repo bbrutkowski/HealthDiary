@@ -1,4 +1,4 @@
-﻿using HealthDiary.API.Context.Model.Main;
+﻿using HealthDiary.API.Model.Main;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthDiary.API.Context.DataContext

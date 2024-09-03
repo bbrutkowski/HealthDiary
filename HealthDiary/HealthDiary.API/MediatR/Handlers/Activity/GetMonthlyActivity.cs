@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Context.Model.DTO;
+using HealthDiary.API.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

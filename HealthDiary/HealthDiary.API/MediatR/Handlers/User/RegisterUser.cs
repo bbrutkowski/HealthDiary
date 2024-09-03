@@ -4,7 +4,7 @@ using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using UserAlias = HealthDiary.API.Context.Model.Main.User;
+using UserAlias = HealthDiary.API.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.User
 {
