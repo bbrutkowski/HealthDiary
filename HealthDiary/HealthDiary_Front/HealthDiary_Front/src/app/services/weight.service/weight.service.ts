@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { Result } from 'src/app/models/operation-result';
 import { WeightDto } from 'src/app/models/weight-dto';
 
@@ -20,7 +20,7 @@ export class WeightService {
       .pipe(
         catchError(error => {
           console.error('Error fetching weights:', error);
-          return of([]); 
+          return throwError(() => new Error('Failed to fetch weather info'));
         })
       );
   }

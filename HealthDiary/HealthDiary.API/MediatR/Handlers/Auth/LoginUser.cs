@@ -39,7 +39,12 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 var user = await _context.Users
                     .AsNoTracking()
                     .Where(x => x.IsActive && x.Login == request.Login)
-                    .Select(x => new UserAlias { Id = x.Id, Login = x.Login, Password = x.Password })
+                    .Select(x => new UserAlias
+                    {
+                        Id = x.Id,
+                        Login = x.Login,
+                        Password = x.Password
+                    })
                     .FirstOrDefaultAsync(cancellationToken);
 
                 if (user is null) return Result.Failure<UserDto>(UserNotFoundError);
@@ -48,7 +53,14 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 
                 user.Token = CreateJwtToken(user);
 
-                return Result.Success(new UserDto { Id = user.Id, Name = user.Login, Token = user.Token });
+                var userDto = new UserDto
+                {
+                    Id = user.Id,
+                    Name = user.Login,
+                    Token = user.Token
+                };
+
+                return Result.Success(userDto);
             }
 
             private static string CreateJwtToken(UserAlias user)

@@ -26,8 +26,8 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> GetUserById(int id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetUserRequest(id), token);
-            if (result.IsFailure) return BadRequest(result);
-            return Ok(result);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
         }
 
         [HttpPost("update")]

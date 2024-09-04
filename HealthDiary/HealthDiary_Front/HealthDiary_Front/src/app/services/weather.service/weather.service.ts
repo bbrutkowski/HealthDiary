@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class WeatherService {
     return this.http.get(`${this.baseUrl}getWeather`, { responseType: 'text' }).pipe(
       catchError(error => {
         console.error('Weather API error:', error);
-        return of(`Error: ${error.message}`);
+        return throwError(() => new Error('Failed to fetch weather info'));
       })
     );
   }

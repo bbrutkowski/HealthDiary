@@ -1,16 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
+using HealthDiary.API.Model.DTO;
+using HealthDiary.API.Model.Main;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
+using System.IO;
 
 namespace HealthDiary.API.MediatR.Handlers.User
 { 
     public static class GetUser 
     {
-        public record GetUserRequest(int Id) : IRequest<Result>;
+        public record GetUserRequest(int Id) : IRequest<Result<UserInfoDto>>;
 
-        public sealed class Handler : IRequestHandler<GetUserRequest, Result>
+        public sealed class Handler : IRequestHandler<GetUserRequest, Result<UserInfoDto>>
         {
             private readonly DataContext _context;
             private readonly IValidator<GetUserRequest> _requestValidator;
@@ -23,15 +27,38 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 _requestValidator = validator;
             }
 
-            public async Task<Result> Handle(GetUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result<UserInfoDto>> Handle(GetUserRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure<UserInfoDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
-                var user = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-                if (user is null) return Result.Failure(UserNotFoundError);
+                var userInfo = await _context.Users
+                    .AsNoTracking()
+                    .Where(x => x.Id == request.Id)
+                    .Select(x => new UserInfoDto
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Surname = x.Surname,
+                        Email = x.Email,
+                        DateOfBirth = x.BirthDate,
+                        PhoneNumber = x.PhoneNumber,
+                        Gender = x.Gender,
+                        Address = x.Address != null ? new AddressDto
+                        {
+                            Country = x.Address.Country,
+                            City = x.Address.City,
+                            Street = x.Address.Street,
+                            BuildingNumber = x.Address.BuildingNumber,
+                            ApartmentNumber = x.Address.ApartmentNumber,
+                            PostalCode = x.Address.PostalCode
+                        } : null
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
 
-                return Result.Success(user);
+                if (userInfo is null) return Result.Failure<UserInfoDto>(UserNotFoundError);
+
+                return Result.Success(userInfo);
             }
         }
 

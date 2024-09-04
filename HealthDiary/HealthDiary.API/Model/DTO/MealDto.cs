@@ -2,7 +2,7 @@
 {
     public record MealDto
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public decimal Protein { get; set; }
         public decimal Fat { get; set; }
         public decimal Carbohydrates { get; set; }
