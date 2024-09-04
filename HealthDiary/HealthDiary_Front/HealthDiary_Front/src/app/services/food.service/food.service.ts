@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { MealDto } from 'src/app/models/meal-dto';
 import { Result } from 'src/app/models/operation-result';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -25,7 +25,7 @@ export class FoodService {
     return this.http.get<WeeklyNutritionDto>(`${this.baseUrl}getNutritionInfo`, { params: params }).pipe(
       catchError(error => {
         console.error("Food API error:", error);
-        return of(new WeeklyNutritionDto);
+        return throwError(() => new Error('Failed to fetch nutrition info'));
       })
     );
   }

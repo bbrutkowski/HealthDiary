@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription, take, timer } from 'rxjs';
+import { Subscription, catchError, of, take, timer } from 'rxjs';
 import { UserDto } from 'src/app/models/user-dto';
 import { UserService } from 'src/app/services/user.service/user.service';
 
@@ -54,23 +54,21 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private getLoggedUserData(): void {
     const userIdString = localStorage.getItem('userId');
-    const userId = userIdString ? parseInt(userIdString) : null;
-
+    const userId = userIdString ? parseInt(userIdString, 10) : null;
+  
     if (userId !== null) {
-      this.userDataSubscription = this.userService.getUserById(userId).pipe(take(1)).subscribe({
-        next: response => {
-          if(response.isSuccess){
-            this.userDto = response.value as UserDto;
-            this.populateForm();
-            this.isDataLoaded = true;
-          }
-        },
-        error: err => {
-          this.isLoadError = true;
-          console.log(err.message)
-        }
+      this.userDataSubscription = this.userService.getUserById(userId).pipe(
+        take(1),
+        catchError(error => {
+          console.error("Error fetching user data", error);
+          return of(new UserDto());
+        })
+      ).subscribe(userInfo => {
+        this.userDto = userInfo;
+        this.populateForm();
+        this.isDataLoaded = true;
       });
-    }   
+    }
   }
 
   private populateForm(): void {

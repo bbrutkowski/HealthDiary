@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of, take, throwError } from 'rxjs';
 import { Result } from 'src/app/models/operation-result';
 import { UserDto } from 'src/app/models/user-dto';
 
@@ -16,9 +16,15 @@ export class UserService {
     return this.http.post<Result<Boolean>>(`${this.baseUrl}register`, registerData);
   }
 
-  public getUserById(paramValue: number): Observable<Result<UserDto>>{
+  public getUserById(paramValue: number): Observable<UserDto>{
     const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<UserDto>>(`${this.baseUrl}getUserInfo`, { params: params });
+
+    return this.http.get<UserDto>(`${this.baseUrl}getUserInfo`, { params: params }).pipe(
+      catchError(err => {
+        console.error("User API error:", err);
+        return throwError(() => new Error('Failed to fetch user data'));
+      })
+    );
   }
 
   public updateUser(userData: UserDto) : Observable<Result<Boolean>> {

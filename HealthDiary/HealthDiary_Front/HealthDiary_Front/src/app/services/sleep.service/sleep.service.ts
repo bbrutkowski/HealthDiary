@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { Result } from 'src/app/models/operation-result';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 
@@ -19,7 +19,7 @@ export class SleepService {
     return this.http.get<SleepInfoDto>(`${this.baseUrl}getSleepInfo`, { params: params }).pipe(
       catchError(error => {
         console.error("Sleep API error:", error);
-        return of(new SleepInfoDto);
+        return throwError(() => new Error('Failed to fetch sleep info'));
       })
     );
   }

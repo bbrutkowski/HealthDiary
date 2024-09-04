@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
-import { take } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
 import { Result} from 'src/app/models/operation-result';
 import { UserDto } from 'src/app/models/user-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
@@ -63,21 +63,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.loginForm.valid) {
       return this.validateForm(this.loginForm);
     }
-
-    this.loginService.login(this.loginForm.value).pipe(take(1)).subscribe({
-      next: (response: UserDto | string) => {
-        if (typeof response === 'string') {
+  
+    this.loginService.login(this.loginForm.value).pipe(
+      catchError(error => {
+        console.error("Error during login:", error);
+        this.messageError = error;
+        this.loginError = true;
+        return of(null);
+      })
+    ).subscribe({
+      next: (response: UserDto | null) => {
+        if (!response) {
           this.loginForm.reset();
-          this.loginError = true;
-          this.messageError = response;
-        } else {
-          localStorage.setItem('loggedUser', JSON.stringify(response));
-          this.authService.storeToken();
-          this.router.navigate(['dashboard']);
+          return;
         }
+        localStorage.setItem('loggedUser', JSON.stringify(response));
+        this.authService.storeToken();
+        this.router.navigate(['dashboard']);
       }
     });
-  } 
+  }
 
   private validateForm(formGroup: FormGroup) : void {
     Object.keys(formGroup.controls).forEach(field => {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HealthDiary.API.Model.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace HealthDiary.API.Model.Main
 {
