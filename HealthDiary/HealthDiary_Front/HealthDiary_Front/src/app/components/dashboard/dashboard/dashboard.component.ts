@@ -111,25 +111,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private initFood(): void {
-    this.foodService.getWeeklyMealInformationByUserId(this.userId).pipe(take(1)).subscribe({
-      next: result => {
-        if(result.isSuccess) {
-          this.weeklyNutritionDto = result.value;
-        }
-      },
-      error: err => this.handleError(err)
-    });
+    this.foodService.getWeeklyMealInformationByUserId(this.userId).pipe(
+      take(1),
+      catchError(err => {
+        this.handleError(err);
+        return of(new WeeklyNutritionDto)
+      })
+      ).subscribe(nutrition => {
+        this.weeklyNutritionDto = nutrition
+      }
+    )
   }
 
   private initSleep(): void {
-    this.sleepService.getLastSleepInformationByUserId(this.userId).pipe(take(1)).subscribe({
-      next: result => {
-        if(result.isSuccess) {
-          this.lastSleepInfo = result.value
-        }
-      },
-      error: err => this.handleError(err)
-    })
+    this.sleepService.getLastSleepInformationByUserId(this.userId).pipe(
+      take(1),
+      catchError(err => {
+        this.handleError(err);
+        return of(new SleepInfoDto)
+      })
+    ).subscribe(sleep => {
+      this.lastSleepInfo = sleep
+    });
   }
 
   private handleError(error: any): void {

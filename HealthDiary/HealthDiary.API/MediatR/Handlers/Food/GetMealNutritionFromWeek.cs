@@ -8,9 +8,9 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 {
     public static class GetMealNutritionFromWeek
     {
-        public record GetNutritionInfoRequest(int Id) : IRequest<Result>;
+        public record GetNutritionInfoRequest(int Id) : IRequest<Result<WeeklyNutritionDto>>;
 
-        public sealed class Handler : IRequestHandler<GetNutritionInfoRequest, Result>
+        public sealed class Handler : IRequestHandler<GetNutritionInfoRequest, Result<WeeklyNutritionDto>>
         {
             private readonly DataContext _context;
 
@@ -18,24 +18,34 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 
             public Handler(DataContext context) => _context = context;
 
-            public async Task<Result> Handle(GetNutritionInfoRequest request, CancellationToken cancellationToken)
+            public async Task<Result<WeeklyNutritionDto>> Handle(GetNutritionInfoRequest request, CancellationToken cancellationToken)
             {
-                DateTime today = DateTime.Now;;
+                var today = DateTime.Now;
+                var sevenDaysAgo = today.AddDays(-7); 
 
-                var weeklyMeals = await _context.Foods.Where(x => x.UserId == request.Id && x.CreationDate >= today.AddDays(-7) && x.CreationDate <= today)
-                    .ToArrayAsync(cancellationToken);
+                var weeklyNutritionInfo = await _context.Foods
+                    .AsNoTracking() 
+                    .Where(x => x.UserId == request.Id && x.CreationDate >= sevenDaysAgo && x.CreationDate <= today)
+                    .Select(x => new WeeklyNutritionDto
+                    {
+                        Kcal = x.Kcal,
+                        Protein = x.Protein,
+                        Fat = x.Fat,
+                        Carbohydrates = x.Carbohydrates
+                    })
+                    .ToListAsync(cancellationToken);
 
-                if(!weeklyMeals.Any()) return Result.Failure(MealsNotFoundError);
+                if (!weeklyNutritionInfo.Any()) return Result.Failure<WeeklyNutritionDto>(MealsNotFoundError);
 
-                var weeklyNutritionInfo = new WeeklyNutritionDto()
+                var totalNutritionInfo = new WeeklyNutritionDto
                 {
-                    Kcal = weeklyMeals.Sum(x => x.Kcal),
-                    Protein = weeklyMeals.Sum(x => x.Protein),
-                    Fat = weeklyMeals.Sum(x => x.Fat),
-                    Carbohydrates = weeklyMeals.Sum(x => x.Carbohydrates)
+                    Kcal = weeklyNutritionInfo.Sum(x => x.Kcal),
+                    Protein = weeklyNutritionInfo.Sum(x => x.Protein),
+                    Fat = weeklyNutritionInfo.Sum(x => x.Fat),
+                    Carbohydrates = weeklyNutritionInfo.Sum(x => x.Carbohydrates)
                 };
 
-                return Result.Success(weeklyNutritionInfo);
+                return Result.Success(totalNutritionInfo);
             }
         }
     }
