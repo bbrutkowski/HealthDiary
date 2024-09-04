@@ -13,7 +13,7 @@ namespace HealthDiary.API.Controllers
 
         public FoodController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet("getMealInfo")]
+        [HttpGet("getLastMealInfo")]
         public async Task<IActionResult> GetLastMealByUserId(int id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetMealInfoRequest(id), token);
@@ -25,8 +25,8 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> GetMealNutritionByUserId(int id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetNutritionInfoRequest(id), token);
-            if (result.IsFailure) return BadRequest(result);
-            return Ok(result);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
         }
     }
 }

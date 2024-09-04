@@ -16,8 +16,8 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> GetSleepInfoByUserId(int id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetSleepInfoRequest(id), token);
-            if (result.IsFailure) return BadRequest(result);
-            return Ok(result);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
         }
     }
 }
