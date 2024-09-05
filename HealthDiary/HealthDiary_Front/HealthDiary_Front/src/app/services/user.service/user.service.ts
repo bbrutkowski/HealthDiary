@@ -27,7 +27,12 @@ export class UserService {
     );
   }
 
-  public updateUser(userData: UserDto) : Observable<Result<Boolean>> {
-    return this.http.post<Result<Boolean>>(`${this.baseUrl}update`, userData);
+  public updateUser(userData: UserDto): Observable<boolean> {
+    return this.http.post<boolean>(`${this.baseUrl}update`, userData).pipe(
+      catchError(err => {
+        console.error("Update API error:", err);
+        return throwError(() => new Error('Failed to update user data'));
+      })
+    );
   }
 }

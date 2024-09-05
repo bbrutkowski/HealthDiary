@@ -54,7 +54,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private getLoggedUserData(): void {
     const userIdString = localStorage.getItem('userId');
-    const userId = userIdString ? parseInt(userIdString, 10) : null;
+    const userId = userIdString ? parseInt(userIdString) : null;
   
     if (userId !== null) {
       this.userDataSubscription = this.userService.getUserById(userId).pipe(
@@ -96,22 +96,18 @@ export class UserComponent implements OnInit, OnDestroy {
     return { 'onlyDigits': false };
   } 
 
-  public onSaved(): void { 
-    const formData = this.userProfile.value as UserDto
-    this.userService.updateUser(formData).pipe(take(1)).subscribe({
-      next: result => { 
-        if(result.isSuccess){
-          this.isUpdateSuccessful = true;
-          timer(3000).subscribe(() => {
-            this.router.navigate(['dashboard']);
-          })    
-        }
-      },
-      error: err =>
-      {
-        this.isUpdateError = true;
-        console.log(err.message)
-      } 
+  public onSaved(): void {  
+    const formData = this.userProfile.value;
+  
+    this.userService.updateUser(formData).pipe(
+      take(1),
+      catchError(error => {
+        console.error("Error while updating user:", error);
+        return of(false);
+      })
+    ).subscribe(result => {
+      this.isUpdateSuccessful = result;
+      timer(3000).subscribe(() => this.router.navigate(['dashboard']));
     })
   }
 }
