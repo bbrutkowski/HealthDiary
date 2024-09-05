@@ -12,14 +12,15 @@ namespace HealthDiary.API.MediatR.Handlers.User
     {
         public record UpdateUserRequest(
             int Id, string Name, string Surname, string Email, DateTime BirthDate, string PhoneNumber, Gender Gender,
-            string Country, string City, string Street, int BuildingNumber, int ApartmentNumber, string PostalCode) : IRequest<Result>;
+            string Country, string City, string Street, int BuildingNumber, int ApartmentNumber, string PostalCode) : IRequest<Result<bool>>;
 
-        public sealed class Handler : IRequestHandler<UpdateUserRequest, Result>
+        public sealed class Handler : IRequestHandler<UpdateUserRequest, Result<bool>>
         {
             private readonly DataContext _context;
             private readonly IValidator<UpdateUserRequest> _requestValidator;
 
             private const string UserNotFoundError = "User with given Id not found";
+            private const string UpdateUserError = "Error occurred while updating user";
 
             public Handler(DataContext context, IValidator<UpdateUserRequest> validator)
             {
@@ -27,37 +28,54 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 _requestValidator = validator;
             }
 
-            public async Task<Result> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+            public async Task<Result<bool>> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
             {
-                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                var validationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
+                if (!validationResult.IsValid) return Result.Failure<bool>(string.Join(Environment.NewLine, validationResult.Errors));
 
-                var userToUpdate = await _context.Users.Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-                if (userToUpdate == null) return Result.Failure(UserNotFoundError);
+                var userToUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+                if (userToUpdate is null) return Result.Failure<bool>(UserNotFoundError);
+
+                if (NeedsAddressUpdate(request))
+                {
+                    await _context.Entry(userToUpdate).Reference(u => u.Address).LoadAsync(cancellationToken);
+                    userToUpdate.Address ??= new Address(); 
+                }
 
                 UpdateUserInformation(userToUpdate, request);
 
-                await _context.SaveChangesAsync(cancellationToken);
-                return Result.Success();
+                var changes = await _context.SaveChangesAsync(cancellationToken);
+                return changes > 0 ? Result.Success(true) : Result.Failure<bool>(UpdateUserError);
             }
 
-            private static void UpdateUserInformation(UserAlias user, UpdateUserRequest updateRequest)
+            private bool NeedsAddressUpdate(UpdateUserRequest request)
             {
-                user.Name = updateRequest.Name;
-                user.Surname = updateRequest.Surname;
-                user.Email = updateRequest.Email;
-                user.BirthDate = updateRequest.BirthDate;
-                user.PhoneNumber = updateRequest.PhoneNumber;
-                user.Gender = updateRequest.Gender;
+                return !string.IsNullOrEmpty(request.Country) ||
+                       !string.IsNullOrEmpty(request.City) ||
+                       !string.IsNullOrEmpty(request.Street) ||
+                       request.BuildingNumber != 0 ||  
+                       request.ApartmentNumber != 0 || 
+                       !string.IsNullOrEmpty(request.PostalCode);
+            }
 
-                user.Address ??= new Address();
+            private static void UpdateUserInformation(UserAlias user, UpdateUserRequest request)
+            {
+                user.Name = request.Name;
+                user.Surname = request.Surname;
+                user.Email = request.Email;
+                user.BirthDate = request.BirthDate;
+                user.PhoneNumber = request.PhoneNumber;
+                user.Gender = request.Gender;
 
-                user.Address.Country = updateRequest.Country;
-                user.Address.City = updateRequest.City;
-                user.Address.Street = updateRequest.Street;
-                user.Address.BuildingNumber = updateRequest.BuildingNumber;
-                user.Address.ApartmentNumber = updateRequest.ApartmentNumber;
-                user.Address.PostalCode = updateRequest.PostalCode;
+                if (user.Address is null) return;
+
+                user.Address.Country = request.Country;
+                user.Address.City = request.City;
+                user.Address.Street = request.Street;
+                user.Address.BuildingNumber = request.BuildingNumber;
+                user.Address.ApartmentNumber = request.ApartmentNumber;
+                user.Address.PostalCode = request.PostalCode;
             }
         }
 
