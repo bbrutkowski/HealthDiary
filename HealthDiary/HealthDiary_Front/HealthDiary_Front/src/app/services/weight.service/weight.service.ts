@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
-import { Result } from 'src/app/models/operation-result';
+import { Observable, catchError, throwError } from 'rxjs';
 import { WeightDto } from 'src/app/models/weight-dto';
 
 @Injectable({
@@ -23,10 +22,5 @@ export class WeightService {
           return throwError(() => new Error('Failed to fetch weather info'));
         })
       );
-  }
-
-  public getUserYearlyWeightById(paramValue: number): Observable<Result<Array<WeightDto>>> {
-    const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<Array<WeightDto>>>(`${this.baseUrl}getYearlyWeightById`, { params: params });
   }
 }

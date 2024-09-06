@@ -12,33 +12,9 @@ export class WeightComponent implements OnInit {
   @Input() weights: Array<WeightDto>;
   @Input() userId: number;
 
-  public latestUpdate: Date;
-
   public constructor(private weightServce: WeightService) {}
 
   ngOnInit(): void {
-    this.latestUpdate = this.getLatestWeightUpdate();
-    this.initYearlyWeight();
-  }
 
-  private getLatestWeightUpdate(): Date {
-    if (this.weights.length > 0) {
-      const sortedWeights = this.weights.sort((a: { creationDate: Date; }, b: { creationDate: Date; }) => new Date(b.creationDate)
-        .getTime() - new Date(a.creationDate).getTime());
-
-      return sortedWeights[0]?.creationDate;
-    }
-  
-    return null;
-  }
-
-  private initYearlyWeight(): void {
-    this.weightServce.getUserYearlyWeightById(this.userId).pipe(take(1)).subscribe(result => {
-      if(result.isSuccess) {
-        this.weights = result.value;
-      }
-    }, err => {
-      console.log(err.error.errorMessage);
-    })
   }
 }

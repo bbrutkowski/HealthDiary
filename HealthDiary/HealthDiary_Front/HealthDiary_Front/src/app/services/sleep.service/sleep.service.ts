@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of, throwError } from 'rxjs';
-import { Result } from 'src/app/models/operation-result';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 
 @Injectable({

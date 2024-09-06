@@ -2,9 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, of } from 'rxjs';
-import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
 import { catchError, take } from 'rxjs/operators';
-import { Result} from 'src/app/models/operation-result';
 import { UserDto } from 'src/app/models/user-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service/login.service';
@@ -21,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm!: FormGroup;
   private loginSubscription: Subscription;
   public loginError = false;
-  private messageError: string;
+  public messageError: string;
 
   public constructor(
     private formBuilder: FormBuilder,
@@ -60,23 +58,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit(): void {
-    if (!this.loginForm.valid) {
-      return this.validateForm(this.loginForm);
-    }
+    if (!this.loginForm.valid) return this.validateForm(this.loginForm);
   
     this.loginService.login(this.loginForm.value).pipe(
       catchError(error => {
-        console.error("Error during login:", error);
-        this.messageError = error;
-        this.loginError = true;
-        return of(null);
+        this.messageError = error;    
+        return of(this.loginError = true);
       })
     ).subscribe({
-      next: (response: UserDto | null) => {
-        if (!response) {
-          this.loginForm.reset();
-          return;
-        }
+      next: (response: UserDto) => {
+        if (!response) return this.loginForm.reset();
         localStorage.setItem('loggedUser', JSON.stringify(response));
         this.authService.storeToken();
         this.router.navigate(['dashboard']);

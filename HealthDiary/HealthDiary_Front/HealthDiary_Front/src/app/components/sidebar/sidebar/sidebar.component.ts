@@ -13,12 +13,13 @@ import { takeUntil } from 'rxjs/operators';
 export class SidebarComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   public userName: string;
+  public userRole: string;
 
   constructor(private router: Router,
     private dialog: MatDialog) {}
     
   public ngOnInit(): void {
-    this.getUserLogin();  
+    this.getUserPrivileges();  
   }
 
   public ngOnDestroy(): void {
@@ -26,9 +27,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  private getUserLogin(): void {
+  private getUserPrivileges(): void {
     const loggedUser = localStorage.getItem('loggedUser');
     this.userName = JSON.parse(loggedUser).name
+    this.userRole = JSON.parse(loggedUser).role
   }
 
   public logout(): void {

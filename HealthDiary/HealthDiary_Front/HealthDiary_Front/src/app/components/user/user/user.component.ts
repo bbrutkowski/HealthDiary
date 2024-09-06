@@ -60,7 +60,6 @@ export class UserComponent implements OnInit, OnDestroy {
       this.userDataSubscription = this.userService.getUserById(userId).pipe(
         take(1),
         catchError(error => {
-          console.error("Error fetching user data", error);
           return of(new UserDto());
         })
       ).subscribe(userInfo => {
@@ -101,13 +100,15 @@ export class UserComponent implements OnInit, OnDestroy {
   
     this.userService.updateUser(formData).pipe(
       take(1),
-      catchError(error => {
-        console.error("Error while updating user:", error);
-        return of(false);
+      catchError(() => {
+        return of(this.isUpdateSuccessful = false);
       })
     ).subscribe(result => {
-      this.isUpdateSuccessful = result;
-      timer(3000).subscribe(() => this.router.navigate(['dashboard']));
-    })
+      if (!result) return this.isUpdateSuccessful = false;
+      else {
+        this.isUpdateSuccessful = result;
+        timer(3000).subscribe(() => this.router.navigate(['dashboard']));
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Observable, catchError, map, of, take, throwError } from "rxjs";
+import { Observable, catchError, take, throwError } from "rxjs";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { UserDto } from "src/app/models/user-dto";
