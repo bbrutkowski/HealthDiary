@@ -18,8 +18,8 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request, CancellationToken token)
         {
             var result = await _mediator.Send(request, token);
-            if (result.IsFailure) return BadRequest(result);
-            return Ok(result);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
         }
 
         [HttpGet("getUserInfo")]

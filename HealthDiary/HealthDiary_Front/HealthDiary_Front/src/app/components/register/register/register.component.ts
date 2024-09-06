@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
-import { Subscription, delay, take, timer } from 'rxjs';
+import { Subscription, catchError, delay, of, take, timer } from 'rxjs';
 import { passwordMatchValidator } from 'src/app/helpers/password-match-directive/password-match-validator';
 import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { LoginService } from 'src/app/services/login.service/login.service';
@@ -75,17 +75,21 @@ export class RegisterComponent implements OnInit, OnDestroy{
       email: this.registerForm.get('registerEmail')?.value
     }
 
-    this.registerSubscription = this.userService.register(registerUserData).pipe(take(1)).subscribe(response => {
-      if(response.isSuccess){
-        this.registerSuccess = true;
-        timer(2000).subscribe(() => {
-        this.router.navigate(['login'])
-      });
+    this.registerSubscription = this.userService.register(registerUserData).pipe(
+      catchError(() => {
+        return of(this.registerError = true);
+      })
+    ).subscribe({
+      next: (response: boolean) => {
+        if (!response) return this.registerError = true;
+        else {
+          this.registerSuccess = true;
+           timer(2000).subscribe(() => {
+            this.router.navigate['login']
+          })
+        }
       }
-    }, (error) => {
-      this.registerError = true;
-      this.errorMessage = error.error.errorMessage;
-    });
+    })
   }
 
   private validateForm(formGroup: FormGroup){

@@ -1,8 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, throwError } from 'rxjs';
-import { MealDto } from 'src/app/models/meal-dto';
-import { Result } from 'src/app/models/operation-result';
+import { Observable, catchError, throwError } from 'rxjs';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 
 @Injectable({
@@ -13,11 +11,6 @@ export class FoodService {
   constructor(private http: HttpClient) { }
 
   private baseUrl: string = 'https://localhost:7241/api/food/';
-
-  public getLastMealInformationByUserId(paramValue: number): Observable<Result<MealDto>> {
-    const params = new HttpParams().set('Id', paramValue);
-    return this.http.get<Result<MealDto>>(`${this.baseUrl}getLastMealInfo`, { params: params });
-  }
 
   public getWeeklyMealInformationByUserId(paramValue: number): Observable<WeeklyNutritionDto> {
     const params = new HttpParams().set('Id', paramValue);

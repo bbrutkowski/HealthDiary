@@ -49,8 +49,11 @@ export class ChartComponent implements OnChanges {
     this.weightsChartOprions = {
       animationEnabled: true,
       title: {
-        text: "Monthly Weight"
+        text: "Monthly weight",
+        fontFamily: "'Poppins', sans-serif",
+        fontStyle: "Bold"
       },
+      height: 340,
       data: [{
         type: 'splineArea',
         color: '#A7C4DC',
@@ -64,8 +67,11 @@ export class ChartComponent implements OnChanges {
     if(this.weeklyNutrition == null) return;
     this.mealInfoChartOprions = {
       title:{
-        text: "Nutritional values"
+        text: "Nutritional values",
+        fontFamily: "'Poppins', sans-serif",
+        fontStyle: "Bold"
       },
+      height: 340,
       animationEnabled: true,
       axisY: {
         includeZero: true,
@@ -79,7 +85,7 @@ export class ChartComponent implements OnChanges {
           { label: "Kcal", y: this.weeklyNutrition.kcal },
           { label: "Protein", y: this.weeklyNutrition.protein },
           { label: "Fat", y: this.weeklyNutrition.fat },
-          { label: "Carbohydrates", y: this.weeklyNutrition.carbohydrates },         
+          { label: "Carbohydrates", y: this.weeklyNutrition.carbohydrates, },         
         ]
       }]
     }	 
@@ -89,6 +95,7 @@ export class ChartComponent implements OnChanges {
     if(this.lastSleepInfo == null) return;
     this.lastSleepChartOprions = {
       animationEnabled: true,
+      height: 340,
       title:{
       text: null
       },
@@ -97,7 +104,7 @@ export class ChartComponent implements OnChanges {
       yValueFormatString: "##.##'h'",
       indexLabel: "{name}",
       dataPoints: [
-        { y: this.lastSleepInfo.sleepTime, name: 'Sleep hours' },       
+        { y: this.lastSleepInfo.sleepTime, name: 'Last sleep time' },       
       ]
       }]
     }	

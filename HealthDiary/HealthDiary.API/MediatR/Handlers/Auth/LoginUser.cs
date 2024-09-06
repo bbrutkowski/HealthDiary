@@ -43,7 +43,8 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                     {
                         Id = x.Id,
                         Login = x.Login,
-                        Password = x.Password
+                        Password = x.Password,
+                        Role = x.Role                      
                     })
                     .FirstOrDefaultAsync(cancellationToken);
 
@@ -57,7 +58,8 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 {
                     Id = user.Id,
                     Name = user.Login,
-                    Token = user.Token
+                    Token = user.Token,
+                    Role = user.Role
                 };
 
                 return Result.Success(userDto);

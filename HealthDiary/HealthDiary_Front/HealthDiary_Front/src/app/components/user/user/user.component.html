@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
-    <title>User profile</title>
-</head>
-<body>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
     <div class="site-nav">
         <li class="nav-link">
             <a href="dashboard">
@@ -15,83 +7,83 @@
             </a>
         </li>    
     </div>  
-    <div *ngIf="isDataLoaded">
-        <form [formGroup]="userProfile" class="user-form">
-            <div class="basic-information-title">
-                <span>Basic information</span>
-            </div> 
-            <div class="basic-information">
-                <div class="input-label" [hidden]="true">
-                    <label for="name">Id</label>
-                    <input id="id" type="text" formControlName="id">
-                </div>    
-                <div class="input-label">
-                    <label for="name">Name</label>
-                    <input id="name" type="text" formControlName="name">
-                </div>    
-                <div class="input-label">
-                    <label for="surname">Surname</label>
-                    <input id="surname" type="text" formControlName="surname">
+    <div class="user-info">
+        <div *ngIf="isDataLoaded">
+            <form [formGroup]="userProfile" class="user-form">
+                <div class="basic-information-title">
+                    <span>Basic information</span>
                 </div> 
-                <div class="input-label">
-                    <label for="email">Email</label>
-                    <input id="email" type="text" formControlName="email">
-                </div>   
-                <div class="input-label">
-                    <label for="birthDate">Date od birth</label>
-                    <input id="birthDate" type="date" formControlName="birthDate">
-                </div> 
-                <div class="input-label">
-                    <label for="gender-select">Gender</label>
-                    <select name="gender" id="gender-select" formControlName="gender">
-                        <option value=""></option>
-                        <option value="0">Male</option>
-                        <option value="1">Female</option>
-                    </select>
-                </div>     
-                <div class="input-label">
-                    <label for="phoneNumber">Phone number</label>
-                    <input id="phoneNumber" type="text" maxlength="9" formControlName="phoneNumber">
-                </div> 
-                <div *ngIf="userProfile.get('phoneNumber')?.hasError('onlyDigits')">
-                    <small class="error-text">Only digits are allowed.</small>
-                </div>                              
-            </div>
-            <div class="address-title">
-                <span>Address</span>
-            </div>          
-            <div class="address">
-                <div class="input-label">
-                    <label for="country">Country</label>
-                    <input id="country" type="text" formControlName="country">
+                <div class="basic-information">
+                    <div class="input-label" [hidden]="true">
+                        <label for="name">Id</label>
+                        <input id="id" type="text" formControlName="id">
+                    </div>    
+                    <div class="input-label">
+                        <label for="name">Name</label>
+                        <input id="name" type="text" formControlName="name">
+                    </div>    
+                    <div class="input-label">
+                        <label for="surname">Surname</label>
+                        <input id="surname" type="text" formControlName="surname">
+                    </div> 
+                    <div class="input-label">
+                        <label for="email">Email</label>
+                        <input id="email" type="text" formControlName="email">
+                    </div>   
+                    <div class="input-label">
+                        <label for="birthDate">Date od birth</label>
+                        <input id="birthDate" type="date" formControlName="birthDate">
+                    </div> 
+                    <div class="input-label">
+                        <label for="gender-select">Gender</label>
+                        <select name="gender" id="gender-select" formControlName="gender">
+                            <option value=""></option>
+                            <option value="0">Male</option>
+                            <option value="1">Female</option>
+                        </select>
+                    </div>     
+                    <div class="input-label">
+                        <label for="phoneNumber">Phone number</label>
+                        <input id="phoneNumber" type="text" maxlength="9" formControlName="phoneNumber">
+                    </div> 
+                    <div *ngIf="userProfile.get('phoneNumber')?.hasError('onlyDigits')">
+                        <small class="error-text">Only digits are allowed.</small>
+                    </div>                              
                 </div>
-                <div class="input-label">
-                    <label for="city">City</label>
-                    <input id="city" type="text" formControlName="city">
-                </div>
-                <div class="input-label">
-                    <label for="street">Street</label>
-                    <input id="street" type="text" formControlName="street">
-                </div>
-                <div class="input-label">
-                    <label for="buildingNumber">Building number</label>
-                    <input id="buildingNumber" type="number" min="0" formControlName="buildingNumber">
-                </div>
-                <div class="input-label">
-                    <label for="apartmentNumber">Apartment number</label>
-                    <input id="apartmentNumber" type="number" min="0" formControlName="apartmentNumber">
-                </div>
-                <div class="input-label">
-                    <label for="postalCode">Postal code</label>
-                    <input id="postalCode" type="text" formControlName="postalCode" placeholder="XX-XXX" maxlength="6">
-                </div>                      
-            </div>        
-        </form>
-        <div class="profile-save-button">
-            <button (click)="onSaved()" type="submit" [disabled]="userProfile.get('phoneNumber')?.hasError('onlyDigits')" class="button-basic">Save</button>
-            <small *ngIf="isUpdateSuccessful" class="text-success">User update successful!</small>   
-            <small *ngIf="isUpdateError" class="text-danger">Error during user update</small>    
-        </div>    
-    </div>  
-</body>
-</html>
+                <div class="address-title">
+                    <span>Address</span>
+                </div>          
+                <div class="address">
+                    <div class="input-label">
+                        <label for="country">Country</label>
+                        <input id="country" type="text" formControlName="country">
+                    </div>
+                    <div class="input-label">
+                        <label for="city">City</label>
+                        <input id="city" type="text" formControlName="city">
+                    </div>
+                    <div class="input-label">
+                        <label for="street">Street</label>
+                        <input id="street" type="text" formControlName="street">
+                    </div>
+                    <div class="input-label">
+                        <label for="buildingNumber">Building number</label>
+                        <input id="buildingNumber" type="number" min="0" formControlName="buildingNumber">
+                    </div>
+                    <div class="input-label">
+                        <label for="apartmentNumber">Apartment number</label>
+                        <input id="apartmentNumber" type="number" min="0" formControlName="apartmentNumber">
+                    </div>
+                    <div class="input-label">
+                        <label for="postalCode">Postal code</label>
+                        <input id="postalCode" type="text" formControlName="postalCode" placeholder="XX-XXX" maxlength="6">
+                    </div>                      
+                </div>        
+            </form>
+            <div class="profile-save-button">
+                <button (click)="onSaved()" type="submit" [disabled]="userProfile.get('phoneNumber')?.hasError('onlyDigits')" class="button-basic">Save</button>
+                <small *ngIf="isUpdateSuccessful" class="text-success">User update successful!</small>   
+                <small *ngIf="isUpdateError" class="text-danger">Error during user update</small>    
+            </div>    
+        </div>  
+    </div>
