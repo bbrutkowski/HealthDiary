@@ -2,7 +2,7 @@
 
 namespace HealthDiary.API.Model.DTO
 {
-    public class UserInfoDto
+    public record UserInfoDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
