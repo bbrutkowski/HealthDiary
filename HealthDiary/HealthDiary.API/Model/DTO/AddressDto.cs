@@ -1,6 +1,6 @@
 ﻿namespace HealthDiary.API.Model.DTO
 {
-    public class AddressDto
+    public record AddressDto
     {
         public string Country { get; set; }
         public string City { get; set; }
