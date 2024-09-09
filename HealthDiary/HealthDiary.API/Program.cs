@@ -27,6 +27,7 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddHttpClient();
         builder.Services.AddMediatR(typeof(Program));
 
         builder.Services.AddCors(option =>

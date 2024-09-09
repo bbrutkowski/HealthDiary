@@ -114,6 +114,14 @@
     transition: 0.4s;
 }
 
+.sidebar button.logout-button {
+    background: #C94C4C;
+}
+
+.sidebar button.logout-button:hover {
+    background: #B71C1C;
+}
+
 .bottom-content {
     margin-bottom: 20%;
     display: flex;

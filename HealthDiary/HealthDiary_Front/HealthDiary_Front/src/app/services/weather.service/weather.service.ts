@@ -11,12 +11,13 @@ export class WeatherService {
 
   private baseUrl: string = 'https://localhost:7241/api/weather/'
 
-  public getWeather(): Observable<string> {
-    return this.http.get(`${this.baseUrl}getWeather`, { responseType: 'text' }).pipe(
+  public getWeather(latitude: number, longitude: number): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}getWeather`, { latitude: latitude, longitude: longitude }, {responseType: 'text' as 'json'}).pipe(
+      take(1),
       catchError(error => {
         console.error('Weather API error:', error);
-        return throwError(() => new Error('Failed to fetch weather info'));
+        return throwError(() => new Error('Failed to fetch weather conditions'));
       })
-    );
+    ); 
   }
 }
