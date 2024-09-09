@@ -13,9 +13,9 @@ namespace HealthDiary.API.Controllers
         public WeatherInfoController(IMediator mediator) => _mediator = mediator;
 
         [HttpGet("getWeather")]
-        public async Task<IActionResult> GetWeather(CancellationToken token)
+        public async Task<IActionResult> GetWeather(GetWeatherRequest request, CancellationToken token)
         {
-            var result = await _mediator.Send(new GetWeatherRequest(), token);
+            var result = await _mediator.Send(request, token);
             if (result.IsFailure) return BadRequest(result.Error);
             return Ok(result.Value);
         }

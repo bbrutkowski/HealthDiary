@@ -6,7 +6,6 @@ import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
 import { FoodService } from 'src/app/services/food.service/food.service';
-import { LocalizationService } from 'src/app/services/localization.service/localization.service';
 import { SleepService } from 'src/app/services/sleep.service/sleep.service';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
@@ -33,8 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private weightService: WeightService,
     private activityService: ActivityService,
     private foodService: FoodService,
-    private sleepService: SleepService,
-    private localizationService: LocalizationService) {}
+    private sleepService: SleepService) {}
 
   ngOnInit(): void {
     this.getUserId();
@@ -43,11 +41,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initActivities();
     this.initFood();
     this.initSleep();
-    this.getLocation();
   
     setTimeout(() => {
       this.dataLoaded = true;
     }, 3000);
+  }
+  private initWeather() {
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+
+        this.weatherService.getWeather(latitude, longitude).pipe(
+          catchError(err => {
+            this.handleError(err);
+            return of('');
+          })
+        ).subscribe(city => {
+          this.cityName = city
+        });
+      })
+    }
   }
 
   ngOnDestroy(): void {
@@ -58,36 +72,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private getUserId(): void {
     this.userId = +localStorage.getItem('userId');
-  }
-
-  private initWeather() {
-    this.fetchWeatherData();
-
-    this.weatherSubscription = interval(5 * 60 * 1000)
-      .pipe(
-        switchMap(() => this.weatherService.getWeather().pipe(take(1)))
-      )
-      .subscribe({
-        next: (response) => this.handleWeatherResponse(response),
-        error: (err) => this.handleError(err)
-      });
-  }
-
-  private fetchWeatherData(): void {
-    this.weatherService.getWeather()
-      .pipe(take(1))
-      .subscribe({
-        next: (response) => this.handleWeatherResponse(response),
-        error: (err) => this.handleError(err)
-      });
-  }
-
-  private handleWeatherResponse(response: string): void {
-    if (typeof response === 'string') {
-      this.weatherContent = response;
-    } else {
-      this.handleError(new Error(response));
-    }
   }
 
   private initWeight(): void { 
@@ -137,24 +121,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ).subscribe(sleep => {
       this.lastSleepInfo = sleep
     });
-  }
-
-  private getLocation() {
-    if (navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude
-        const longitude = position.coords.longitude
-
-        this.localizationService.getCityName(latitude, longitude).pipe(
-          catchError(err => {
-            this.handleError(err);
-            return of('');
-          })
-        ).subscribe(city => {
-          this.cityName = city
-        });
-      })
-    }
   }
 
   private handleError(error: any): void {
