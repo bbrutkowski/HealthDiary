@@ -44,6 +44,22 @@
                 </ul>
             </div>
             <div class="bottom-content">
+                <div class="weather-widget">
+                    <div class="widget-content">
+                        <div *ngIf="weatherData">
+                            <p><strong>City:</strong> {{ weatherData.name }}</p>
+                            <p><strong>Temperature:</strong> {{ weatherData.main.temp }} °C</p>
+                            <p><strong>Condition:</strong> {{ weatherData.weather[0].description }}</p>
+                            <img class="weather-icon" [src]="'http://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'" alt="Weather Icon">
+                          </div>
+                          <div *ngIf="errorMessage">
+                            <p>{{ errorMessage }}</p>
+                          </div>
+                          <div *ngIf="!weatherData && !errorMessage">
+                            <p>Loading weather data...</p>
+                          </div>
+                    </div>
+                </div>
                 <div class="profile-box">
                     <div class="user-welcome">
                         <span>Welcome {{userName}}</span>

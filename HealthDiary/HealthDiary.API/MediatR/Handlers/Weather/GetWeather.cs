@@ -10,9 +10,9 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
 {
     public static class GetWeather 
     {
-        public record GetWeatherRequest(decimal Latitude, decimal Longitude) : IRequest<Result<string>>;
+        public record GetWeatherRequest(decimal Latitude, decimal Longitude) : IRequest<Result<WeatherResponseDto>>;
 
-        public sealed class Handler : IRequestHandler<GetWeatherRequest, Result<string>>
+        public sealed class Handler : IRequestHandler<GetWeatherRequest, Result<WeatherResponseDto>>
         {
             private readonly IHttpClientFactory _httpClientFactory;
             private readonly IValidator<GetWeatherRequest> _requestValidator;
@@ -33,10 +33,10 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
                 _requestValidator = validator;
             }
 
-            public async Task<Result<string>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
+            public async Task<Result<WeatherResponseDto>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
             {
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure<string>(string.Join(Environment.NewLine, requestValidationResult.Errors));
+                if (!requestValidationResult.IsValid) return Result.Failure<WeatherResponseDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var geoRequest = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                     _geoUrl, request.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture),
@@ -46,22 +46,22 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
                 CreateClient();
 
                 var response = await _httpClient.GetAsync(geoRequest, cancellationToken);
-                if (!response.IsSuccessStatusCode) return Result.Failure<string>(response.StatusCode.ToString());
+                if (!response.IsSuccessStatusCode) return Result.Failure<WeatherResponseDto>(response.StatusCode.ToString());
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
                 var geocodeResponse = JsonConvert.DeserializeObject<GeocodeResponseDto>(content);
-                if (geocodeResponse is null) return Result.Failure<string>(_deserializationError);
+                if (geocodeResponse is null) return Result.Failure<WeatherResponseDto>(_deserializationError);
 
-                if (geocodeResponse.Status != "OK") return Result.Failure<string>(geocodeResponse.Status);
+                if (geocodeResponse.Status != "OK") return Result.Failure<WeatherResponseDto>(geocodeResponse.Status);
 
                 var city = ExtractCityFromResults(geocodeResponse.Results);
-                if (string.IsNullOrEmpty(city)) return Result.Failure<string>(_cityNameNotFoundError);
+                if (string.IsNullOrEmpty(city)) return Result.Failure<WeatherResponseDto>(_cityNameNotFoundError);
 
                 var weatherResult = await GetWeatherConditions(city, cancellationToken);
-                if (weatherResult.IsFailure) return Result.Failure<string>(weatherResult.Error);
+                if (weatherResult.IsFailure) return Result.Failure<WeatherResponseDto>(weatherResult.Error);
 
-                return Result.Success(weatherResult.Value.ToString());
+                return Result.Success(weatherResult.Value);
             }
 
             private async Task<Result<WeatherResponseDto>> GetWeatherConditions(string city, CancellationToken cancellationToken)

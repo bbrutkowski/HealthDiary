@@ -8,7 +8,6 @@ namespace HealthDiary.API.Context.DataContext
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<WeatherInfoBar> WeatherInformations { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Weight> Weights { get; set; }
         public DbSet<Sleep> Sleeps { get; set; }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject, Subscription, catchError, interval, of, switchMap, take, tap, timer } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, Subscription, catchError, of, take} from 'rxjs';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -7,7 +7,6 @@ import { WeightDto } from 'src/app/models/weight-dto';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
 import { FoodService } from 'src/app/services/food.service/food.service';
 import { SleepService } from 'src/app/services/sleep.service/sleep.service';
-import { WeatherService } from 'src/app/services/weather.service/weather.service';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
 @Component({
@@ -28,7 +27,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public cityName: string;
 
   public constructor(
-    private weatherService: WeatherService,
     private weightService: WeightService,
     private activityService: ActivityService,
     private foodService: FoodService,
@@ -36,7 +34,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getUserId();
-    this.initWeather();
     this.initWeight();
     this.initActivities();
     this.initFood();
@@ -45,23 +42,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.dataLoaded = true;
     }, 3000);
-  }
-  private initWeather() {
-    if (navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude
-        const longitude = position.coords.longitude
-
-        this.weatherService.getWeather(latitude, longitude).pipe(
-          catchError(err => {
-            this.handleError(err);
-            return of('');
-          })
-        ).subscribe(city => {
-          this.cityName = city
-        });
-      })
-    }
   }
 
   ngOnDestroy(): void {
