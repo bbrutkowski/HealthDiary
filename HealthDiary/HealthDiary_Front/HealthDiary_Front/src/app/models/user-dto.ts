@@ -10,5 +10,5 @@ export class UserDto {
     public phoneNumber: string;
     public gender: Gender;
     public address: AddressDto;
-    public birthDate: Date;
+    public dateOfBirth: Date;
 }
