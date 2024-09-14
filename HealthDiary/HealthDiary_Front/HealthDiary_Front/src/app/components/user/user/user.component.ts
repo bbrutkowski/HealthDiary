@@ -59,7 +59,7 @@ export class UserComponent implements OnInit, OnDestroy {
     if (userId !== null) {
       this.userDataSubscription = this.userService.getUserById(userId).pipe(
         take(1),
-        catchError(error => {
+        catchError(() => {
           return of(new UserDto());
         })
       ).subscribe(userInfo => {
@@ -71,13 +71,18 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   private populateForm(): void {
+    const genderMap: { [key: string]: number } = {
+      Male: 0,
+      Female: 1
+    };
+
     this.userProfile.patchValue({
       id: this.userDto.id,
       name: this.userDto.name,
       surname: this.userDto.surname,
       email: this.userDto.email,
-      birthDate: this.userDto.birthDate,
-      gender: this.userDto.gender,
+      birthDate: this.formatDate(this.userDto.dateOfBirth),
+      gender: genderMap[this.userDto.gender],
       phoneNumber: this.userDto.phoneNumber,
       country: this.userDto.address?.country,
       city: this.userDto.address?.city,
@@ -110,5 +115,10 @@ export class UserComponent implements OnInit, OnDestroy {
         timer(3000).subscribe(() => this.router.navigate(['dashboard']));
       }
     });
+  }
+
+  private formatDate(date: any): string {
+    const dateObj = (date instanceof Date) ? date : new Date(date);
+    return dateObj.toISOString().split('T')[0]; 
   }
 }
