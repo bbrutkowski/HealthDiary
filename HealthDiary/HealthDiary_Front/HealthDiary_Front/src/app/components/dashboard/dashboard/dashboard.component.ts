@@ -39,9 +39,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.initFood();
     this.initSleep();
   
-    setTimeout(() => {
-      this.dataLoaded = true;
-    }, 3000);
+    this.dataLoaded = true;
   }
 
   ngOnDestroy(): void {

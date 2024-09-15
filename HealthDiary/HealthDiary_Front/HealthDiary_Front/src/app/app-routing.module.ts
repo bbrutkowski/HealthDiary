@@ -10,11 +10,13 @@ import { UserComponent } from './components/user/user/user.component';
 import { WeightComponent } from './components/weight/weight/weight.component';
 import { SleepComponent } from './components/sleep/sleep/sleep.component';
 import { FoodComponent } from './components/food/food/food.component';
+import { StartupComponent } from './components/startup/startup/startup.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
   {
     path: 'login',
@@ -49,11 +51,11 @@ const routes: Routes = [
     component: FoodComponent,
     canActivate: [AuthGuard]
   },
-  // {
-  //   path: 'activity',
-  //   component: ,
-  //   canActivate: [AuthGuard]
-  // }
+  {
+    path: 'startup',
+    component: StartupComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

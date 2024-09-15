@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Subscription, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
+import { UserAuthDto } from 'src/app/models/user-auth-dto';
 import { UserDto } from 'src/app/models/user-dto';
 import { AuthService } from 'src/app/services/auth.service/auth.service';
 import { LoginService } from 'src/app/services/login.service/login.service';
@@ -66,11 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         return of(this.loginError = true);
       })
     ).subscribe({
-      next: (response: UserDto) => {
+      next: (response: UserAuthDto) => {
         if (!response) return this.loginForm.reset();
-        localStorage.setItem('loggedUser', JSON.stringify(response));
-        this.authService.storeToken();
-        this.router.navigate(['dashboard']);
+        let isStored = this.authService.storeLoggedUser(response);
+        if (isStored)  this.router.navigate(['startup']);
       }
     });
   }

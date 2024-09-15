@@ -12,17 +12,8 @@ body, html {
     overflow: hidden;
 }
 
-.loading-screen {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    opacity: 0;
-    animation: fade 0.6s ease-in-out forwards;
-}
-
 @keyframes fade {
-    from, to {
+    0% {
       opacity: 0;
     }
     100% {
@@ -33,6 +24,7 @@ body, html {
 .dashboard-content {
     height: 100vh;
     display: flex;
+    animation: fade 0.8s ease-in-out forwards;
 }
 
 .sidebar-contener {
@@ -83,16 +75,6 @@ body, html {
     height: 80%;
     display: block;
     margin: 10%;
-}
-
-@keyframes scrollText {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(-300%);
-    }
 }
 
 .text-overlay {

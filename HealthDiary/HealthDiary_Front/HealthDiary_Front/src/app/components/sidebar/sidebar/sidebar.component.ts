@@ -34,9 +34,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   private getUserPrivileges(): void {
-    const loggedUser = localStorage.getItem('loggedUser');
-    this.userName = JSON.parse(loggedUser).name
-    this.userRole = JSON.parse(loggedUser).role
+    this.userName = localStorage.getItem('name');
+    this.userRole = localStorage.getItem('role');
   }
 
   private initWeather() {
@@ -73,7 +72,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     .subscribe((result: boolean) => {
       if (result) {
         localStorage.clear();
-        this.router.navigate(['/login']);        
+        this.router.navigate(['login']);        
       }
     });
   }

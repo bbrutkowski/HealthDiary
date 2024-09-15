@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, take, throwError } from 'rxjs';
+import { RegisterUserData } from 'src/app/models/login-user-data-dto';
 import { UserDto } from 'src/app/models/user-dto';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public register(registerData: any) : Observable<boolean>{
+  public register(registerData: RegisterUserData) : Observable<boolean>{
     return this.http.post<boolean>(`${this.baseUrl}register`, registerData).pipe(
       take(1),
       catchError(err => {

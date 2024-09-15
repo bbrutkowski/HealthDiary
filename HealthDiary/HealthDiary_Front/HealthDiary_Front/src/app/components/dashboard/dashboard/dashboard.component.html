@@ -1,40 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
-<body>
-    <div class="loading-screen" *ngIf="!dataLoaded">
-        <img src="../../../../assets/Health Diary.png" alt="HealthDiaryLoading">    
+<div class="dashboard-content" *ngIf="dataLoaded">
+    <div class="sidebar-contener">
+        <app-sidebar></app-sidebar>
     </div>
-    <div class="dashboard-content" *ngIf="dataLoaded">
-        <div class="sidebar-contener">
-            <app-sidebar></app-sidebar>
-        </div>
-        <div class="workplace">
-            <div class="container-grid">
-                <div class="container">               
-                    <app-weight [weights]="userWeights" [userId]="userId"></app-weight> 
-                </div>
-                <div class="container">
-                    <img src="../../../../assets/swimmer.png" alt="swimmingBackground">
-                    <div class="text-overlay">
-                        <span>Total monthly distance: {{this.totalMonthlyActivities.totalDistance}} KM</span>  
-                        <span>Total exercise time: {{this.totalMonthlyActivities.totalExerciseTime}} h</span>  
-                        <span>Total calorie consumption: {{this.totalMonthlyActivities.totalCalorieConsumption}} kcal</span>       
-                        <span>Last update of activity: {{this.totalMonthlyActivities.lastUpdate | date:'dd-MM-yyyy' }}</span>            
-                    </div>                 
-                </div>
-                <div class="container">
-                    <app-food [weeklyNutritionDto]="weeklyNutritionDto"></app-food>       
-                </div>
-                <div class="container">
-                    <app-sleep [lastSleepInfo]="lastSleepInfo"></app-sleep>
-                </div>
+    <div class="workplace">
+        <div class="container-grid">
+            <div class="container">               
+                <app-weight [weights]="userWeights" [userId]="userId"></app-weight> 
+            </div>
+            <div class="container">
+                <img src="../../../../assets/swimmer.png" alt="swimmingBackground">
+                <div class="text-overlay">
+                    <span>Total monthly distance: {{this.totalMonthlyActivities.totalDistance}} KM</span>  
+                    <span>Total exercise time: {{this.totalMonthlyActivities.totalExerciseTime}} h</span>  
+                    <span>Total calorie consumption: {{this.totalMonthlyActivities.totalCalorieConsumption}} kcal</span>       
+                    <span>Last update of activity: {{this.totalMonthlyActivities.lastUpdate | date:'dd-MM-yyyy' }}</span>            
+                </div>                 
+            </div>
+            <div class="container">
+                <app-food [weeklyNutritionDto]="weeklyNutritionDto"></app-food>       
+            </div>
+            <div class="container">
+                <app-sleep [lastSleepInfo]="lastSleepInfo"></app-sleep>
             </div>
         </div>
-    </div>  
-</body>
-</html>
+    </div>
+</div>  
