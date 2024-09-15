@@ -12,24 +12,6 @@ body, html {
     overflow: hidden;
 }
 
-.loading-screen {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    opacity: 0;
-    animation: fade 0.6s ease-in-out forwards;
-}
-
-@keyframes fade {
-    from, to {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
 .dashboard-content {
     height: 100vh;
     display: flex;
@@ -83,16 +65,6 @@ body, html {
     height: 80%;
     display: block;
     margin: 10%;
-}
-
-@keyframes scrollText {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(-300%);
-    }
 }
 
 .text-overlay {
