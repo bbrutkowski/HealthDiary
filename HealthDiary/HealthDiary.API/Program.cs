@@ -14,8 +14,6 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
         builder.Services.AddControllers().AddJsonOptions(options =>
         {
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -34,9 +32,9 @@ internal class Program
         {
             option.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+                builder.WithOrigins("http://localhost:4200") 
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
             });
         });
 

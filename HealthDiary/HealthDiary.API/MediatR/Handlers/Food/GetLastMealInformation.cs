@@ -30,6 +30,7 @@ namespace HealthDiary.API.MediatR.Handlers.Food
                 if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var lastMeal = await _context.Foods
+                    .AsNoTracking()
                     .Where(x => x.UserId == request.Id)
                     .OrderByDescending(x => x.CreationDate)
                     .FirstOrDefaultAsync(cancellationToken);
