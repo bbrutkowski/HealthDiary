@@ -35,7 +35,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 var activities = await _context.Activities
                     .AsNoTracking()
                     .Where(x => x.UserId == request.UserId && x.CreationDate.Month == currentMonth)
-                    .OrderBy(x => x.CreationDate)
+                    .OrderByDescending(x => x.CreationDate)
                     .ToListAsync(cancellationToken);
 
                 if (!activities.Any()) return Result.Failure<TotalMonthlyActivityDto>(ActivitiesNotFoundErrorMessage);
@@ -45,7 +45,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                     TotalCalorieConsumption = activities.Sum(x => x.TotalCalorieConsumption),
                     TotalDistance = activities.Sum(x => x.TotalDistance),
                     TotalExerciseTime = activities.Sum(x => x.TotalExerciseTime),
-                    LastUpdate = activities.Select(x => x.CreationDate).LastOrDefault()
+                    LastUpdate = activities.Select(x => x.CreationDate).FirstOrDefault()
                 };
 
                 return Result.Success(totalActivity);
