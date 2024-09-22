@@ -61,8 +61,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         })
     ).subscribe(weights => {
       this.userWeights = weights; 
-  });
-}
+    });
+  }
 
   private initActivities(): void {
     this.activityService.getMonthlyActivityByUserId(this.userId).pipe(

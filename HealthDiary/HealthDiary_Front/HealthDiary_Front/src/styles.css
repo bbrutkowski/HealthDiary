@@ -27,11 +27,6 @@
     cursor: pointer;
 }
 
-.btn {
-    margin-top: 20px;
-    border-radius: 20px;
-}
-
 .panel {
     min-height: 380px;
     border-radius: 12px;
@@ -136,19 +131,18 @@ input[type='password'] {
 }
 
 .site-nav a {
-    font-size: 20px;
+    font-size: 22px;
     height: 50px;
     list-style: none;
     display: flex;
     align-items: center;
     background-color: transparent;
     text-decoration: none;
-    color: black
-  }
+}
   
 .site-nav li .icon {
     min-width: 60px;
-    font-size: 20px;
+    font-size: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,4 +152,46 @@ input[type='password'] {
 .site-nav li .icon:hover {
     color: #294A66;
     transition: 0.3s;
+}
+
+.site-nav {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0; 
+  margin: 0;  
+  height: 50px; 
+}
+
+.site-nav a {
+  font-size: 20px;
+  height: 50px;
+  font-weight: bold;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  text-decoration: none;
+  color: #4075A0;
+}
+
+.site-nav li .icon {
+  min-width: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.site-nav a:hover,
+.site-nav li .icon:hover {
+  color: #294A66;
+  transition: 0.5s;
+}
+
+.workspace {
+    height: 100vh;
+    width: 100vw;
+    background: #F0F5F9;
 }

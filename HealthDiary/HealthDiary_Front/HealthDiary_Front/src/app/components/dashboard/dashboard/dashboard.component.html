@@ -5,16 +5,10 @@
     <div class="workplace">
         <div class="container-grid">
             <div class="container">               
-                <app-weight [weights]="userWeights" [userId]="userId"></app-weight> 
+                <app-weight [weights]="userWeights"></app-weight> 
             </div>
-            <div class="container">
-                <img src="../../../../assets/swimmer.png" alt="swimmingBackground">
-                <div class="text-overlay">
-                    <span>Total monthly distance: {{this.totalMonthlyActivities?.totalDistance}} KM</span>  
-                    <span>Total exercise time: {{this.totalMonthlyActivities?.totalExerciseTime}} h</span>  
-                    <span>Total calorie consumption: {{this.totalMonthlyActivities?.totalCalorieConsumption}} kcal</span>       
-                    <span>Last update of activity: {{this.totalMonthlyActivities?.lastUpdate | date:'dd-MM-yyyy' }}</span>            
-                </div>                 
+            <div class="container">  
+                <app-activity [monthlyActivities]="totalMonthlyActivities"></app-activity>           
             </div>
             <div class="container">
                 <app-food [weeklyNutritionDto]="weeklyNutritionDto"></app-food>       
