@@ -10,9 +10,6 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
 })
 export class WeightComponent implements OnInit {
   @Input() weights: Array<WeightDto>;
-  @Input() userId: number;
-
-  public constructor(private weightServce: WeightService) {}
 
   ngOnInit(): void {
 

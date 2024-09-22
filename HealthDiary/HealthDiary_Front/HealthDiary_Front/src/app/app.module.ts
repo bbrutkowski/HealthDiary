@@ -20,6 +20,7 @@ import { FoodComponent } from './components/food/food/food.component';
 import { ChartModule } from 'primeng/chart';
 import { SleepComponent } from './components/sleep/sleep/sleep.component';
 import { StartupComponent } from './components/startup/startup/startup.component';
+import { ActivityComponent } from './components/activity/activity/activity.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { StartupComponent } from './components/startup/startup/startup.component
     WeightComponent,
     FoodComponent,
     SleepComponent,
-    StartupComponent
+    StartupComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { WeightComponent } from './components/weight/weight/weight.component';
 import { SleepComponent } from './components/sleep/sleep/sleep.component';
 import { FoodComponent } from './components/food/food/food.component';
 import { StartupComponent } from './components/startup/startup/startup.component';
+import { ActivityComponent } from './components/activity/activity/activity.component';
 
 const routes: Routes = [
   {
@@ -55,7 +56,12 @@ const routes: Routes = [
     path: 'startup',
     component: StartupComponent,
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'activity',
+    component: ActivityComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

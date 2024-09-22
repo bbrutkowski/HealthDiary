@@ -13,40 +13,6 @@
   justify-content: center;
 }
 
-.site-nav {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 0; 
-  margin: 0;  
-  height: 50px; 
-}
-
-.site-nav a {
-  font-size: 20px;
-  height: 50px;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  text-decoration: none;
-  color: black;
-}
-
-.site-nav li .icon {
-  min-width: 60px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.site-nav a:hover,
-.site-nav li .icon:hover {
-  color: #294A66;
-  transition: 0.3s;
-}
-
 .user-form {
   display: flex;
   justify-content: center;
