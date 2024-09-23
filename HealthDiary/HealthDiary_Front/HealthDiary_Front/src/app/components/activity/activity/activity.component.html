@@ -1,19 +1,17 @@
-<div class="text-overlay" *ngIf="monthlyActivities as activities">
-    <span>Total monthly distance: {{ activities.totalDistance }} KM</span>  
-    <span>Total exercise time: {{ activities.totalExerciseTime }} h</span>  
-    <span>Total calorie consumption: {{ activities.totalCalorieConsumption }} kcal</span>       
-    <span>Last update of activity: {{ activities.lastUpdate | date:'dd-MM-yyyy' }}</span>            
-</div>  
+  <div class="workspace" *ngIf="!isLoading && !monthlyActivities">
+    <div class="workspace-header">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
+            <div class="site-nav">
+            <li class="nav-link">
+                <a href="dashboard">
+                    <i class='bx bx-arrow-back icon'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>    
+            </div> 
+        <app-month-counter></app-month-counter>
+    </div>
+    <div class="workspace-body">
 
-<div class="workspace" *ngIf="!isLoading && !monthlyActivities">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
-    <div class="site-nav">
-        <li class="nav-link">
-            <a href="dashboard">
-                <i class='bx bx-arrow-back icon'></i>
-                <span>Dashboard</span>
-            </a>
-        </li>    
-    </div> 
-    <app-month-counter></app-month-counter>
+    </div>
 </div>

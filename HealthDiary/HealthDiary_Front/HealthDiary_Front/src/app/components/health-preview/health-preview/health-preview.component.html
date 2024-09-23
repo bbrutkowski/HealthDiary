@@ -1,0 +1,18 @@
+<div  *ngIf="weights && weights.length > 0">
+    <app-chart [weights]="weights"></app-chart> 
+</div>
+
+<div class="text-overlay" *ngIf="monthlyActivities as activities">
+    <span>Total monthly distance: {{ activities.totalDistance }} KM</span>  
+    <span>Total exercise time: {{ activities.totalExerciseTime }} h</span>  
+    <span>Total calorie consumption: {{ activities.totalCalorieConsumption }} kcal</span>       
+    <span>Last update of activity: {{ activities.lastUpdate | date:'dd-MM-yyyy' }}</span>            
+</div>
+
+<div *ngIf="weeklyNutritionDto">
+    <app-chart [weeklyNutrition]="weeklyNutritionDto"></app-chart>
+</div>
+
+<div *ngIf="lastSleepInfo">
+    <app-chart [lastSleepInfo]="lastSleepInfo"></app-chart>
+</div>

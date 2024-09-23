@@ -195,3 +195,14 @@ input[type='password'] {
     width: 100vw;
     background: #F0F5F9;
 }
+
+.workspace-header{
+    height: 100px;
+    width: 100vw;
+    margin-bottom: 15px;
+}
+
+.workspace-body {
+    height: calc(100vh - 115px);
+    width: 100vw;
+}
