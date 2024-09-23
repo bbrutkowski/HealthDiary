@@ -10,9 +10,11 @@ export class MonthCounterComponent implements OnInit {
   public currentDay: number = 0;
   public daysRemaining: number = 0;
   public currentMonth: string = '';
+  public filledDots: number = 0;
 
   ngOnInit(): void {
     this.getDays();
+    this.startFilling();
   }
 
   private getDays() {
@@ -26,5 +28,9 @@ export class MonthCounterComponent implements OnInit {
     this.currentMonth = now.toLocaleString('en-US', { month: 'long' });
 
     this.days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  }
+
+  private startFilling() {
+    this.filledDots = this.currentDay; 
   }
 }

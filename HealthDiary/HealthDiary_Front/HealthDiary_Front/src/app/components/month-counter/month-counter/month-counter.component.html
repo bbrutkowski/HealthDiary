@@ -1,9 +1,11 @@
-<div class="month-counter-header">
-    Days remaining in {{ currentMonth }}: {{ daysRemaining }}
-</div>
-  <div class="month-counter-container">
-    <div *ngFor="let day of days; let i = index" 
-         [class.filled]="i < currentDay" 
-         class="day-dot">
+<div class="month-counter">
+    <div class="counter-text">
+      Number of days until the end of the month: {{ currentMonth }}: {{ daysRemaining }}
+    </div>
+    <div class="dots-container">
+      <div *ngFor="let day of days; let i = index" 
+           class="dot" 
+           [ngClass]="{'filled': i < filledDots}">
+      </div>
     </div>
   </div>

@@ -1,25 +1,35 @@
-.month-counter-header {
+.month-counter {
     text-align: center;
-    font-size: 16px;
-    margin-bottom: 10px;
+}
+
+.counter-text{
     color: #4075A0;
 }
-
-.month-counter-container {
+  
+.dots-container {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
-    width: 100%;
+    margin: 10px 20px;
 }
-
-.day-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: lightgray;
-    margin: 0 20px; 
+  
+.dot {
+    width: 12px; 
+    height: 12px; 
+    background-color: lightgray; 
+    border-radius: 50%; 
+    transition: background-color 0.5s ease; 
 }
-
-.filled {
-    background-color: #4075A0;
+  
+.dot.filled {
+    background-color: #4075A0; 
+    animation: fill 5s forwards;
+}
+  
+@keyframes fill {
+    0% {
+      background-color: lightgray; 
+    }
+    100% {
+      background-color: #4075A0; 
+    }
 }
