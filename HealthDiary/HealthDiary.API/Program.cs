@@ -54,9 +54,8 @@ internal class Program
             x.SaveToken = true;
             x.TokenValidationParameters = new TokenValidationParameters()
             {
-                ValidateIssuer = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes("applicationKey")),
-                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes("applicationKey")), 
+                ValidateAudience = false, 
             };
         });
 
