@@ -21,6 +21,7 @@ import { ChartModule } from 'primeng/chart';
 import { SleepComponent } from './components/sleep/sleep/sleep.component';
 import { StartupComponent } from './components/startup/startup/startup.component';
 import { ActivityComponent } from './components/activity/activity/activity.component';
+import { MonthCounterComponent } from './components/month-counter/month-counter/month-counter.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ActivityComponent } from './components/activity/activity/activity.compo
     FoodComponent,
     SleepComponent,
     StartupComponent,
-    ActivityComponent
+    ActivityComponent,
+    MonthCounterComponent
   ],
   imports: [
     BrowserModule,

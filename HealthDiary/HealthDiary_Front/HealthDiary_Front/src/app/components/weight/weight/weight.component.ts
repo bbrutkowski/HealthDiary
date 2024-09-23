@@ -9,7 +9,7 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
   styleUrl: './weight.component.css'
 })
 export class WeightComponent implements OnInit {
-  @Input() weights: Array<WeightDto>;
+  @Input() weights: Array<WeightDto> = [];
 
   ngOnInit(): void {
 

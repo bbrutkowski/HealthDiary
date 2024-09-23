@@ -80,10 +80,6 @@
     color: #F0F5F9;
 }
 
-.sidebar .menu {
-    border-bottom: 1px #707070 solid;
-}
-
 .sidebar .menu-bar {
     height: 100%;
     display: flex;

@@ -1,4 +1,4 @@
-<div *ngIf="weights.length">
+<div  *ngIf="weights && weights.length > 0">
     <app-chart [weights]="weights"></app-chart> 
 </div>
 
@@ -12,5 +12,5 @@
             </a>
         </li>    
     </div> 
+    <app-month-counter></app-month-counter>
 </div>
-
