@@ -1,16 +1,17 @@
-<div *ngIf="lastSleepInfo">
-    <app-chart [lastSleepInfo]="lastSleepInfo"></app-chart>
-</div>
+<div class="workspace">
+    <div class="workspace-header">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
+            <div class="site-nav">
+            <li class="nav-link">
+                <a href="dashboard">
+                    <i class='bx bx-arrow-back icon'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>    
+            </div> 
+        <app-month-counter></app-month-counter>
+    </div>
+    <div class="workspace-body">
 
-<div class="workspace" *ngIf="!lastSleepInfo">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
-    <div class="site-nav">
-        <li class="nav-link">
-            <a href="dashboard">
-                <i class='bx bx-arrow-back icon'></i>
-                <span>Dashboard</span>
-            </a>
-        </li>    
-    </div> 
-    <app-month-counter></app-month-counter> 
+    </div>
 </div>

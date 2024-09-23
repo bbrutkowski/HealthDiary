@@ -22,6 +22,7 @@ import { SleepComponent } from './components/sleep/sleep/sleep.component';
 import { StartupComponent } from './components/startup/startup/startup.component';
 import { ActivityComponent } from './components/activity/activity/activity.component';
 import { MonthCounterComponent } from './components/month-counter/month-counter/month-counter.component';
+import { HealthPreviewComponent } from './components/health-preview/health-preview/health-preview.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MonthCounterComponent } from './components/month-counter/month-counter/
     SleepComponent,
     StartupComponent,
     ActivityComponent,
-    MonthCounterComponent
+    MonthCounterComponent,
+    HealthPreviewComponent
   ],
   imports: [
     BrowserModule,

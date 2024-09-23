@@ -5,16 +5,16 @@
     <div class="workplace">
         <div class="container-grid">
             <div class="container">               
-                <app-weight [weights]="userWeights"></app-weight> 
+                <app-health-preview [weights]="userWeights"></app-health-preview> 
             </div>
             <div class="container">  
-                <app-activity [monthlyActivities]="totalMonthlyActivities"></app-activity>           
+                <app-health-preview [monthlyActivities]="totalMonthlyActivities"></app-health-preview>           
             </div>
             <div class="container">
-                <app-food [weeklyNutritionDto]="weeklyNutritionDto"></app-food>       
+                <app-health-preview [weeklyNutritionDto]="weeklyNutritionDto"></app-health-preview>       
             </div>
             <div class="container">
-                <app-sleep [lastSleepInfo]="lastSleepInfo"></app-sleep>
+                <app-health-preview [lastSleepInfo]="lastSleepInfo"></app-health-preview>
             </div>
         </div>
     </div>

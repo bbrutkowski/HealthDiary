@@ -7,6 +7,6 @@ import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
   styleUrl: './sleep.component.css'
 })
 export class SleepComponent {
-  @Input() lastSleepInfo: SleepInfoDto;
+
 
 }
