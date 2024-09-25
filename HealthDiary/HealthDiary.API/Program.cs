@@ -43,25 +43,31 @@ internal class Program
             option.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString"));
         });
 
+        var jwtSettings = builder.Configuration.GetSection("Jwt");
+
         builder.Services.AddAuthentication(x =>
         {
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-        }).AddJwtBearer(x =>
+        }).AddJwtBearer(options =>
         {
-            x.RequireHttpsMetadata = false;
-            x.SaveToken = true;
-            x.TokenValidationParameters = new TokenValidationParameters()
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF32.GetBytes("applicationKey")), 
-                ValidateAudience = false, 
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
             };
         });
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

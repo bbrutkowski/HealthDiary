@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static HealthDiary.API.MediatR.Handlers.Auth.LoginUser;
+using static HealthDiary.API.MediatR.Handlers.Auth.Login;
 
 namespace HealthDiary.API.Controllers
 {
@@ -16,7 +16,7 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken token)
         {
             var result = await _mediator.Send(request, token);
-            if (result.IsFailure) return BadRequest(result.Error);
+            if (result.IsFailure) return Unauthorized(result.Error);
             return Ok(result.Value);
         }
     }

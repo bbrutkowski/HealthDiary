@@ -13,7 +13,7 @@ using UserAlias = HealthDiary.API.Model.Main.User;
 
 namespace HealthDiary.API.MediatR.Handlers.Auth
 {
-    public static class LoginUser
+    public static class Login
     {
         public record LoginRequest(string Login, string Password) : IRequest<Result<UserDto>>;
 
@@ -21,14 +21,16 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
         {
             private readonly DataContext _context;
             private readonly IValidator<LoginRequest> _requestValidator;
+            private readonly IConfiguration _configuration;
 
             private const string UserNotFoundError = "User not found";
             private const string UserCredentialsError = "User name or password not valid";
 
-            public Handler(DataContext dataContext, IValidator<LoginRequest> validator)
+            public Handler(DataContext dataContext, IValidator<LoginRequest> validator, IConfiguration configuration)
             {
                 _context = dataContext;
                 _requestValidator = validator;
+                _configuration = configuration;
             }
 
             public async Task<Result<UserDto>> Handle(LoginRequest request, CancellationToken cancellationToken)
@@ -65,28 +67,26 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 return Result.Success(userDto);
             }
 
-            private static string CreateJwtToken(UserAlias user)
+            private string CreateJwtToken(UserAlias user)
             {
-                var jwtTokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.UTF32.GetBytes("applicationKey");
- 
-                var identity = new ClaimsIdentity(new Claim[]
-                {
-                   new(ClaimTypes.Role, user.Role.ToString()),
-                   new(ClaimTypes.Name, user.Login)
-                });
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
-                var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-
-                var tokenDescriptor = new SecurityTokenDescriptor()
+                var claims = new[]
                 {
-                    Subject = identity,
-                    Expires = DateTime.Now.AddDays(1),
-                    SigningCredentials = credentials
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.Name, user.Login)
                 };
 
-                var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-                return jwtTokenHandler.WriteToken(token);
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                   issuer: _configuration["Jwt:Issuer"],
+                   audience: _configuration["Jwt:Audience"],
+                   claims: claims,
+                   expires: DateTime.Now.AddMinutes(30),
+                   signingCredentials: credentials);
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
             }
         }
 

@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
       })
     ).subscribe({
       next: (response: boolean) => {
-        if (!response) return this.registerError = true;
+        if (response === false) return this.registerError = true;
         else {
           this.registerSuccess = true;
            timer(2000).subscribe(() => {

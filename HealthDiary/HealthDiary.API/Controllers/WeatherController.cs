@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Weather.GetWeather;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/weather")]
     [ApiController]
     public class WeatherController : ControllerBase

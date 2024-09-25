@@ -34,12 +34,13 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 if (!requestValidationResult.IsValid) return Result.Failure<bool>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var validationResult = await CheckUserCredentialsAsync(request.Login, request.Email, cancellationToken);
-                if (validationResult != UserValidationSuccessful) return Result.Failure<bool>(validationResult.ToString());
+                if (validationResult.IsFailure) return Result.Failure<bool>(validationResult.Error);
 
                 var user = new UserAlias()
                 {
                     Login = request.Login,
                     Email = request.Email,
+                    Role = Model.Main.UserRole.User,
                     Password = PasswordHasher.Hash(request.Password)
                 };
 
@@ -49,18 +50,17 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 return changes > 0 ? Result.Success(true) : Result.Failure<bool>(RegisterUserError);
             }
 
-            private async Task<string> CheckUserCredentialsAsync(string login, string email, CancellationToken cancellationToken)
+            private async Task<Result<string>> CheckUserCredentialsAsync(string login, string email, CancellationToken cancellationToken)
             {
                 var existingUser = await _context.Users
                     .AsNoTracking()
                     .Where(x => x.IsActive && x.Login == login || x.Email == email)
                     .FirstOrDefaultAsync(cancellationToken);
 
-                if (existingUser is not null)
-                {
-                    if (existingUser.Login == login) return UserNameValidationError;
-                    if (existingUser.Email == email) return EmailValidationError;
-                }
+                if (existingUser is null) return Result.Failure<string>(UserValidationSuccessful);
+
+                if (existingUser.Login == login) return UserNameValidationError;
+                if (existingUser.Email == email) return EmailValidationError;
 
                 return UserValidationSuccessful;
             }
