@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.User.GetUser;
 using static HealthDiary.API.MediatR.Handlers.User.RegisterUser;
@@ -22,6 +23,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
+        [Authorize]
         [HttpGet("getUserInfo")]
         public async Task<IActionResult> GetUserById(int id, CancellationToken token)
         {
@@ -30,6 +32,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
+        [Authorize]
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request, CancellationToken token)
         {

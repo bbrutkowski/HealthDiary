@@ -19,7 +19,6 @@ namespace HealthDiary.API.Model.Main
         public List<Activity> Activities { get; set; } = new();
         public List<Food> Foods { get; set; } = new();
         public DateTime BirthDate { get; set; }
-        public double Weight { get; set; }
         public string? Token { get; set; }
         public UserRole Role { get; set; }
         public bool IsActive { get; set; } = true;

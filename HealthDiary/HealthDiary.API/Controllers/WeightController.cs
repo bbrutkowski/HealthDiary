@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeightById;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/weight")]
     [ApiController]
     public class WeightController : ControllerBase

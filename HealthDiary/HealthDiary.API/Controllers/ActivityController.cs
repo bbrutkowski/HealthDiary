@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Activity.GetMonthlyActivity;
 
 namespace HealthDiary.API.Controllers
 {
+    [Authorize]
     [Route("api/activity")]
     [ApiController]
     public class ActivityController : ControllerBase
