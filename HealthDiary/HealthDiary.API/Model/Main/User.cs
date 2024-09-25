@@ -22,6 +22,7 @@ namespace HealthDiary.API.Model.Main
         public string? Token { get; set; }
         public UserRole Role { get; set; }
         public bool IsActive { get; set; } = true;
+        public WeightGoal WeightGoal { get; set; } = new();
     }
 
     public enum UserRole
