@@ -194,6 +194,7 @@ input[type='password'] {
     height: 100vh;
     width: 100vw;
     background: #F0F5F9;
+    animation: fade 0.8s ease-in-out forwards;
 }
 
 .workspace-header{
@@ -205,4 +206,13 @@ input[type='password'] {
 .workspace-body {
     height: calc(100vh - 115px);
     width: 100vw;
+}
+
+@keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
 }
