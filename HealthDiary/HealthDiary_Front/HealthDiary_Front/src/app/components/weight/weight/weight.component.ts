@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, Subscription, catchError, of, take } from 'rxjs';
+import { Subject, Subscription, catchError, finalize, of, take, tap, timer } from 'rxjs';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
@@ -18,11 +18,14 @@ export class WeightComponent implements OnInit, OnDestroy {
   public weightGoalForm!: FormGroup;
   private weightSubscription: Subscription = new Subscription(); 
   public isWeightGoalError = false;
+  public isSavingGoal = false;
+  public showSuccessCheckIcon = false;
+  public showGoalForm = false;
 
   constructor(
     private weightService: WeightService,
     private fb: FormBuilder
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.getUserId();
@@ -45,18 +48,22 @@ export class WeightComponent implements OnInit, OnDestroy {
 
   private getWeightGoal() {
     if (!this.userId) return console.error("No user Id");
-
-    this.weightService.getWeightGoal(this.userId).pipe(
-      take(1),
-      catchError(err => {
-        this.handleError(err);
-        return of(this.weightGoal as WeightGoalDto)
+  
+    this.weightSubscription.add(
+      this.weightService.getWeightGoal(this.userId).pipe(
+        take(1),
+        catchError(err => {
+          this.handleError(err);
+          return of(this.weightGoal as WeightGoalDto);
+        })
+      ).subscribe(weightGoal => {
+        this.weightGoal = weightGoal;
+        if (this.weightGoal.isSet) {
+          this.isWeightGoalSet = true; 
+        }
       })
-    ).subscribe(weightGoal => {
-      this.weightGoal = weightGoal
-    });
+    );
   }
-
   private initWeightGoal() {
     this.weightGoal = {
       userId: this.userId,
@@ -69,7 +76,7 @@ export class WeightComponent implements OnInit, OnDestroy {
   }
 
   public setWeightGoal() {
-    this.isWeightGoalSet = true;
+    this.showGoalForm = true;
   }
 
   private initWeightGoalForm() {
@@ -90,16 +97,26 @@ export class WeightComponent implements OnInit, OnDestroy {
   public saveWeightGoal() {
     if (this.weightGoalForm.valid) {
       const weightGoalData = this.weightGoalForm.value;
-
+  
+      this.isSavingGoal = true;
+  
       this.weightSubscription.add(
         this.weightService.saveWeightGoal(weightGoalData).pipe(
+          tap(() => this.isSavingGoal = false), 
+          tap(() => this.showSuccessCheckIcon = true), 
           catchError(() => {
-            return of(this.isWeightGoalError = true);
+            this.isWeightGoalError = true;
+            return of(false);
           })
         ).subscribe({
           next: (response: boolean) => {
-            if (response === false) return this.isWeightGoalError = true;
-            this.isWeightGoalError = false;
+            if (response === false) return;
+
+            timer(2000).subscribe(() => {
+              this.showSuccessCheckIcon = false; 
+              this.getWeightGoal(); 
+              tap(() => this.isWeightGoalSet = true)
+            });
           }
         })
       );
