@@ -17,13 +17,13 @@
                 <div class="container">
                     <div class="weight-goal">
                        <div class="weight-goal-not-set">
-                            <div *ngIf="!weightGoal.isSet && !isWeightGoalSet">
+                            <div *ngIf="!weightGoal.isSet && !showGoalForm">
                                 <span>You don't have weight goal set yet.</span>
                                 <span class="clickable" (click)="setWeightGoal()"> Click</span>
                                 <span> to set it.</span>
                             </div>
                        </div>
-                        <div class="form-weight-goal" *ngIf="!weightGoal.isSet && isWeightGoalSet">
+                        <div class="form-weight-goal" *ngIf="!weightGoal.isSet && showGoalForm">
                             <form [formGroup]="weightGoalForm" (ngSubmit)="saveWeightGoal()" class="weight-goal-form">
                                 <div class="form-input">
                                     <label for="currentWeight">Current weight:</label>
@@ -41,8 +41,15 @@
                                     <label for="targetDate">Target date:</label>
                                     <input id="targetDate" formControlName="targetDate" type="date" />
                                 </div>
-                                <button type="submit">Save</button>
+                                <div *ngIf="isSavingGoal" class="loading-spinner"></div>
+                                <div *ngIf="showSuccessCheckIcon" class="success-check-icon">
+                                   <i class="fa fa-check"></i>
+                                </div>
+                                <button type="submit" *ngIf="!isSavingGoal" class="save-button">Save</button>
                             </form>
+                        </div>
+                        <div *ngIf="isWeightGoalSet" class="weight-goal-message">
+                            <p>Your current goal is to <strong>{{ weightGoal?.targetWeight }} kg</strong>. You started working towards this goal on <strong>{{ weightGoal?.creationDate | date }}</strong>, and the date by which you should achieve this weight is <strong>{{ weightGoal?.targetDate | date }}</strong>.</p>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 
                 var goal = await _context.WeightGoals
                     .AsNoTracking()
-                    .Where(x => x.UserId == request.Id) 
+                    .Where(x => x.UserId == request.Id && x.IsSet) 
                     .Select(x => new WeightGoalDto
                     {
                         IsSet = x.IsSet,
