@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, take, throwError } from 'rxjs';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 
@@ -12,6 +12,7 @@ export class WeightService {
   constructor(private http: HttpClient) { }
 
   private baseUrl: string = 'https://localhost:7241/api/weight/';
+  private weightErrorMessage = 'Weight API error:'
 
   public getUserWeightsByMonth(paramValue: number): Observable<Array<WeightDto>> {
     const params = new HttpParams().set('Id', paramValue.toString());
@@ -35,5 +36,15 @@ export class WeightService {
           return throwError(() => new Error('Failed to fetch weight goal'));
         })
       );
+  }
+
+  public saveWeightGoal(weightGoalData: any) : Observable<boolean>{
+    return this.http.post<boolean>(`${this.baseUrl}saveWeightGoal`, weightGoalData).pipe(
+      take(1),
+      catchError(err => {
+        console.error(this.weightErrorMessage, err);
+        return throwError(() => new Error('Failed to save weight goal'))
+      })
+    );
   }
 }

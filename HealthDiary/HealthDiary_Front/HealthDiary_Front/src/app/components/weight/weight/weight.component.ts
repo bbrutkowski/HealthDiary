@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, catchError, of, take } from 'rxjs';
+import { Subject, Subscription, catchError, of, take } from 'rxjs';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
@@ -16,6 +16,8 @@ export class WeightComponent implements OnInit, OnDestroy {
   public isLoading: boolean = true;
   public weightGoal: WeightGoalDto;
   public weightGoalForm!: FormGroup;
+  private weightSubscription: Subscription = new Subscription(); 
+  public isWeightGoalError = false;
 
   constructor(
     private weightService: WeightService,
@@ -38,6 +40,7 @@ export class WeightComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.weightSubscription.unsubscribe();
   }
 
   private getWeightGoal() {
@@ -87,11 +90,19 @@ export class WeightComponent implements OnInit, OnDestroy {
   public saveWeightGoal() {
     if (this.weightGoalForm.valid) {
       const weightGoalData = this.weightGoalForm.value;
-      // Logika zapisu danych do bazy (np. za pomocą serwisu)
-      console.log('Saving weight goal:', weightGoalData);
 
-      // Możesz tu wywołać metodę serwisu do zapisu danych w bazie, np.:
-      // this.weightGoalService.save(weightGoalData).subscribe(response => { ... });
+      this.weightSubscription.add(
+        this.weightService.saveWeightGoal(weightGoalData).pipe(
+          catchError(() => {
+            return of(this.isWeightGoalError = true);
+          })
+        ).subscribe({
+          next: (response: boolean) => {
+            if (response === false) return this.isWeightGoalError = true;
+            this.isWeightGoalError = false;
+          }
+        })
+      );
     }
   }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightGoal;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeightById;
+using static HealthDiary.API.MediatR.Handlers.Weight.SaveWeightGoal;
 
 namespace HealthDiary.API.Controllers
 {
@@ -37,6 +38,14 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> GetWeightGoalByUserId(int Id, CancellationToken token)
         {
             var result = await _mediator.Send(new GetWeightGoalRequest(Id), token);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
+
+        [HttpPost("saveWeightGoal")]
+        public async Task<IActionResult> SaveWeightGoal([FromBody] SaveWeightGoalRequest request, CancellationToken token)
+        {
+            var result = await _mediator.Send(request, token);
             if (result.IsFailure) return BadRequest(result.Error);
             return Ok(result.Value);
         }
