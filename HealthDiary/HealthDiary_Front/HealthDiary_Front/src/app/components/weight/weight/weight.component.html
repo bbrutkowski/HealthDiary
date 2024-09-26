@@ -16,27 +16,29 @@
             <div class="side-containers">
                 <div class="container">
                     <div class="weight-goal">
-                        <div *ngIf="!weightGoal.isSet && !isWeightGoalSet">
-                            <span>You don't have a weight goal set yet.</span>
-                            <span class="clickable" (click)="setWeightGoal()">Click</span>
-                            <span> to set it.</span>
-                        </div>
+                       <div class="weight-goal-not-set">
+                            <div *ngIf="!weightGoal.isSet && !isWeightGoalSet">
+                                <span>You don't have weight goal set yet.</span>
+                                <span class="clickable" (click)="setWeightGoal()"> Click</span>
+                                <span> to set it.</span>
+                            </div>
+                       </div>
                         <div class="form-weight-goal" *ngIf="!weightGoal.isSet && isWeightGoalSet">
                             <form [formGroup]="weightGoalForm" (ngSubmit)="saveWeightGoal()" class="weight-goal-form">
                                 <div class="form-input">
-                                    <label for="currentWeight">Current Weight:</label>
+                                    <label for="currentWeight">Current weight:</label>
                                     <input id="currentWeight" formControlName="currentWeight" type="number" />
                                 </div>
                                 <div class="form-input">
-                                    <label for="targetWeight">Target Weight:</label>
+                                    <label for="targetWeight">Target weight:</label>
                                     <input id="targetWeight" formControlName="targetWeight" type="number" />
                                 </div>
                                 <div class="form-input">
-                                    <label for="creationDate">Start Date:</label>
+                                    <label for="creationDate">Start date:</label>
                                     <input id="creationDate" formControlName="creationDate" type="date" />
                                 </div>
                                 <div class="form-input">
-                                    <label for="targetDate">Target Date:</label>
+                                    <label for="targetDate">Target date:</label>
                                     <input id="targetDate" formControlName="targetDate" type="date" />
                                 </div>
                                 <button type="submit">Save</button>
