@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subject, of } from 'rxjs';
+import { Subject, Subscription, of } from 'rxjs';
 import { PopupModalComponent } from 'src/app/helpers/popup-modal/popup-modal/popup-modal.component';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { WeatherService } from 'src/app/services/weather.service/weather.service';
@@ -12,8 +12,9 @@ import { WeatherResponseDto } from 'src/app/models/weather-response-dto';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-export class SidebarComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe = new Subject();
+export class SidebarComponent implements OnInit, OnDestroy  {
+  private ngUnsubscribe = new Subject<void>();
+  private sidebarSubscription: Subscription = new Subscription(); 
   public userName: string;
   public userRole: string;
   public weatherData: WeatherResponseDto;
@@ -21,16 +22,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
     private dialog: MatDialog,
-    private weatherService: WeatherService) {}
+    private weatherService: WeatherService
+  ) {}
     
   public ngOnInit(): void {
     this.getUserPrivileges();  
     this.initWeather();
   }
 
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe.next(undefined);
-    this.ngUnsubscribe.complete();
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();  
+    this.sidebarSubscription.unsubscribe();
   }
 
   private getUserPrivileges(): void {
@@ -44,37 +47,41 @@ export class SidebarComponent implements OnInit, OnDestroy {
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
 
-        this.weatherService.getWeather(latitude, longitude).pipe(
-          catchError(err => {
-            return of(this.errorMessage = err);
+        this.sidebarSubscription.add(
+          this.weatherService.getWeather(latitude, longitude).pipe(
+            catchError(err => {
+              return of(this.errorMessage = err);
+            })
+          ).subscribe(weather => {
+            this.weatherData = weather
           })
-        ).subscribe(weather => {
-          this.weatherData = weather
-        });
+        );       
       })
     }
   }
 
   public logout(): void {
-    const dialogRef = this.dialog.open(PopupModalComponent, {
+    const dialogRef = this.openLogoutDialog();
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        if (result) this.handleLogout();
+      });
+  }
+
+  private openLogoutDialog(): MatDialogRef<PopupModalComponent> {
+    return this.dialog.open(PopupModalComponent, {
       data: {
         modalTitle: 'Logout',
         modalBody: 'Are you sure you want to logout?'
       }
     });
-  
-    dialogRef.afterClosed()
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe(() => {});
+  }
 
-    dialogRef.componentInstance.confirmationEvent
-    .pipe(takeUntil(this.ngUnsubscribe))
-    .subscribe((result: boolean) => {
-      if (result) {
-        localStorage.clear();
-        this.router.navigate(['login']);        
-      }
-    });
+  private handleLogout(): void {
+    localStorage.clear();
+    this.router.navigate(['login']);
   }
 
   public openUserProfile():void {

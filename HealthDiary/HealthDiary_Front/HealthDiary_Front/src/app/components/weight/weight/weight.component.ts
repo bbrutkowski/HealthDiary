@@ -64,6 +64,7 @@ export class WeightComponent implements OnInit, OnDestroy {
       })
     );
   }
+  
   private initWeightGoal() {
     this.weightGoal = {
       userId: this.userId,
