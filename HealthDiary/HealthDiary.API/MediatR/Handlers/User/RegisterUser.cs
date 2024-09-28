@@ -41,12 +41,15 @@ namespace HealthDiary.API.MediatR.Handlers.User
                 var validationResult = await CheckUserCredentialsAsync(request.Login, request.Email, cancellationToken);
                 if (validationResult.IsFailure) return Result.Failure<bool>(validationResult.Error);
 
+                var hashedPasswordResult = _passwordHasher.Hash(request.Password);
+                if (hashedPasswordResult.IsFailure) return Result.Failure<bool>(hashedPasswordResult.Error);
+
                 var user = new UserAlias()
                 {
                     Login = request.Login,
                     Email = request.Email,
                     Role = Model.Main.UserRole.User,
-                    Password = _passwordHasher.Hash(request.Password)
+                    Password = hashedPasswordResult.Value
                 };
 
                 await _context.Users.AddAsync(user, cancellationToken);

@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
+using CSharpFunctionalExtensions.ValueTasks;
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
-using HealthDiary.API.Helpers;
 using HealthDiary.API.Helpers.Interface;
 using HealthDiary.API.Model.DTO;
 using MediatR;
@@ -26,7 +26,6 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
             private readonly IPasswordHasher _passwordHasher;
 
             private const string UserNotFoundError = "User not found";
-            private const string UserCredentialsError = "User name or password not valid";
 
             public Handler(
                 DataContext dataContext,
@@ -48,33 +47,28 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 var user = await _context.Users
                     .AsNoTracking()
                     .Where(x => x.IsActive && x.Login == request.Login)
-                    .Select(x => new UserAlias
-                    {
-                        Id = x.Id,
-                        Login = x.Login,
-                        Password = x.Password,
-                        Role = x.Role                      
-                    })
                     .FirstOrDefaultAsync(cancellationToken);
 
                 if (user is null) return Result.Failure<UserDto>(UserNotFoundError);
 
-                if (!_passwordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserDto>(UserCredentialsError);
+                var passwordVerificatioResult = _passwordHasher.Verify(request.Password, user.Password);
+                if (passwordVerificatioResult.IsFailure) return Result.Failure<UserDto>(passwordVerificatioResult.Error);
 
-                user.Token = CreateJwtToken(user);
+                var accessTokenResult = CreateJwtToken(user);
+                if (accessTokenResult.IsFailure) return Result.Failure<UserDto>(accessTokenResult.Error);
 
                 var userDto = new UserDto
                 {
                     Id = user.Id,
                     Name = user.Login,
-                    Token = user.Token,
+                    Token = accessTokenResult.Value,
                     Role = user.Role
                 };
 
                 return Result.Success(userDto);
             }
 
-            private string CreateJwtToken(UserAlias user)
+            private Result<string> CreateJwtToken(UserAlias user)
             {
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
@@ -94,7 +88,9 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                    expires: DateTime.Now.AddMinutes(30),
                    signingCredentials: credentials);
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                return Result.Success(accessToken);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using HealthDiary.API.Helpers.Interface;
+﻿using CSharpFunctionalExtensions;
+using HealthDiary.API.Helpers.Interface;
 using System.Security.Cryptography;
 
 namespace HealthDiary.API.Helpers
@@ -9,7 +10,9 @@ namespace HealthDiary.API.Helpers
         private static readonly int HashSize = 20;
         private static readonly int Iterations = 10000;
 
-        public string Hash(string password)
+        private const string VerificationError = "Error verifying password";
+
+        public Result<string> Hash(string password)
         {
             var salt = RandomNumberGenerator.GetBytes(SaltSize);
             var key = new Rfc2898DeriveBytes(password, salt, Iterations);
@@ -19,10 +22,10 @@ namespace HealthDiary.API.Helpers
             Array.Copy(salt, 0, hashBytes, 0, SaltSize);
             Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
 
-            return Convert.ToBase64String(hashBytes);
+            return Result.Success(Convert.ToBase64String(hashBytes));
         }
 
-        public bool Verify(string password, string base64Hash)
+        public Result<bool> Verify(string password, string base64Hash)
         {
             var hashBytes = Convert.FromBase64String(base64Hash);
 
@@ -34,10 +37,10 @@ namespace HealthDiary.API.Helpers
 
             for (int i = 0; i < HashSize; i++)
             {
-                if (hashBytes[i + SaltSize] != hash[i]) return false;
+                if (hashBytes[i + SaltSize] != hash[i]) return Result.Failure<bool>(VerificationError);
             }
 
-            return true;
+            return Result.Success(true);
         }
     }
 }

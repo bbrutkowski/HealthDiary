@@ -26,7 +26,8 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
                 if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
-                var userWeights = await _context.Weights.Where(x => x.UserId == request.Id)
+                var userWeights = await _context.Weights
+                    .Where(x => x.UserId == request.Id)
                     .ToListAsync(cancellationToken);
 
                 return Result.Success(userWeights);
