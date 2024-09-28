@@ -2,6 +2,7 @@
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Helpers;
+using HealthDiary.API.Helpers.Interface;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UserAlias = HealthDiary.API.Model.Main.User;
@@ -16,16 +17,20 @@ namespace HealthDiary.API.MediatR.Handlers.User
         {
             private readonly DataContext _context;
             private readonly IValidator<RegisterUserRequest> _requestValidator;
+            private readonly IPasswordHasher _passwordHasher;
 
             private const string UserNameValidationError = "User name already exists";
             private const string EmailValidationError = "Email adress is taken";
             private const string RegisterUserError = "Error during user registration";
             private const string UserValidationSuccessful = "User does not exist. Registration possible";
 
-            public Handler(DataContext dataContext, IValidator<RegisterUserRequest> validator)
+            public Handler(DataContext dataContext,
+                           IValidator<RegisterUserRequest> validator,
+                           IPasswordHasher passwordHasher)
             {
                 _context = dataContext;
                 _requestValidator = validator;
+                _passwordHasher = passwordHasher;
             }
 
             public async Task<Result<bool>> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -41,7 +46,7 @@ namespace HealthDiary.API.MediatR.Handlers.User
                     Login = request.Login,
                     Email = request.Email,
                     Role = Model.Main.UserRole.User,
-                    Password = PasswordHasher.Hash(request.Password)
+                    Password = _passwordHasher.Hash(request.Password)
                 };
 
                 await _context.Users.AddAsync(user, cancellationToken);
