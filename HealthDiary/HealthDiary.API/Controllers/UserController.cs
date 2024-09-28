@@ -33,7 +33,7 @@ namespace HealthDiary.API.Controllers
         [HttpGet("getUserInfo")]
         public async Task<IActionResult> GetUserById(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetUserRequest(id), token);
@@ -45,7 +45,7 @@ namespace HealthDiary.API.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(request.Id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(request.Id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(request, token);

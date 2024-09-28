@@ -4,6 +4,6 @@ namespace HealthDiary.API.Helpers.Interface
 {
     public interface IIdentityVerifier
     {
-        public Result<bool> IsUserVerified(int userId);
+        public Result<bool> IsIdentityConfirmed(int userId);
     }
 }

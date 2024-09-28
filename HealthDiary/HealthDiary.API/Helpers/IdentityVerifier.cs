@@ -22,7 +22,7 @@ namespace HealthDiary.API.Helpers
             return user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public Result<bool> IsUserVerified(int userId)
+        public Result<bool> IsIdentityConfirmed(int userId)
         {
             var tokenResult = GetUserIdFromToken();
             if (tokenResult.IsFailure || string.IsNullOrEmpty(tokenResult.Value)) return Result.Failure<bool>(TokenReadError);
