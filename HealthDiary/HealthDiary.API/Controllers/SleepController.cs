@@ -23,7 +23,7 @@ namespace HealthDiary.API.Controllers
         [HttpGet("getSleepInfo")]
         public async Task<IActionResult> GetSleepInfoByUserId(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetSleepInfoRequest(id), token);

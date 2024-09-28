@@ -26,7 +26,7 @@ namespace HealthDiary.API.Controllers
         [HttpGet("getWeightsByMonth")]
         public async Task<IActionResult> GetWeightsByMonth(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetWeightsByMonthRequest(id), token);
@@ -38,7 +38,7 @@ namespace HealthDiary.API.Controllers
         [Route(nameof(GetYearlyWeightById))]
         public async Task<IActionResult> GetYearlyWeightById(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetYearlyWeightByIdRequest(id), token);
@@ -49,7 +49,7 @@ namespace HealthDiary.API.Controllers
         [HttpGet("getWeightGoal")]
         public async Task<IActionResult> GetWeightGoalByUserId(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetWeightGoalRequest(id), token);
@@ -60,7 +60,7 @@ namespace HealthDiary.API.Controllers
         [HttpPost("saveWeightGoal")]
         public async Task<IActionResult> SaveWeightGoal([FromBody] SaveWeightGoalRequest request, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(request.UserId);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(request, token);

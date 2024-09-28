@@ -23,7 +23,7 @@ namespace HealthDiary.API.Controllers
         [HttpGet("getActivity")]
         public async Task<IActionResult> GetMonthlyActivityByUserId(int id, CancellationToken token)
         {
-            var verificationResult = _identityVerifier.IsUserVerified(id);
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetActivityRequest(id), token);
