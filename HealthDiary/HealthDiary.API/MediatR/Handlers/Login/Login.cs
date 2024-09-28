@@ -2,6 +2,7 @@
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Helpers;
+using HealthDiary.API.Helpers.Interface;
 using HealthDiary.API.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +23,21 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
             private readonly DataContext _context;
             private readonly IValidator<LoginRequest> _requestValidator;
             private readonly IConfiguration _configuration;
+            private readonly IPasswordHasher _passwordHasher;
 
             private const string UserNotFoundError = "User not found";
             private const string UserCredentialsError = "User name or password not valid";
 
-            public Handler(DataContext dataContext, IValidator<LoginRequest> validator, IConfiguration configuration)
+            public Handler(
+                DataContext dataContext,
+                IValidator<LoginRequest> validator,
+                IConfiguration configuration,
+                IPasswordHasher passwordHasher)
             {
                 _context = dataContext;
                 _requestValidator = validator;
                 _configuration = configuration;
+                _passwordHasher = passwordHasher;
             }
 
             public async Task<Result<UserDto>> Handle(LoginRequest request, CancellationToken cancellationToken)
@@ -52,7 +59,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
 
                 if (user is null) return Result.Failure<UserDto>(UserNotFoundError);
 
-                if (!PasswordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserDto>(UserCredentialsError);
+                if (!_passwordHasher.Verify(request.Password, user.Password)) return Result.Failure<UserDto>(UserCredentialsError);
 
                 user.Token = CreateJwtToken(user);
 
@@ -74,6 +81,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 var claims = new[]
                 {
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Login)
                 };
 

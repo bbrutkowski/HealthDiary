@@ -1,5 +1,7 @@
 using FluentValidation.AspNetCore;
 using HealthDiary.API.Context.DataContext;
+using HealthDiary.API.Helpers;
+using HealthDiary.API.Helpers.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,11 @@ internal class Program
         builder.Services.AddSwaggerGen();
         builder.Services.AddHttpClient();
         builder.Services.AddMediatR(typeof(Program));
+
+        builder.Services.AddHttpContextAccessor();
+
+        builder.Services.AddScoped<IIdentityVerifier, IdentityVerifier>();
+        builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         builder.Services.AddCors(option =>
         {

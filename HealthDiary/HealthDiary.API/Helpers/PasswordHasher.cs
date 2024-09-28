@@ -1,14 +1,15 @@
-﻿using System.Security.Cryptography;
+﻿using HealthDiary.API.Helpers.Interface;
+using System.Security.Cryptography;
 
 namespace HealthDiary.API.Helpers
 {
-    public class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         private static readonly int SaltSize = 16;
         private static readonly int HashSize = 20;
         private static readonly int Iterations = 10000;
 
-        public static string Hash(string password)
+        public string Hash(string password)
         {
             var salt = RandomNumberGenerator.GetBytes(SaltSize);
             var key = new Rfc2898DeriveBytes(password, salt, Iterations);
@@ -21,7 +22,7 @@ namespace HealthDiary.API.Helpers
             return Convert.ToBase64String(hashBytes);
         }
 
-        public static bool Verify(string password, string base64Hash)
+        public bool Verify(string password, string base64Hash)
         {
             var hashBytes = Convert.FromBase64String(base64Hash);
 
