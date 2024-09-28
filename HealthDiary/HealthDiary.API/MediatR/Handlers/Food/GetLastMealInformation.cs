@@ -33,21 +33,20 @@ namespace HealthDiary.API.MediatR.Handlers.Food
                     .AsNoTracking()
                     .Where(x => x.UserId == request.Id)
                     .OrderByDescending(x => x.CreationDate)
+                    .Select(x => new MealDto
+                    {
+                        Name = x.Name,
+                        Protein = x.Protein,
+                        Fat = x.Fat,
+                        Carbohydrates = x.Carbohydrates,
+                        Kcal = x.Kcal,
+                        LastUpdate = x.CreationDate
+                    })
                     .FirstOrDefaultAsync(cancellationToken);
 
                 if (lastMeal is null) return Result.Failure(MealInformationNotFound);
 
-                var lastMealInfo = new MealDto()
-                {
-                    Name = lastMeal.Name,
-                    Protein = lastMeal.Protein,
-                    Fat = lastMeal.Fat,
-                    Carbohydrates = lastMeal.Carbohydrates,
-                    Kcal = lastMeal.Kcal,
-                    LastUpdate = lastMeal.CreationDate
-                };
-
-                return Result.Success(lastMealInfo);
+                return Result.Success(lastMeal);
             }
         }
 

@@ -8,11 +8,8 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 {
     public class SaveWeightGoal
     {
-        public record SaveWeightGoalRequest(int UserId,
-                                            decimal CurrentWeight,
-                                            decimal TargetWeight,
-                                            DateTime CreationDate,
-                                            DateTime TargetDate) : IRequest<Result<bool>>;
+        public record SaveWeightGoalRequest(int UserId, decimal CurrentWeight, decimal TargetWeight,
+            DateTime CreationDate, DateTime TargetDate) : IRequest<Result<bool>>;
 
         public sealed class Handler : IRequestHandler<SaveWeightGoalRequest, Result<bool>>
         {
