@@ -54,7 +54,21 @@
                     </div>
                 </div>
                 <div class="container"></div>
-                <div class="container"></div>
+                <div class="container">
+                    <div class="bmi">
+                        <div *ngIf="!bmiInfo?.value" class="no-data">
+                          <p class="no-data-text">Required information to determine BMI is not provided. Please, enter:</p>
+                          <input type="number" placeholder="Height" [(ngModel)]="height" class="input-field" />
+                          <input type="number" placeholder="Weight" [(ngModel)]="weight" class="input-field" />
+                        </div>
+                    
+                        <div *ngIf="bmiInfo?.value">
+                          <p class="bmi-info-text">Based on the most recent weight update, your BMI is:</p>
+                          <p class="bmi-value" [style.color]="bmiInfo.indexColor">{{ bmiInfo.value }}</p>
+                          <p class="bmi-description">{{ bmiInfo.description }}</p>
+                        </div>
+                      </div>
+                </div>
             </div>
             <div class="main-container">
                 <app-chart [weights]="userWeights" [chartName]="chartName" [chartHeight]="chartHeight"></app-chart>

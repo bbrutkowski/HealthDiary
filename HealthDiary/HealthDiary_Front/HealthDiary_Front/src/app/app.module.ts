@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login/login.component';
 import { RegisterComponent } from './components/register/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './components/dashboard/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar/sidebar.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
@@ -51,7 +51,8 @@ import { HealthPreviewComponent } from './components/health-preview/health-previ
     HttpClientModule,
     HighchartsChartModule,
     CanvasJSAngularChartsModule,
-    ChartModule
+    ChartModule,
+    FormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
