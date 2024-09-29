@@ -1,5 +1,5 @@
-export class WeightDto {
-    public id: number;
-    public value: number;
-    public creationDate: Date;
+export interface WeightDto {
+    id: number;
+    value: number;
+    creationDate: Date;
 }
