@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, take, throwError } from 'rxjs';
+import { BmiDto } from 'src/app/models/bmi-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 
@@ -56,6 +57,18 @@ export class WeightService {
         catchError(error => {
           console.error('Error fetching weights:', error);
           return throwError(() => new Error('Failed to fetch weights info'));
+        })
+      );
+  }
+
+  public getBMI(paramValue: number): Observable<BmiDto> {
+    const params = new HttpParams().set('id', paramValue.toString());
+
+    return this.http.get<BmiDto>(`${this.baseUrl}getBMI`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching BMI:', error);
+          return throwError(() => new Error('Failed to fetch BMI'));
         })
       );
   }

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Subscription, catchError, finalize, of, take, tap, timer } from 'rxjs';
+import { BmiDto } from 'src/app/models/bmi-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
@@ -25,6 +26,9 @@ export class WeightComponent implements OnInit, OnDestroy {
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
   public chartHeight: Number;
+  public bmiInfo: BmiDto
+  public height: Number;
+  public weight: Number;
 
   constructor(
     private weightService: WeightService,
@@ -37,6 +41,7 @@ export class WeightComponent implements OnInit, OnDestroy {
     this.initWeightGoalForm();
     this.getWeightGoal();
     this.getYearlyWeight();
+    this.initBMI();
 
     this.isLoading = false;
   }
@@ -59,7 +64,7 @@ export class WeightComponent implements OnInit, OnDestroy {
         take(1),
         catchError(err => {
           this.handleError(err);
-          return of(this.weightGoal as WeightGoalDto);
+          return of(this.weightGoal);
         })
       ).subscribe(weightGoal => {
         this.weightGoal = weightGoal;
@@ -141,6 +146,20 @@ export class WeightComponent implements OnInit, OnDestroy {
         this.chartName = "Yearly weight"
         this.chartHeight = 585
         this.userWeights = weights     
+      })
+    );
+  }
+
+  private initBMI(): void {
+    this.weightSubscription.add(
+      this.weightService.getBMI(this.userId).pipe(
+        take(1),
+        catchError(err => {
+          this.handleError(err);
+          return of(null)
+        })
+      ).subscribe(bmi => {
+        this.bmiInfo = bmi
       })
     );
   }

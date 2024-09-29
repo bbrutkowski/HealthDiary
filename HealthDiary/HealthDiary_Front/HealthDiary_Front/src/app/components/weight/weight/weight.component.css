@@ -158,7 +158,30 @@ button:hover {
     animation: fade 0.8s ease-in-out forwards;
 }
 
-
-
-
-
+.bmi {
+    text-align: center; 
+  }
+  
+  .no-data-text {
+    font-size: 16px; 
+  }
+  
+  .input-field {
+    display: block;
+    margin: 10px auto; 
+    width: 200px; 
+    padding: 10px; 
+  }
+  
+  .bmi-info-text {
+    font-size: 14px; 
+  }
+  
+  .bmi-value {
+    font-weight: bold; 
+    font-size: 24px; 
+  }
+  
+  .bmi-description {
+    font-size: 14px; 
+  }
