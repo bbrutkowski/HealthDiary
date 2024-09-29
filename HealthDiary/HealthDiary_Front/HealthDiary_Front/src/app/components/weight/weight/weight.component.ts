@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Subscription, catchError, finalize, of, take, tap, timer } from 'rxjs';
+import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
@@ -21,6 +22,9 @@ export class WeightComponent implements OnInit, OnDestroy {
   public isSavingGoal = false;
   public showSuccessCheckIcon = false;
   public showGoalForm = false;
+  public userWeights: Array<WeightDto> = [];
+  public chartName: string;
+  public chartHeight: Number;
 
   constructor(
     private weightService: WeightService,
@@ -32,6 +36,7 @@ export class WeightComponent implements OnInit, OnDestroy {
     this.initWeightGoal()
     this.initWeightGoalForm();
     this.getWeightGoal();
+    this.getYearlyWeight();
 
     this.isLoading = false;
   }
@@ -122,6 +127,22 @@ export class WeightComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  private getYearlyWeight(): void {
+    this.weightSubscription.add(
+      this.weightService.getYearlyWeight(this.userId).pipe(
+        take(1),
+        catchError(err => {
+          this.handleError(err);
+          return of([])
+        })
+      ).subscribe(weights => {
+        this.chartName = "Yearly weight"
+        this.chartHeight = 585
+        this.userWeights = weights     
+      })
+    );
   }
 
   private handleError(error: any): void {

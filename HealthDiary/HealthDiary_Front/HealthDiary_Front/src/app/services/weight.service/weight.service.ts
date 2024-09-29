@@ -47,4 +47,16 @@ export class WeightService {
       })
     );
   }
+
+  public getYearlyWeight(paramValue: number): Observable<Array<WeightDto>> {
+    const params = new HttpParams().set('Id', paramValue.toString());
+
+    return this.http.get<Array<WeightDto>>(`${this.baseUrl}getYearlyWeight`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching weights:', error);
+          return throwError(() => new Error('Failed to fetch weights info'));
+        })
+      );
+  }
 }

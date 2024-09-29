@@ -14,6 +14,8 @@ export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
   @Input() weeklyNutrition: WeeklyNutritionDto;
   @Input() lastSleepInfo: SleepInfoDto;
+  @Input() chartName: string;
+  @Input() chartHeight: Number;
 
   public weightsChartOprions: any;
   public mealInfoChartOprions: any;
@@ -49,11 +51,11 @@ export class ChartComponent implements OnChanges {
     this.weightsChartOprions = {
       animationEnabled: true,
       title: {
-        text: "Monthly weight",
+        text: this.chartName,
         fontFamily: "'Poppins', sans-serif",
         fontStyle: "Bold"
       },
-      height: 340,
+      height: this.chartHeight,
       data: [{
         type: 'splineArea',
         color: '#A7C4DC',

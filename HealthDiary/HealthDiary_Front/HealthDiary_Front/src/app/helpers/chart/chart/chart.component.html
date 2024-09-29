@@ -1,11 +1,9 @@
-<div *ngIf="weights?.length">
+<div class="chart-container" *ngIf="weights?.length">
     <canvasjs-chart [options]="weightsChartOprions"></canvasjs-chart>
 </div>
-<div *ngIf="weeklyNutrition">
+<div class="chart-container" *ngIf="weeklyNutrition">
     <canvasjs-chart [options]="mealInfoChartOprions"></canvasjs-chart>
 </div>
-<div *ngIf="lastSleepInfo">
+<div class="chart-container" *ngIf="lastSleepInfo">
     <canvasjs-chart [options]="lastSleepChartOprions"></canvasjs-chart>
 </div>
-
-

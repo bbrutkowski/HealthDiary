@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription, catchError, of, take} from 'rxjs';
+import { Subject, Subscription, catchError, of, take, tap} from 'rxjs';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -24,7 +24,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public weeklyNutritionDto: WeeklyNutritionDto;
   public lastSleepInfo: SleepInfoDto;
   private weatherSubscription: Subscription;
-  public cityName: string;
+  public chartName: string;
+  public chartHeight: Number;
 
   public constructor(
     private weightService: WeightService,
@@ -60,7 +61,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return of([]); 
         })
     ).subscribe(weights => {
-      this.userWeights = weights; 
+      this.chartName = "Monthly weight";
+      this.chartHeight = 340;
+      this.userWeights = weights;    
     });
   }
 
