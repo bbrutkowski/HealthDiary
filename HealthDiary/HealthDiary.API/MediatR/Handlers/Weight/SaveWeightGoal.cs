@@ -33,7 +33,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 {
                     IsSet = true,
                     UserId = request.UserId,
-                    CreationDate = request.CreationDate,
+                    CreationDate = request.CreationDate == default ? DateTime.Now : request.CreationDate,
                     TargetDate = request.TargetDate,
                     CurrentWeight = request.CurrentWeight,
                     TargetWeight = request.TargetWeight

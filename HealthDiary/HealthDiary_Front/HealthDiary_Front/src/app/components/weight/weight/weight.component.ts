@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Subscription, catchError, finalize, of, take, tap, timer } from 'rxjs';
 import { BmiDto } from 'src/app/models/bmi-dto';
+import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
@@ -19,14 +20,15 @@ export class WeightComponent implements OnInit, OnDestroy {
   public weightGoal: WeightGoalDto;
   public weightGoalForm!: FormGroup;
   private weightSubscription: Subscription = new Subscription(); 
-  public isWeightGoalError = false;
-  public isSavingGoal = false;
+  public isWeightGoalSaving = false;
+  public isBmiSaving = false;
   public showSuccessCheckIcon = false;
   public showGoalForm = false;
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
   public chartHeight: Number;
   public bmiInfo: BmiDto
+  public bmiData: BmiDataDto;
   public height: Number;
   public weight: Number;
 
@@ -109,14 +111,13 @@ export class WeightComponent implements OnInit, OnDestroy {
     if (this.weightGoalForm.valid) {
       const weightGoalData = this.weightGoalForm.value;
   
-      this.isSavingGoal = true;
+      this.isWeightGoalSaving = true;
   
       this.weightSubscription.add(
         this.weightService.saveWeightGoal(weightGoalData).pipe(
-          tap(() => this.isSavingGoal = false), 
+          tap(() => this.isWeightGoalSaving = false), 
           tap(() => this.showSuccessCheckIcon = true), 
           catchError(() => {
-            this.isWeightGoalError = true;
             return of(false);
           })
         ).subscribe({
@@ -160,6 +161,34 @@ export class WeightComponent implements OnInit, OnDestroy {
         })
       ).subscribe(bmi => {
         this.bmiInfo = bmi
+      })
+    );
+  }
+
+  public saveBMI(): void {
+    this.isBmiSaving = true;
+    this.bmiData = {
+      height: this.height,
+      weight: this.weight,
+      userId: this.userId
+    }
+
+    this.weightSubscription.add(
+      this.weightService.saveBMI(this.bmiData).pipe(
+        tap(() => this.isBmiSaving = false),
+        tap(() => this.showSuccessCheckIcon = true), 
+        catchError(() => {
+          return of(false);
+       })
+      ).subscribe({
+        next: (response: boolean) => {
+          if (response === false) return;
+
+          timer(2000).subscribe(() => {
+            this.showSuccessCheckIcon = false; 
+            this.initBMI();          
+          })
+        }
       })
     );
   }
