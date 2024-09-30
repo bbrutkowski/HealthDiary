@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, take, throwError } from 'rxjs';
 import { BmiDto } from 'src/app/models/bmi-dto';
+import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
 
@@ -71,5 +72,15 @@ export class WeightService {
           return throwError(() => new Error('Failed to fetch BMI'));
         })
       );
+  }
+
+  public saveBMI(bmiData: BmiDataDto) : Observable<boolean>{
+    return this.http.post<boolean>(`${this.baseUrl}saveBMI`, bmiData).pipe(
+      take(1),
+      catchError(err => {
+        console.error(this.weightErrorMessage, err);
+        return throwError(() => new Error('Failed to save BMI'))
+      })
+    );
   }
 }

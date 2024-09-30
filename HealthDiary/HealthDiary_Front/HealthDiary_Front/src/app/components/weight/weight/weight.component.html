@@ -41,11 +41,11 @@
                                     <label for="targetDate">Target date:</label>
                                     <input id="targetDate" formControlName="targetDate" type="date" />
                                 </div>
-                                <div *ngIf="isSavingGoal" class="loading-spinner"></div>
+                                <div *ngIf="isSaving" class="loading-spinner"></div>
                                 <div *ngIf="showSuccessCheckIcon" class="success-check-icon">
                                    <i class="fa fa-check"></i>
                                 </div>
-                                <button type="submit" *ngIf="!isSavingGoal" class="save-button">Save</button>
+                                <button type="submit" *ngIf="!isSaving" class="save-button">Save</button>
                             </form>
                         </div>
                         <div *ngIf="isWeightGoalSet" class="weight-goal-message">
@@ -58,8 +58,9 @@
                     <div class="bmi">
                         <div *ngIf="!bmiInfo?.value" class="no-data">
                           <p class="no-data-text">Required information to determine BMI is not provided. Please, enter:</p>
-                          <input type="number" placeholder="Height" [(ngModel)]="height" class="input-field" />
-                          <input type="number" placeholder="Weight" [(ngModel)]="weight" class="input-field" />
+                          <input type="number" placeholder="Height" [(ngModel)]="height" class="input-field" [disabled]="isSaving" />
+                          <input type="number" placeholder="Weight" [(ngModel)]="weight" class="input-field" [disabled]="isSaving"/>
+                          <button class="save-button" (click)="saveBMI()">Save</button>
                         </div>
                     
                         <div *ngIf="bmiInfo?.value">

@@ -6,6 +6,7 @@ using static HealthDiary.API.MediatR.Handlers.Weight.GetBMI;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightGoal;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeight;
+using static HealthDiary.API.MediatR.Handlers.Weight.SaveBMI;
 using static HealthDiary.API.MediatR.Handlers.Weight.SaveWeightGoal;
 
 namespace HealthDiary.API.Controllers
@@ -75,6 +76,17 @@ namespace HealthDiary.API.Controllers
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(new GetBmiRequest(id), token);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
+
+        [HttpPost("saveBMI")]
+        public async Task<IActionResult> SaveBMI([FromBody] SaveBmiRequest request, CancellationToken token)
+        {
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
+            if (verificationResult.IsFailure) return Forbid();
+
+            var result = await _mediator.Send(request, token);
             if (result.IsFailure) return BadRequest(result.Error);
             return Ok(result.Value);
         }
