@@ -4,7 +4,6 @@ using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Model.DTO;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeightAlias = HealthDiary.API.Model.Main.Weight;
 
 namespace HealthDiary.API.MediatR.Handlers.Weight
 {
@@ -15,19 +14,11 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
         public sealed class Handler : IRequestHandler<GetWeightsByMonthRequest, Result<List<WeightDto>>>
         {
             private readonly DataContext _context;
-            private readonly IValidator<GetWeightsByMonthRequest> _requestValidator;
 
-            public Handler(DataContext context, IValidator<GetWeightsByMonthRequest> requestValidator)
-            {
-                _context = context;
-                _requestValidator = requestValidator;
-            } 
+            public Handler(DataContext context) => _context = context;
 
             public async Task<Result<List<WeightDto>>> Handle(GetWeightsByMonthRequest request, CancellationToken cancellationToken)
-            {
-                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure<List<WeightDto>>(string.Join(Environment.NewLine, requestValidationResult.Errors));
-
+            {               
                 var currentMonth = DateTime.Now.Month;
                 var startOfMonth = new DateTime(DateTime.Now.Year, currentMonth, 1);
                 var endOfMonth = startOfMonth.AddMonths(1).AddTicks(-1);
@@ -44,16 +35,6 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                     .ToListAsync(cancellationToken);
 
                 return Result.Success(weightsByMonth);
-            }
-        }
-
-        public sealed class Validator : AbstractValidator<GetWeightsByMonthRequest>
-        {
-            public const string UserIdValidation = "User Id must be greater than 0";
-
-            public Validator()
-            {
-                RuleFor(x => x.Id).GreaterThan(0).WithMessage(UserIdValidation);
             }
         }
     }

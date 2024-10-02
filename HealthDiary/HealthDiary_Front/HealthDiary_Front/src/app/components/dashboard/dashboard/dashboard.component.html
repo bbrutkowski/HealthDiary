@@ -4,16 +4,20 @@
     </div>
     <div class="workplace">
         <div class="container-grid">
-            <div class="container">               
+            <div class="container">
+                <div *ngIf="!dataLoaded" class="loading-spinner"></div>               
                 <app-health-preview [weights]="userWeights" [chartName]="chartName" [chartHeight]="chartHeight"></app-health-preview> 
             </div>
             <div class="container">  
+                <div *ngIf="!dataLoaded" class="loading-spinner"></div>
                 <app-health-preview [monthlyActivities]="totalMonthlyActivities"></app-health-preview>           
             </div>
             <div class="container">
+                <div *ngIf="!dataLoaded" class="loading-spinner"></div>
                 <app-health-preview [weeklyNutritionDto]="weeklyNutritionDto"></app-health-preview>       
             </div>
             <div class="container">
+                <div *ngIf="!dataLoaded" class="loading-spinner"></div>
                 <app-health-preview [lastSleepInfo]="lastSleepInfo"></app-health-preview>
             </div>
         </div>

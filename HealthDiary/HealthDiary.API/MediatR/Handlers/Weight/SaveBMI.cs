@@ -9,7 +9,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 {
     public class SaveBMI
     {
-        public record SaveBmiRequest(decimal Height, decimal Weight, int UserId) : IRequest<Result<bool>>;
+        public record SaveBmiRequest(decimal Height, int UserId) : IRequest<Result<bool>>;
 
         public sealed class Handler : IRequestHandler<SaveBmiRequest, Result<bool>>
         {
@@ -37,15 +37,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
                 if (user is null) return Result.Failure<bool>(UserNotFoundError);
 
                 user.Height = request.Height;
-
-                var weight = new WeightAlias
-                {
-                    CreationDate = DateTime.Now,
-                    UserId = request.UserId,
-                    Value = request.Weight
-                };
-
-                await _context.Weights.AddAsync(weight, cancellationToken);
+          
                 var changes = await _context.SaveChangesAsync(cancellationToken);
 
                 return changes > 0 ? Result.Success(true) : Result.Failure<bool>(SaveBmiError);

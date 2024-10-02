@@ -14,21 +14,13 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
         public sealed class Handler : IRequestHandler<GetActivityRequest, Result<TotalMonthlyActivityDto>>
         {
             private readonly DataContext _context;
-            private readonly IValidator<GetActivityRequest> _requestValidator;
 
             const string ActivitiesNotFoundErrorMessage = "Activities not found";
 
-            public Handler(DataContext dataContext, IValidator<GetActivityRequest> validator)
-            {
-                _context = dataContext;
-                _requestValidator = validator;
-            }
+            public Handler(DataContext dataContext) => _context = dataContext;
 
             public async Task<Result<TotalMonthlyActivityDto>> Handle(GetActivityRequest request, CancellationToken cancellationToken)
-            {
-                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure<TotalMonthlyActivityDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
-
+            {            
                 var today = DateTime.Now;
                 var currentMonth = today.Month;
 
@@ -49,16 +41,6 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
                 };
 
                 return Result.Success(totalActivity);
-            }
-        }
-
-        public sealed class Validator : AbstractValidator<GetActivityRequest>
-        {
-            public const string UserIdValidation = "User Id must be greater than 0";
-
-            public Validator()
-            {
-                RuleFor(x => x.UserId).GreaterThan(0).WithMessage(UserIdValidation);
             }
         }
     }
