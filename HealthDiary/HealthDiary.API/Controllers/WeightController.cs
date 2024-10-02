@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetBMI;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightGoal;
+using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightGoalProgress;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightsByMonth;
 using static HealthDiary.API.MediatR.Handlers.Weight.GetYearlyWeight;
 using static HealthDiary.API.MediatR.Handlers.Weight.SaveBMI;
@@ -87,6 +88,17 @@ namespace HealthDiary.API.Controllers
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(request, token);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
+
+        [HttpGet("getWeightGoalProgress")]
+        public async Task<IActionResult> GetWeightGoalProgress(int id, CancellationToken token)
+        {
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
+            if (verificationResult.IsFailure) return Forbid();
+
+            var result = await _mediator.Send(new GetWeightGoalProgressRequest(id), token);
             if (result.IsFailure) return BadRequest(result.Error);
             return Ok(result.Value);
         }

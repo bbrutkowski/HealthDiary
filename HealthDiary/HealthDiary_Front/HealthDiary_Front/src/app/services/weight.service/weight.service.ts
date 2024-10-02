@@ -5,6 +5,7 @@ import { BmiDto } from 'src/app/models/bmi-dto';
 import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
+import { WeightGoalProgressDto } from 'src/app/models/weight-goal-progress';
 
 @Injectable({
   providedIn: 'root'
@@ -82,5 +83,17 @@ export class WeightService {
         return throwError(() => new Error('Failed to save BMI'))
       })
     );
+  }
+
+  public getWeightGoalProgress(userId: number): Observable<number> {
+    const params = new HttpParams().set('Id', userId.toString());
+
+    return this.http.get<number>(`${this.baseUrl}getWeightGoalProgress`, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching weight goal:', error);
+          return throwError(() => new Error('Failed to fetch weight goal'));
+        })
+      );
   }
 }
