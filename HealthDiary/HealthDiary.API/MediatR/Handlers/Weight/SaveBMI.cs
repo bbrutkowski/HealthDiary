@@ -3,7 +3,6 @@ using FluentValidation;
 using HealthDiary.API.Context.DataContext;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeightAlias = HealthDiary.API.Model.Main.Weight;
 
 namespace HealthDiary.API.MediatR.Handlers.Weight
 {

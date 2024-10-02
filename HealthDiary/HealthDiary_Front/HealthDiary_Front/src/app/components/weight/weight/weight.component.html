@@ -57,7 +57,13 @@
                     </div>
                 </div>
                 <div class="container">
-
+                    <p class="goal-text" *ngIf="isWeightGoalSet">
+                        You have currently completed 
+                        <br />
+                        <strong class="progress-value">{{ weightGoalProgress | number:'1.0-2' }}%</strong> 
+                        <br />
+                        <span class="goal-text-sub">of your goal.</span>
+                      </p>
                 </div>
                 <div class="container">
                     <div class="bmi">

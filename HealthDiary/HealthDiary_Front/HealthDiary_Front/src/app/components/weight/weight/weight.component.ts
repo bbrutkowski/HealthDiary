@@ -5,6 +5,7 @@ import { BmiDto } from 'src/app/models/bmi-dto';
 import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
+import { WeightGoalProgressDto } from 'src/app/models/weight-goal-progress';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
 @Component({
@@ -33,6 +34,7 @@ export class WeightComponent implements OnInit, OnDestroy {
   public height: Number;
   public showBmiErrorIcon: boolean = false;
   public showWeightGoalErrorIcon: boolean = false;
+  public weightGoalProgress: number;
 
   constructor(
     private weightService: WeightService,
@@ -46,6 +48,7 @@ export class WeightComponent implements OnInit, OnDestroy {
     this.getWeightGoal();
     this.getYearlyWeight();
     this.initBMI();
+    this.getWeightGoalProgress()
 
     this.isLoading = false;
   }
@@ -195,6 +198,20 @@ export class WeightComponent implements OnInit, OnDestroy {
             this.initBMI();          
           })
         }
+      })
+    );
+  }
+
+  private getWeightGoalProgress(): void {
+    this.weightSubscription.add(
+      this.weightService.getWeightGoalProgress(this.userId).pipe(
+        take(1),
+        catchError(err => {
+          this.handleError(err)
+          return of(null)
+        })
+      ).subscribe(weightProgress => {
+        this.weightGoalProgress = weightProgress
       })
     );
   }
