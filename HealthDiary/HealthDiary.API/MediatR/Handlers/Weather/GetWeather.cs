@@ -53,7 +53,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
                 var geocodeResponse = JsonConvert.DeserializeObject<GeocodeResponseDto>(content);
                 if (geocodeResponse is null) return Result.Failure<WeatherResponseDto>(_deserializationError);
 
-                if (geocodeResponse.Status != "OK") return Result.Failure<WeatherResponseDto>(geocodeResponse.Status);
+                if (geocodeResponse.Status is not "OK") return Result.Failure<WeatherResponseDto>(geocodeResponse.Status);
 
                 var city = ExtractCityFromResults(geocodeResponse.Results);
                 if (string.IsNullOrEmpty(city)) return Result.Failure<WeatherResponseDto>(_cityNameNotFoundError);
@@ -87,7 +87,7 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
                 return _httpClient;
             }
 
-            private string ExtractCityFromResults(GeocodeResultDto[] results)
+            private static string ExtractCityFromResults(GeocodeResultDto[] results)
             {
                 foreach (var result in results)
                 {

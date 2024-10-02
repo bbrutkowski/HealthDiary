@@ -14,21 +14,13 @@ namespace HealthDiary.API.MediatR.Handlers.Food
         public sealed class Handler : IRequestHandler<GetMealInfoRequest, Result>
         {
             private readonly DataContext _context;
-            private readonly IValidator<GetMealInfoRequest> _requestValidator;
 
             public const string MealInformationNotFound = "Meal information not found";
 
-            public Handler(DataContext context, IValidator<GetMealInfoRequest> requestValidator)
-            {
-                _context = context;
-                _requestValidator = requestValidator;
-            }
+            public Handler(DataContext context) => _context = context;
 
             public async Task<Result> Handle(GetMealInfoRequest request, CancellationToken cancellationToken)
-            {
-                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure(string.Join(Environment.NewLine, requestValidationResult.Errors));
-
+            {            
                 var lastMeal = await _context.Foods
                     .AsNoTracking()
                     .Where(x => x.UserId == request.Id)
@@ -48,16 +40,6 @@ namespace HealthDiary.API.MediatR.Handlers.Food
 
                 return Result.Success(lastMeal);
             }
-        }
-
-        public sealed class Validator : AbstractValidator<GetMealInfoRequest>
-        {
-            public const string UserIdValidation = "User Id must be greater than 0";
-
-            public Validator()
-            {
-                RuleFor(x => x.Id).GreaterThan(0).WithMessage(UserIdValidation);
-            }
-        }
+        }      
     }
 }

@@ -22,7 +22,8 @@ export class WeightComponent implements OnInit, OnDestroy {
   private weightSubscription: Subscription = new Subscription(); 
   public isWeightGoalSaving = false;
   public isBmiSaving = false;
-  public showSuccessCheckIcon = false;
+  public showWeightGoalSuccessIcon = false;
+  public showBmiSuccessIcon = false;
   public showGoalForm = false;
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
@@ -30,7 +31,8 @@ export class WeightComponent implements OnInit, OnDestroy {
   public bmiInfo: BmiDto
   public bmiData: BmiDataDto;
   public height: Number;
-  public weight: Number;
+  public showBmiErrorIcon: boolean = false;
+  public showWeightGoalErrorIcon: boolean = false;
 
   constructor(
     private weightService: WeightService,
@@ -112,12 +114,14 @@ export class WeightComponent implements OnInit, OnDestroy {
       const weightGoalData = this.weightGoalForm.value;
   
       this.isWeightGoalSaving = true;
+      this.showWeightGoalErrorIcon = false;
   
       this.weightSubscription.add(
         this.weightService.saveWeightGoal(weightGoalData).pipe(
           tap(() => this.isWeightGoalSaving = false), 
-          tap(() => this.showSuccessCheckIcon = true), 
+          tap(() => this.showWeightGoalSuccessIcon = true), 
           catchError(() => {
+            this.showWeightGoalErrorIcon = true;
             return of(false);
           })
         ).subscribe({
@@ -125,7 +129,7 @@ export class WeightComponent implements OnInit, OnDestroy {
             if (response === false) return;
 
             timer(2000).subscribe(() => {
-              this.showSuccessCheckIcon = false; 
+              this.showWeightGoalSuccessIcon = false; 
               this.getWeightGoal(); 
               tap(() => this.isWeightGoalSet = true)
             });
@@ -167,17 +171,19 @@ export class WeightComponent implements OnInit, OnDestroy {
 
   public saveBMI(): void {
     this.isBmiSaving = true;
+    this.showBmiErrorIcon = false;
+
     this.bmiData = {
       height: this.height,
-      weight: this.weight,
       userId: this.userId
     }
 
     this.weightSubscription.add(
       this.weightService.saveBMI(this.bmiData).pipe(
         tap(() => this.isBmiSaving = false),
-        tap(() => this.showSuccessCheckIcon = true), 
+        tap(() => this.showBmiSuccessIcon = true), 
         catchError(() => {
+          this.showBmiErrorIcon = true;
           return of(false);
        })
       ).subscribe({
@@ -185,7 +191,7 @@ export class WeightComponent implements OnInit, OnDestroy {
           if (response === false) return;
 
           timer(2000).subscribe(() => {
-            this.showSuccessCheckIcon = false; 
+            this.showBmiSuccessIcon = false; 
             this.initBMI();          
           })
         }

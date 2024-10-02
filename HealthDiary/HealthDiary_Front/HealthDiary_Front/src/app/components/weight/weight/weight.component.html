@@ -42,8 +42,11 @@
                                     <input id="targetDate" formControlName="targetDate" type="date" />
                                 </div>
                                 <div *ngIf="isWeightGoalSaving" class="loading-spinner"></div>
-                                <div *ngIf="showSuccessCheckIcon" class="success-check-icon">
+                                <div *ngIf="showWeightGoalSuccessIcon" class="success-check-icon">
                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div *ngIf="showWeightGoalErrorIcon" class="error-icon">
+                                    <i class="fa fa-times"></i> 
                                 </div>
                                 <button type="submit" *ngIf="!isWeightGoalSaving" class="save-button">Save</button>
                             </form>
@@ -53,18 +56,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="container"></div>
+                <div class="container">
+
+                </div>
                 <div class="container">
                     <div class="bmi">
                         <div *ngIf="!bmiInfo?.value" class="no-data">
                           <p class="no-data-text">Required information to determine BMI is not provided. Please, enter:</p>
-                          <input type="number" placeholder="Height" [(ngModel)]="height" class="input-field" [disabled]="isBmiSaving" />
-                          <input type="number" placeholder="Weight" [(ngModel)]="weight" class="input-field" [disabled]="isBmiSaving"/>
-                          <button *ngIf="!isBmiSaving" class="save-button" (click)="saveBMI()">Save</button>
-                          <div *ngIf="isBmiSaving" class="loading-spinner"></div>
-                                <div *ngIf="showSuccessCheckIcon" class="success-check-icon">
-                                   <i class="fa fa-check"></i>
-                                </div>
+                          <input type="number" placeholder="Height (1.80)" [(ngModel)]="height" class="input-field" [disabled]="isBmiSaving" />
+                          <button *ngIf="!isBmiSaving && !showBmiSuccessIcon && !showBmiErrorIcon" class="save-button" (click)="saveBMI()">Save</button>
+                          <div *ngIf="isBmiSaving && showBmiSuccessIcon" class="loading-spinner"></div>
+                            <div *ngIf="showBmiSuccessIcon" class="success-check-icon">
+                                <i class="fa fa-check"></i>
+                            </div>
+                            <div *ngIf="showBmiErrorIcon" class="error-icon">
+                                <i class="fa fa-times"></i> 
+                            </div>
                         </div>
                     
                         <div *ngIf="bmiInfo?.value">
@@ -72,7 +79,7 @@
                           <p class="bmi-value" [style.color]="bmiInfo.indexColor">{{ bmiInfo.value }}</p>
                           <p class="bmi-description">{{ bmiInfo.description }}</p>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="main-container">

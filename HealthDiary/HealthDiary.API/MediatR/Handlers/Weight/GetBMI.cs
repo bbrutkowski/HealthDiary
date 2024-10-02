@@ -2,10 +2,8 @@
 using FluentValidation;
 using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Model.DTO;
-using HealthDiary.API.Model.Main;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using static HealthDiary.API.MediatR.Handlers.Weight.GetWeightGoal;
 
 namespace HealthDiary.API.MediatR.Handlers.Weight
 {
@@ -16,23 +14,15 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
         public sealed class Handler : IRequestHandler<GetBmiRequest, Result<BmiDto>>
         {
             private readonly DataContext _context;
-            private readonly IValidator<GetBmiRequest> _requestValidator;
 
             private const string UserHeightError = "No user height";
             private const string UserWeightError = "No user weight";
             private const string UserBmiNotFoundError = "BMI not found";
 
-            public Handler(DataContext context, IValidator<GetBmiRequest> validator)
-            {
-                _context = context;
-                _requestValidator = validator;
-            }
+            public Handler(DataContext context) => _context = context;
 
             public async Task<Result<BmiDto>> Handle(GetBmiRequest request, CancellationToken cancellationToken)
-            {
-                var requestValidationResult = await _requestValidator.ValidateAsync(request, cancellationToken);
-                if (!requestValidationResult.IsValid) return Result.Failure<BmiDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
-
+            {              
                 var userHeight = await _context.Users
                     .AsNoTracking()
                     .Where(x => x.Id == request.Id && x.IsActive)
@@ -67,16 +57,6 @@ namespace HealthDiary.API.MediatR.Handlers.Weight
 
                 return Result.Success(bmi);
             }
-        }
-
-        public sealed class Validator : AbstractValidator<GetBmiRequest>
-        {
-            public const string UserIdValidation = "User Id must be greater than 0";
-
-            public Validator()
-            {
-                RuleFor(x => x.Id).GreaterThan(0).WithMessage(UserIdValidation);
-            }
-        }
+        }      
     }
 }
