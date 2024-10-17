@@ -1,9 +1,41 @@
-<div class="chart-container" *ngIf="weights?.length">
-    <canvasjs-chart [options]="weightsChartOprions"></canvasjs-chart>
+<div *ngIf="weights?.length">
+    <ngx-charts-line-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="weightChartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="'Monthly weight (kg)'"
+      [autoScale]="true">
+    </ngx-charts-line-chart>
 </div>
-<div class="chart-container" *ngIf="weeklyNutrition">
-    <canvasjs-chart [options]="mealInfoChartOprions"></canvasjs-chart>
+
+<div *ngIf="nutritionChartData.length">
+    <ngx-charts-bar-vertical    
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="nutritionChartData"
+      [xAxis]="false"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="'Nutrition (g)'">
+    </ngx-charts-bar-vertical>
 </div>
-<div class="chart-container" *ngIf="lastSleepInfo">
-    <canvasjs-chart [options]="lastSleepChartOprions"></canvasjs-chart>
+
+<div *ngIf="sleepChartData.length">
+    <ngx-charts-pie-chart     
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="sleepChartData"
+      [legend]="false"
+      [labels]="true"
+      [doughnut]="true"
+      [arcWidth]="0.3">
+    </ngx-charts-pie-chart>
 </div>
+  
