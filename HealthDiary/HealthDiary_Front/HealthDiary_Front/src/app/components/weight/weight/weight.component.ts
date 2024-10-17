@@ -5,7 +5,6 @@ import { BmiDto } from 'src/app/models/bmi-dto';
 import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
-import { WeightGoalProgressDto } from 'src/app/models/weight-goal-progress';
 import { WeightService } from 'src/app/services/weight.service/weight.service';
 
 @Component({
@@ -28,7 +27,7 @@ export class WeightComponent implements OnInit, OnDestroy {
   public showGoalForm = false;
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
-  public chartHeight: Number;
+  public chartHeight: number;
   public bmiInfo: BmiDto
   public bmiData: BmiDataDto;
   public height: Number;

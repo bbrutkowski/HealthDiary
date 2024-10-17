@@ -1,5 +1,5 @@
 <div  *ngIf="weights && weights.length > 0">
-    <app-chart [weights]="weights" [chartName]="chartName" [chartHeight]="chartHeight"></app-chart> 
+    <app-chart [weights]="weights"></app-chart> 
 </div>
 
 <div class="text-overlay" *ngIf="monthlyActivities as activities">
@@ -15,4 +15,4 @@
 
 <div *ngIf="lastSleepInfo">
     <app-chart [lastSleepInfo]="lastSleepInfo"></app-chart>
-</div>
+</div> 

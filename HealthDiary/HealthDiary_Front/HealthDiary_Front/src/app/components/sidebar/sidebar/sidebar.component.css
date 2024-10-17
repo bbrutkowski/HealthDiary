@@ -136,14 +136,10 @@
 }
   
 .weather-icon {
-    width: 100px; 
-    height: 100px;
+    width: 50%; 
+    height: 50%;
     display: block;
     margin: 0 auto; 
-}
-  
-.weather-widget p {
-    margin: 5px 0;
 }
 
 .bottom-content {
@@ -163,6 +159,7 @@
     border-radius: 15px;
     padding: 10px;
     box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+    border: 3px #D3E2EE solid;
 }
 
 .user-welcome {

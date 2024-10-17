@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import * as Highcharts from 'highcharts';
-import { MealDto } from 'src/app/models/meal-dto';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ScaleType } from '@swimlane/ngx-charts';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
 import { WeightDto } from 'src/app/models/weight-dto';
@@ -10,16 +9,41 @@ import { WeightDto } from 'src/app/models/weight-dto';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnChanges {
+export class ChartComponent implements OnInit, OnChanges {
   @Input() weights: Array<WeightDto>; 
   @Input() weeklyNutrition: WeeklyNutritionDto;
   @Input() lastSleepInfo: SleepInfoDto;
-  @Input() chartName: string;
-  @Input() chartHeight: Number;
 
-  public weightsChartOprions: any;
-  public mealInfoChartOprions: any;
-  public lastSleepChartOprions: any;
+  public weightChartData: any[] = [];
+  public nutritionChartData: any[] = [];
+  public sleepChartData: any[] = [];
+
+  public view: [number, number] = [500, 300];
+
+  colorScheme = {
+    domain: ['#A7C4DC', '#6db85c', '#C7B42C', '#AAAAAA'],
+    name: 'customScheme',
+    selectable: true,
+    group: ScaleType.Ordinal 
+  };
+
+  ngOnInit(): void {
+    this.updateChartSize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateChartSize();
+  }
+
+  updateChartSize(): void {
+    const element = document.querySelector('.container');
+    if (element) {
+      const width = element.clientWidth;
+      const height = element.clientHeight;
+      this.view = [width, height]; 
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
@@ -43,72 +67,52 @@ export class ChartComponent implements OnChanges {
   }
 
   private updateWeightChart(): void {
-    const chartData = this.weights.map((data: { creationDate: Date; value: number; }) => ({
-      x: new Date(data.creationDate).getDate(),
-      y: data.value,
-    })).sort((a, b) => a.x - b.x);
+    this.weightChartData = [
+      {
+        "name": "Weight",
+        "series": this.weights.map(weight => ({
+          "name": this.formatDate(new Date(weight.creationDate)),
+          "value": weight.value
+        }))
+      }
+    ];
+  }
 
-    this.weightsChartOprions = {
-      animationEnabled: true,
-      title: {
-        text: this.chartName,
-        fontFamily: "'Poppins', sans-serif",
-        fontStyle: "Bold"
-      },
-      height: this.chartHeight,
-      data: [{
-        type: 'splineArea',
-        color: '#A7C4DC',
-        xValueFormatString: 'Weight',
-        dataPoints: chartData
-      }]
-    }	
+  private formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}-${month}`;
   }
 
   private updateMealInfoChart(): void {
-    if(this.weeklyNutrition == null) return;
-    this.mealInfoChartOprions = {
-      title:{
-        text: "Nutritional values",
-        fontFamily: "'Poppins', sans-serif",
-        fontStyle: "Bold"
+    if (!this.weeklyNutrition) return;
+    this.nutritionChartData = [
+      {
+        "name": "Kcal",
+        "value": this.weeklyNutrition.kcal
       },
-      height: 340,
-      animationEnabled: true,
-      axisY: {
-        includeZero: true,
-        suffix: "g"
+      {
+        "name": "Protein",
+        "value": this.weeklyNutrition.protein
       },
-      data: [{
-        type: "bar",
-        indexLabel: "{y}",
-        yValueFormatString: "###g",
-        dataPoints: [
-          { label: "Kcal", y: this.weeklyNutrition.kcal },
-          { label: "Protein", y: this.weeklyNutrition.protein },
-          { label: "Fat", y: this.weeklyNutrition.fat },
-          { label: "Carbohydrates", y: this.weeklyNutrition.carbohydrates, },         
-        ]
-      }]
-    }	 
+      {
+        "name": "Fat",
+        "value": this.weeklyNutrition.fat
+      },
+      {
+        "name": "Carbohydrates",
+        "value": this.weeklyNutrition.carbohydrates
+      }
+    ];
   }
 
   private updateLastSleepInfoChart(): void {
-    if(this.lastSleepInfo == null) return;
-    this.lastSleepChartOprions = {
-      animationEnabled: true,
-      height: 340,
-      title:{
-      text: null
-      },
-      data: [{
-      type: "doughnut",
-      yValueFormatString: "##.##'h'",
-      indexLabel: "{name}",
-      dataPoints: [
-        { y: this.lastSleepInfo.sleepTime, name: 'Last sleep time' },       
-      ]
-      }]
-    }	
+    if (!this.lastSleepInfo) return;
+    this.sleepChartData = [
+      {
+        "name": "Sleep time",
+        "value": this.lastSleepInfo.sleepTime
+      }
+    ];
   }
 }

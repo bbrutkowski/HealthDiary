@@ -6,7 +6,7 @@
         <div class="container-grid">
             <div class="container">
                 <div *ngIf="!dataLoaded" class="loading-spinner"></div>               
-                <app-health-preview [weights]="userWeights" [chartName]="chartName" [chartHeight]="chartHeight"></app-health-preview> 
+                <app-health-preview [weights]="userWeights"></app-health-preview> 
             </div>
             <div class="container">  
                 <div *ngIf="!dataLoaded" class="loading-spinner"></div>

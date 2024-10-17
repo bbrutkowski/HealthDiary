@@ -15,7 +15,7 @@ export class HealthPreviewComponent {
   @Input() weeklyNutritionDto: WeeklyNutritionDto;
   @Input() lastSleepInfo: SleepInfoDto;
   @Input() chartName: string;
-  @Input() chartHeight: Number;
+  @Input() chartHeight: number;
 
 
 }
