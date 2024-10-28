@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.User.GetUser;
 using static HealthDiary.API.MediatR.Handlers.User.RegisterUser;
 using static HealthDiary.API.MediatR.Handlers.User.UpdateUser;
+using static HealthDiary.API.MediatR.Handlers.User.UploadAvatar;
 
 namespace HealthDiary.API.Controllers
 {
@@ -46,6 +47,17 @@ namespace HealthDiary.API.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateUserRequest request, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(request.Id);
+            if (verificationResult.IsFailure) return Forbid();
+
+            var result = await _mediator.Send(request, token);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
+
+        [HttpPost("updateAvatar")]
+        public async Task<IActionResult> UpdateAvatar([FromBody] UpdateAvatarRequest request, CancellationToken token)
+        {
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(request, token);

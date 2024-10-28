@@ -42,4 +42,14 @@ export class UserService {
       })
     );
   }
+
+  public updateUserAvatar(userId: number, avatar: string): Observable<boolean> {
+    debugger
+    return this.http.post<boolean>(`${this.baseUrl}updateAvatar`, {userId, avatar}).pipe(
+      catchError(err => {
+        console.error(this.userErrorMessage, err);
+        return throwError(() => new Error('Failed to update user avatar'));
+      })
+    );
+  }
 }

@@ -1,19 +1,27 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
-    <div class="site-nav">
-        <li class="nav-link">
-            <a href="dashboard">
-                <i class='bx bx-arrow-back icon'></i>
-                <span>Dashboard</span>
-            </a>
-        </li>    
-    </div>  
+<!-- <div class="site-nav">
+    <li class="nav-link">
+        <a href="dashboard">
+            <i class='bx bx-arrow-back icon'></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+</div>
     <div class="user-info">
         <div *ngIf="isDataLoaded">
-            <form [formGroup]="userProfile" class="user-form">
+            <div class="container avatar-container">
+                <div class="avatar-section">
+                    sdfaad
+                    <img [src]="userDto?.avatarUrl || 'assets/default-avatar.png'" alt="User Avatar" class="avatar-img" /> 
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*" /> 
+                </div>
+            </div>
+
+            <div class="container basic-info-container">
                 <div class="basic-information-title">
                     <span>Basic information</span>
-                </div> 
-                <div class="basic-information">
+                </div>
+                <div class="basic-information"></div>
                     <div class="input-label" [hidden]="true">
                         <label for="name">Id</label>
                         <input id="id" type="text" formControlName="id">
@@ -50,9 +58,12 @@
                         <small class="error-text">Only digits are allowed.</small>
                     </div>                              
                 </div>
+            </div>
+
+            <div class="container address-container">
                 <div class="address-title">
                     <span>Address</span>
-                </div>          
+                </div>
                 <div class="address">
                     <div class="input-label">
                         <label for="country">Country</label>
@@ -78,12 +89,42 @@
                         <label for="postalCode">Postal code</label>
                         <input id="postalCode" type="text" formControlName="postalCode" placeholder="XX-XXX" maxlength="6">
                     </div>                      
-                </div>        
-            </form>
+                </div>     
+            </div>
             <div class="profile-save-button">
                 <button (click)="onSaved()" type="submit" [disabled]="userProfile.get('phoneNumber')?.hasError('onlyDigits')" class="button-basic">Save</button>
                 <small *ngIf="isUpdateSuccessful" class="text-success">User update successful!</small>   
                 <small *ngIf="isUpdateError" class="text-danger">Error during user update</small>    
             </div>    
-        </div>  
-    </div>
+        </div>   --> 
+
+        <div class="site-nav">
+            <li class="nav-link">
+                <a href="dashboard">
+                    <i class='bx bx-arrow-back icon'></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        </div>
+        
+        <div class="user-info">
+            <div class="container avatar-container">
+                <label class="avatar-label">
+                    <img [src]="getUserAvatar()" alt="User Avatar" class="avatar-image" />
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" />
+                </label>
+                <div class="user-info">
+                    <h3>{{ userDto.name }} {{ userDto.surname }}</h3>
+                    <p>Email: {{ userDto.email }}</p>
+                </div>
+            </div>
+        
+            <div class="container basic-info-container">
+                <p>Basic Information Section</p>
+            </div>
+        
+            <div class="container address-container">
+                <p>Address Section</p>
+            </div>
+        </div>
+        
