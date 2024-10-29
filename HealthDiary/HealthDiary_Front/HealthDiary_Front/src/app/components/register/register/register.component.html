@@ -39,7 +39,7 @@
                                 </div>   
                             </div>    
                             <small *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword.valid && registerPassword.valid" class="text-danger">Must be same as password</small>  
-                            <button (click)="onRegister()" type="submit" [disabled]="registerForm.invalid" class="button-basic">Register</button>                          
+                            <button (click)="onRegister()" type="submit" [disabled]="registerForm.invalid" class="button-basic" [ngClass]="{ 'button-animated': registerForm.valid }">Register</button>                          
                             <small *ngIf="registerError" class="text-danger">{{errorMessage}}</small>    
                             <small *ngIf="registerSuccess" class="text-success">Registration successful!</small>                                       
                             <div class="text-center pt-4 text-muted">Already have account?

@@ -105,6 +105,25 @@ input[type='password'] {
     color: #F0F5F9; 
 }
 
+@keyframes glow {
+    0% {
+      background-color: #4075A0; /* początkowy kolor */
+      box-shadow: 0 0 5px #4075A0;
+    }
+    50% {
+      background-color: #5A8BBC; /* kolor pulsujący */
+      box-shadow: 0 0 15px #5A8BBC, 0 0 20px #5A8BBC;
+    }
+    100% {
+      background-color: #4075A0; /* powrót do początkowego koloru */
+      box-shadow: 0 0 5px #4075A0;
+    }
+  }
+
+  .button-animated {
+    animation: glow 3s infinite ease-in-out;
+  }
+
 .modal-button {
     width: 80px;
     height: 35px;
@@ -216,6 +235,18 @@ input[type='password'] {
       opacity: 1;
     }
 }
+
+@keyframes glow {
+    0% {
+      background-color: #4075A0;
+    }
+    50% {
+      background-color: #5A8BBC;
+    }
+    100% {
+      background-color: #4075A0;
+    }
+  }
 
 .loading-spinner {
     border: 4px solid #f3f3f3;

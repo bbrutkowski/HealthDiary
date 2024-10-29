@@ -11,4 +11,5 @@ export class UserDto {
     public gender: Gender;
     public address: AddressDto;
     public dateOfBirth: Date;
+    public avatar: string;
 }

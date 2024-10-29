@@ -12,5 +12,6 @@ namespace HealthDiary.API.Model.DTO
         public string? PhoneNumber { get; set; }
         public Gender Gender { get; set; }
         public AddressDto Address { get; set; }
+        public byte[]? Avatar { get; set; }
     }
 }

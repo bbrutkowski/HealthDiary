@@ -15,6 +15,7 @@ namespace HealthDiary.API.Context.DataContext
         public DbSet<Food> Foods { get; set; }
         public DbSet<WeightGoal> WeightGoals { get; set; }
         public DbSet<BMI> BMIs { get; set; }
+        public DbSet<Avatar> Avatars { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +48,11 @@ namespace HealthDiary.API.Context.DataContext
                .HasOne(u => u.WeightGoal)
                .WithOne(wg => wg.User)
                .HasForeignKey<WeightGoal>(wg => wg.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Avatar)
+                .WithOne(a => a.User)
+                .HasForeignKey<Avatar>(a => a.UserId);
 
             base.OnModelCreating(modelBuilder);
         }
