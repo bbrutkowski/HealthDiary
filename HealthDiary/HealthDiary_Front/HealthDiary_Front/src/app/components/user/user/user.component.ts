@@ -22,6 +22,7 @@ export class UserComponent implements OnInit, OnDestroy {
   public imageError = false;
   public errorMessage: string;
   private userId: number;
+  public isAllowToEdit: boolean = false;
 
   public constructor(private fb: FormBuilder, 
     private userService: UserService,
@@ -178,5 +179,14 @@ public onFileSelected(event: Event): void {
   };
 
   reader.readAsDataURL(file);
+}
+
+public editUser(){
+  if (this.isAllowToEdit ) 
+  {
+    this.isAllowToEdit = false;
+    return;
+  }
+  this.isAllowToEdit = true
 }
 }

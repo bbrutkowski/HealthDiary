@@ -28,10 +28,7 @@ html, body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  border: 1px solid #ddd;
 }
 
 .avatar-container {
@@ -69,22 +66,76 @@ html, body {
   margin-top: 10px;
 }
 
-.avatar-save-button {
-  margin-top: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 16px;
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  height: 100%; 
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+  padding: 10px; 
+  box-sizing: border-box; 
+}
+
+.user-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.label {
+  font-weight: bold;
+  text-align: left;
+  color: #666;
+}
+
+.value {
+  text-align: right;
+  color: #333;
+}
+
+.basic-info-header, .address-header {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.input-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-label label {
+  font-weight: bold;
+  color: #666;
+  width: 30%;
+  text-align: left;
+}
+
+.input-label input, 
+.input-label select {
+  padding: 5px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  cursor: pointer;
+  width: 65%;
+  text-align: right;
 }
 
-.avatar-save-button:hover {
-  background-color: #45a049;
-}
-
-.user-info {
-  margin-top: 10px; /* Odstęp od zdjęcia */
-  font-size: 14px; /* Rozmiar czcionki */
-  color: #333; /* Kolor tekstu */
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
