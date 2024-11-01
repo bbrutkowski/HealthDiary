@@ -1,0 +1,55 @@
+.weight-form-container {
+    padding: 24px;
+    border-radius: 8px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+  
+h2 {
+    text-align: center;
+    color: #333;
+}
+  
+mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+  
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+  
+button {
+    min-width: 100px;
+}
+
+.save-button {
+    background-color: #4075A0; 
+    color: white;
+}
+  
+.save-button:hover {
+    background-color: #294A66; 
+}
+
+.save-button, 
+.cancel-button {
+    border: none; 
+    padding: 8px 16px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+  
+.cancel-button {
+    background-color: #F0F5F9;
+    color: #333; 
+}
+  
+.cancel-button:hover {
+    background-color: #D9E6EB; 
+}

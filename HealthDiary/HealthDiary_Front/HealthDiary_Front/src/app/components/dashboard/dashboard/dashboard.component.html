@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="dashboard-content" *ngIf="dataLoaded">
     <div class="sidebar-contener">
         <app-sidebar></app-sidebar>
@@ -7,6 +8,11 @@
             <div class="container">
                 <div *ngIf="!dataLoaded" class="loading-spinner"></div>               
                 <app-health-preview [weights]="userWeights"></app-health-preview> 
+                <div class="add-weight-container">
+                    <button class="add-button" (click)="openAddWeightModal()">
+                        <i class="material-icons">add</i> Add
+                    </button>
+                </div>              
             </div>
             <div class="container">  
                 <div *ngIf="!dataLoaded" class="loading-spinner"></div>

@@ -22,6 +22,11 @@ import { MonthCounterComponent } from './components/month-counter/month-counter/
 import { HealthPreviewComponent } from './components/health-preview/health-preview/health-preview.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AddWeightModalComponent } from './helpers/add-weight-modal/add-weight-modal/add-weight-modal.component';
 
 
 @NgModule({
@@ -40,7 +45,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StartupComponent,
     ActivityComponent,
     MonthCounterComponent,
-    HealthPreviewComponent
+    HealthPreviewComponent,
+    AddWeightModalComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +56,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatDialogModule,
     HttpClientModule,
     NgxChartsModule,
-    FormsModule
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

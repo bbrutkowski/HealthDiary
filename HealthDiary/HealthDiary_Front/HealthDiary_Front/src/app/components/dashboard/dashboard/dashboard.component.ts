@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, catchError, of, take, tap} from 'rxjs';
+import { AddWeightModalComponent } from 'src/app/helpers/add-weight-modal/add-weight-modal/add-weight-modal.component';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { TotalActivityDto } from 'src/app/models/total-activity';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -29,7 +31,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private weightService: WeightService,
     private activityService: ActivityService,
     private foodService: FoodService,
-    private sleepService: SleepService) {}
+    private sleepService: SleepService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getUserId();
@@ -97,6 +101,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     ).subscribe(sleep => {
       this.lastSleepInfo = sleep
+    });
+  }
+
+  public openAddWeightModal(): void{
+    const dialogRef = this.dialog.open(AddWeightModalComponent, {
+      height: '350px'
+    });
+
+    dialogRef.afterClosed().pipe(
+      take(1)
+    ).subscribe(result => {
+      if (result) {
+        console.log('New weight has been added:', result);
+      }
     });
   }
 
