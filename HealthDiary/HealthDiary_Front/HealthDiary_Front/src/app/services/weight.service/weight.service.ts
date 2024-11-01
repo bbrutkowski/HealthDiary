@@ -96,4 +96,15 @@ export class WeightService {
         })
       );
   }
+
+  public addWeight(weightData: any) : Observable<boolean>{
+    debugger
+    return this.http.post<boolean>(`${this.baseUrl}addWeight`, weightData).pipe(
+      take(1),
+      catchError(err => {
+        console.error(this.weightErrorMessage, err);
+        return throwError(() => new Error('Failed to save weight'))
+      })
+    );
+  }
 }

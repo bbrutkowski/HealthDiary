@@ -20,7 +20,8 @@ export class SidebarComponent implements OnInit, OnDestroy  {
   public weatherData: WeatherResponseDto;
   public errorMessage: string;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private dialog: MatDialog,
     private weatherService: WeatherService
   ) {}

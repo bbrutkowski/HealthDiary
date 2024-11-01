@@ -1,0 +1,22 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="weight-form-container">
+    <h2>Add Weight</h2>
+    <form [formGroup]="weightForm" (ngSubmit)="onSave()">
+        <mat-form-field hidden>
+            <mat-label>Id</mat-label>
+            <input matInput formControlName="id" type="number">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Weight</mat-label>
+          <input matInput formControlName="weight" type="number" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Date</mat-label>
+          <input matInput formControlName="date" type="date" required>
+        </mat-form-field>
+        <div class="modal-actions">
+          <button class="save-button" type="submit">Save</button>
+          <button class="cancel-button" (click)="onCancel()">Cancel</button>         
+        </div>
+      </form>
+</div>
