@@ -53,3 +53,9 @@ button {
 .cancel-button:hover {
     background-color: #D9E6EB; 
 }
+
+.error-message {
+    color: #ff0000;
+    margin-top: 10px;
+    text-align: center;
+}

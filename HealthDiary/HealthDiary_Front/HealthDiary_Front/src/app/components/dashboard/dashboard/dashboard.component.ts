@@ -109,12 +109,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       height: '350px'
     });
 
-    dialogRef.afterClosed().pipe(
+    dialogRef.componentInstance.weightAdded.pipe(
       take(1)
-    ).subscribe(result => {
-      if (result) {
-        console.log('New weight has been added:', result);
-      }
+    ).subscribe(() => {
+      this.initWeight();
     });
   }
 

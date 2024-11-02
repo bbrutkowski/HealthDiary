@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -10,8 +10,12 @@ import { WeightService } from 'src/app/services/weight.service/weight.service';
   styleUrl: './add-weight-modal.component.css'
 })
 export class AddWeightModalComponent implements OnInit, OnDestroy {
+  @Output() weightAdded = new EventEmitter<void>();
+
   public weightForm!: FormGroup;
   private unsubscribe$ = new Subject<void>();
+  public errorMessage: string | null = null;
+  public isSaving: boolean;
 
   constructor(
     private weightService: WeightService,
@@ -38,6 +42,7 @@ export class AddWeightModalComponent implements OnInit, OnDestroy {
 
   public onSave(){
     if (this.weightForm.valid) {
+      this.isSaving = true;
       const formData = this.weightForm.value;
 
       this.weightService.addWeight(formData).pipe(
@@ -46,11 +51,15 @@ export class AddWeightModalComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (response: boolean) => {
-          if(!response){
-            // TODO: error message
-          }
+          if(response){      
           this.dialogRef.close(formData);
-          
+          this.weightAdded.emit(); 
+          this.closeModalAfterDelay();
+        }        
+        },
+        error: error => {
+          this.errorMessage = error.message;
+          this.closeModalAfterDelay();
         }
       });
     }
@@ -58,5 +67,11 @@ export class AddWeightModalComponent implements OnInit, OnDestroy {
 
   public onCancel() {
     this.dialogRef.close(); 
+  }
+
+  private closeModalAfterDelay(): void {
+    setTimeout(() => {
+      this.dialogRef.close();
+    }, 2000); 
   }
 }
