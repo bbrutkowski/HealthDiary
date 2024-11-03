@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="workspace">
     <div class="workspace-header">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>  
@@ -14,6 +15,13 @@
     <div class="workspace-body">
         <div class="weight-dashboard">
             <div class="side-containers">
+                <div>
+                    <div class="add-weight-container">
+                        <button class="add-button" (click)="openAddWeightModal()">
+                            <i class="material-icons">add</i> Add weight
+                        </button>
+                    </div>     
+                </div>
                 <div class="container">
                     <div class="weight-goal">
                        <div class="weight-goal-not-set">
@@ -89,7 +97,7 @@
                 </div>
             </div>
             <div class="main-container">
-                <app-chart [weights]="userWeights"></app-chart>
+                <app-chart [weights]="userWeights" [chartName]="chartName" [chartSize]="chartSize"></app-chart>
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() weights: Array<WeightDto>; 
   @Input() weeklyNutrition: WeeklyNutritionDto;
   @Input() lastSleepInfo: SleepInfoDto;
+  @Input() chartName: string;
+  @Input() chartSize: Array<number> = [];
 
   public weightChartData: any[] = [];
   public nutritionChartData: any[] = [];
@@ -67,6 +69,8 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   private updateWeightChart(): void {
+    this.view[1] = this.chartSize[1];
+    this.view[0] = this.chartSize[0];
     this.weightChartData = [
       {
         "name": "Weight",
