@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, catchError, finalize, of, take, tap, timer } from 'rxjs';
+import { AddWeightModalComponent } from 'src/app/helpers/add-weight-modal/add-weight-modal/add-weight-modal.component';
 import { BmiDto } from 'src/app/models/bmi-dto';
 import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
@@ -27,7 +29,7 @@ export class WeightComponent implements OnInit, OnDestroy {
   public showGoalForm = false;
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
-  public chartHeight: number;
+  public chartSize: Array<number> = [];
   public bmiInfo: BmiDto
   public bmiData: BmiDataDto;
   public height: Number;
@@ -37,7 +39,8 @@ export class WeightComponent implements OnInit, OnDestroy {
 
   constructor(
     private weightService: WeightService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -150,8 +153,9 @@ export class WeightComponent implements OnInit, OnDestroy {
           return of([])
         })
       ).subscribe(weights => {
-        this.chartName = "Yearly weight"
-        this.chartHeight = 585
+        this.chartName = "Yearly weights"
+        this.chartSize[0] = 1200;
+        this.chartSize[1] = 600;
         this.userWeights = weights     
       })
     );
@@ -213,6 +217,18 @@ export class WeightComponent implements OnInit, OnDestroy {
         this.weightGoalProgress = weightProgress
       })
     );
+  }
+
+  public openAddWeightModal(): void{
+    const dialogRef = this.dialog.open(AddWeightModalComponent, {
+      height: '350px'
+    });
+
+    dialogRef.componentInstance.weightAdded.pipe(
+      take(1)
+    ).subscribe(() => {
+      this.getYearlyWeight();
+    });
   }
 
   private handleError(error: any): void {

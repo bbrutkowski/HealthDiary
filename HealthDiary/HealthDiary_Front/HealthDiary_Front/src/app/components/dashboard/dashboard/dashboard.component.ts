@@ -31,8 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private weightService: WeightService,
     private activityService: ActivityService,
     private foodService: FoodService,
-    private sleepService: SleepService,
-    private dialog: MatDialog
+    private sleepService: SleepService
   ) {}
 
   ngOnInit(): void {
@@ -101,18 +100,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     ).subscribe(sleep => {
       this.lastSleepInfo = sleep
-    });
-  }
-
-  public openAddWeightModal(): void{
-    const dialogRef = this.dialog.open(AddWeightModalComponent, {
-      height: '350px'
-    });
-
-    dialogRef.componentInstance.weightAdded.pipe(
-      take(1)
-    ).subscribe(() => {
-      this.initWeight();
     });
   }
 
