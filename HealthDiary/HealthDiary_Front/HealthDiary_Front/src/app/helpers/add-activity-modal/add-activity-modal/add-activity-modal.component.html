@@ -1,0 +1,30 @@
+<div class="add-form">
+    <h2>Add activity</h2>
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Activity</mat-label>
+      <mat-select formControlName="activity">
+        <mat-option *ngFor="let option of activityOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Time (h)</mat-label>
+      <input matInput type="number" formControlName="time" min="0">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="modal-actions">
+      <button class="modal-save-button" type="submit">Save</button>
+      <button class="modal-cancel-button" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>

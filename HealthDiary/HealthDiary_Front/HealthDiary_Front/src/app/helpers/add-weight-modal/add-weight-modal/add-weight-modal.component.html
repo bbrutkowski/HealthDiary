@@ -1,5 +1,5 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<div class="weight-form-container">
+<div class="add-form">
     <h2>Add weight</h2>
     <form [formGroup]="weightForm" (ngSubmit)="onSave()">
         <mat-form-field hidden>
@@ -12,11 +12,13 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Date</mat-label>
-          <input matInput formControlName="date" type="date" required>
+          <input matInput [matDatepicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <div class="modal-actions">
-          <button class="save-button" type="submit" [disabled]="isSaving">Save</button>
-          <button class="cancel-button" (click)="onCancel()">Cancel</button>         
+          <button class="modal-save-button" type="submit" [disabled]="isSaving">Save</button>
+          <button class="modal-cancel-button" (click)="onCancel()">Cancel</button>         
         </div>
     </form>
     <div *ngIf="errorMessage && isSaving" class="error-message">{{ errorMessage }}</div>
