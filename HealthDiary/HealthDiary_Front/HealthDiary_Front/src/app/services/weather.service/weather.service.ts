@@ -13,7 +13,7 @@ export class WeatherService {
   private baseUrl: string = 'https://localhost:7241/api/weather/'
 
   public getWeather(latitude: number, longitude: number): Observable<WeatherResponseDto> {
-    return this.http.post<WeatherResponseDto>(`${this.baseUrl}getWeather`, { latitude: latitude, longitude: longitude }).pipe(
+    return this.http.post<WeatherResponseDto>(`${this.baseUrl}get-weather`, { latitude: latitude, longitude: longitude }).pipe(
       take(1),
       catchError(error => {
         console.error('Weather API error:', error);

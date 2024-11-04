@@ -20,7 +20,7 @@ namespace HealthDiary.API.Controllers
             _identityVerifier = identityVerifier;
         }
 
-        [HttpGet("getActivity")]
+        [HttpGet("get-activity")]
         public async Task<IActionResult> GetMonthlyActivityByUserId(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);

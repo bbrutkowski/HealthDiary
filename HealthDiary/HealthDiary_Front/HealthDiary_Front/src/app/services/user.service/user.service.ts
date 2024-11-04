@@ -26,7 +26,7 @@ export class UserService {
   public getUserById(paramValue: number): Observable<UserDto>{
     const params = new HttpParams().set('Id', paramValue);
 
-    return this.http.get<UserDto>(`${this.baseUrl}getUserInfo`, { params: params }).pipe(
+    return this.http.get<UserDto>(`${this.baseUrl}get-user-info`, { params: params }).pipe(
       catchError(err => {
         console.error(this.userErrorMessage, err);
         return throwError(() => new Error('Failed to fetch user data'));
@@ -44,8 +44,7 @@ export class UserService {
   }
 
   public updateUserAvatar(userId: number, avatar: string): Observable<boolean> {
-    debugger
-    return this.http.post<boolean>(`${this.baseUrl}updateAvatar`, {userId, avatar}).pipe(
+    return this.http.post<boolean>(`${this.baseUrl}update-avatar`, {userId, avatar}).pipe(
       catchError(err => {
         console.error(this.userErrorMessage, err);
         return throwError(() => new Error('Failed to update user avatar'));

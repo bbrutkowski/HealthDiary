@@ -31,7 +31,7 @@ namespace HealthDiary.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("getUserInfo")]
+        [HttpGet("get-user-info")]
         public async Task<IActionResult> GetUserById(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
@@ -54,7 +54,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("updateAvatar")]
+        [HttpPost("update-avatar")]
         public async Task<IActionResult> UpdateAvatar([FromBody] UpdateAvatarRequest request, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
