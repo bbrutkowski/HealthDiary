@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ScaleType } from '@swimlane/ngx-charts';
 import { SleepInfoDto } from 'src/app/models/sleep-info-dto';
 import { WeeklyNutritionDto } from 'src/app/models/weekly-nutrition-dto';
@@ -9,18 +9,15 @@ import { WeightDto } from 'src/app/models/weight-dto';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnChanges {
   @Input() weights: Array<WeightDto>; 
   @Input() weeklyNutrition: WeeklyNutritionDto;
   @Input() lastSleepInfo: SleepInfoDto;
   @Input() chartName: string;
-  @Input() chartSize: Array<number> = [];
 
   public weightChartData: any[] = [];
   public nutritionChartData: any[] = [];
   public sleepChartData: any[] = [];
-
-  public view: [number, number] = [500, 300];
 
   colorScheme = {
     domain: ['#A7C4DC', '#6db85c', '#C7B42C', '#AAAAAA'],
@@ -28,29 +25,6 @@ export class ChartComponent implements OnInit, OnChanges {
     selectable: true,
     group: ScaleType.Ordinal 
   };
-
-  ngOnInit(): void {
-    this.initChartName();
-    this.updateChartSize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.updateChartSize();
-  }
-
-  private initChartName(): void {
-    this.chartName = this.chartName || 'Monthly weights';
-  }
-
-  updateChartSize(): void {
-    const element = document.querySelector('.container');
-    if (element) {
-      const width = element.clientWidth;
-      const height = element.clientHeight;
-      this.view = [width, height]; 
-    }
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const weightsChange = changes['weights'];
@@ -74,8 +48,7 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   private updateWeightChart(): void {
-    this.view[1] = this.chartSize[1];
-    this.view[0] = this.chartSize[0];
+    if (!this.weights) return;
     this.weightChartData = [
       {
         "name": "Weight",

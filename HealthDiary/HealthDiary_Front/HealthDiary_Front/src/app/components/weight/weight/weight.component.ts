@@ -29,7 +29,6 @@ export class WeightComponent implements OnInit, OnDestroy {
   public showGoalForm = false;
   public userWeights: Array<WeightDto> = [];
   public chartName: string;
-  public chartSize: Array<number> = [];
   public bmiInfo: BmiDto
   public bmiData: BmiDataDto;
   public height: Number;
@@ -154,8 +153,6 @@ export class WeightComponent implements OnInit, OnDestroy {
         })
       ).subscribe(weights => {
         this.chartName = "Yearly weights"
-        this.chartSize[0] = 1200;
-        this.chartSize[1] = 600;
         this.userWeights = weights     
       })
     );
