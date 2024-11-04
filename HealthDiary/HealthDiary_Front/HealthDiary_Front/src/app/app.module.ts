@@ -27,6 +27,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AddWeightModalComponent } from './helpers/add-weight-modal/add-weight-modal/add-weight-modal.component';
+import { AddActivityModalComponent } from './helpers/add-activity-modal/add-activity-modal/add-activity-modal.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -46,7 +50,8 @@ import { AddWeightModalComponent } from './helpers/add-weight-modal/add-weight-m
     ActivityComponent,
     MonthCounterComponent,
     HealthPreviewComponent,
-    AddWeightModalComponent
+    AddWeightModalComponent,
+    AddActivityModalComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +65,10 @@ import { AddWeightModalComponent } from './helpers/add-weight-modal/add-weight-m
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
