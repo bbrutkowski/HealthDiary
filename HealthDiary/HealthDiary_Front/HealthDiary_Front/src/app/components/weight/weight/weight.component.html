@@ -15,14 +15,12 @@
     <div class="workspace-body">
         <div class="weight-dashboard">
             <div class="side-containers">
-                <div>
-                    <div class="add-weight-container">
-                        <button class="add-button" (click)="openAddWeightModal()">
-                            <i class="material-icons">add</i> Add weight
-                        </button>
-                    </div>     
-                </div>
-                <div class="container">
+                <div class="add-container">
+                    <button class="add-button" (click)="openAddWeightModal()">
+                        <i class="material-icons">add</i> Add weight
+                    </button>
+                </div>  
+                <div class="side-container">
                     <div class="weight-goal">
                        <div class="weight-goal-not-set">
                             <div *ngIf="!weightGoal.isSet && !showGoalForm">
@@ -64,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
+                <div class="side-container">
                     <p class="goal-text" *ngIf="isWeightGoalSet">
                         You have currently completed 
                         <br />
@@ -73,7 +71,7 @@
                         <span class="goal-text-sub">of your goal.</span>
                       </p>
                 </div>
-                <div class="container">
+                <div class="side-container">
                     <div class="bmi">
                         <div *ngIf="!bmiInfo?.value" class="no-data">
                           <p class="no-data-text">Required information to determine BMI is not provided. Please, enter:</p>

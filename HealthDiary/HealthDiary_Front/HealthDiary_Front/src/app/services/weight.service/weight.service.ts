@@ -5,7 +5,6 @@ import { BmiDto } from 'src/app/models/bmi-dto';
 import { BmiDataDto } from 'src/app/models/bmi-request';
 import { WeightDto } from 'src/app/models/weight-dto';
 import { WeightGoalDto } from 'src/app/models/weight-goal-dto';
-import { WeightGoalProgressDto } from 'src/app/models/weight-goal-progress';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,7 @@ export class WeightService {
     return this.http.get<WeightGoalDto>(`${this.baseUrl}get-weight-goal`, { params })
       .pipe(
         catchError(error => {
-          console.error('Error fetching weight goal:', error);
+          console.error(this.weightErrorMessage, error);
           return throwError(() => new Error('Failed to fetch weight goal'));
         })
       );
@@ -57,7 +56,7 @@ export class WeightService {
     return this.http.get<Array<WeightDto>>(`${this.baseUrl}get-yearly-weight`, { params })
       .pipe(
         catchError(error => {
-          console.error('Error fetching weights:', error);
+          console.error(this.weightErrorMessage, error);
           return throwError(() => new Error('Failed to fetch weights info'));
         })
       );
@@ -69,7 +68,7 @@ export class WeightService {
     return this.http.get<BmiDto>(`${this.baseUrl}get-bmi`, { params })
       .pipe(
         catchError(error => {
-          console.error('Error fetching BMI:', error);
+          console.error(this.weightErrorMessage, error);
           return throwError(() => new Error('Failed to fetch BMI'));
         })
       );
@@ -91,7 +90,7 @@ export class WeightService {
     return this.http.get<number>(`${this.baseUrl}get-weight-goal-progress`, { params })
       .pipe(
         catchError(error => {
-          console.error('Error fetching weight goal:', error);
+          console.error(this.weightErrorMessage, error);
           return throwError(() => new Error('Failed to fetch weight goal'));
         })
       );
