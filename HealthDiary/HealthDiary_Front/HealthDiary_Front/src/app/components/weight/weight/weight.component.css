@@ -199,7 +199,7 @@ button:hover {
     background-color: #4075A0;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 8px 16px;
     cursor: pointer;
     transition: 0.4s;
@@ -218,5 +218,5 @@ button:hover {
 
 .add-weight-container {
     display: flex;
-    padding: 5px;
+    padding: 2px;
 }

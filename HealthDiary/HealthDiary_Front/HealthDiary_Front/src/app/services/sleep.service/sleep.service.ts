@@ -15,7 +15,7 @@ export class SleepService {
   public getLastSleepInformationByUserId(paramValue: number): Observable<SleepInfoDto> {
     const params = new HttpParams().set('Id', paramValue);
     
-    return this.http.get<SleepInfoDto>(`${this.baseUrl}getSleepInfo`, { params: params }).pipe(
+    return this.http.get<SleepInfoDto>(`${this.baseUrl}get-sleep-info`, { params: params }).pipe(
       catchError(error => {
         console.error("Sleep API error:", error);
         return throwError(() => new Error('Failed to fetch sleep info'));

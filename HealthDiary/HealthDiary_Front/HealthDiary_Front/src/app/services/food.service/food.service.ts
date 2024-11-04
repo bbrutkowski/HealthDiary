@@ -15,7 +15,7 @@ export class FoodService {
   public getWeeklyMealInformationByUserId(paramValue: number): Observable<WeeklyNutritionDto> {
     const params = new HttpParams().set('Id', paramValue);
     
-    return this.http.get<WeeklyNutritionDto>(`${this.baseUrl}getNutritionInfo`, { params: params }).pipe(
+    return this.http.get<WeeklyNutritionDto>(`${this.baseUrl}get-nutrition-info`, { params: params }).pipe(
       catchError(error => {
         console.error("Food API error:", error);
         return throwError(() => new Error('Failed to fetch nutrition info'));

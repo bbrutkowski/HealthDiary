@@ -27,7 +27,7 @@ namespace HealthDiary.API.Controllers
             _identityVerifier = identityVerifier;
         }
 
-        [HttpGet("getWeightsByMonth")]
+        [HttpGet("get-weights-by-month")]
         public async Task<IActionResult> GetWeightsByMonth(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
@@ -38,8 +38,8 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("getYearlyWeight")]
-        public async Task<IActionResult> GetYearlyWeightById(int id, CancellationToken token)
+        [HttpGet("get-yearly-weight")]
+        public async Task<IActionResult> GetYearlyWeight(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
@@ -49,8 +49,8 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("getWeightGoal")]
-        public async Task<IActionResult> GetWeightGoalByUserId(int id, CancellationToken token)
+        [HttpGet("get-weight-goal")]
+        public async Task<IActionResult> GetWeightGoal(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
             if (verificationResult.IsFailure) return Forbid();
@@ -60,7 +60,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("saveWeightGoal")]
+        [HttpPost("save-weight-goal")]
         public async Task<IActionResult> SaveWeightGoal([FromBody] SaveWeightGoalRequest request, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
@@ -71,7 +71,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("getBMI")]
+        [HttpGet("get-bmi")]
         public async Task<IActionResult> GetBMI(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
@@ -82,7 +82,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("saveBMI")]
+        [HttpPost("save-bmi")]
         public async Task<IActionResult> SaveBMI([FromBody] SaveBmiRequest request, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(request.UserId);
@@ -93,7 +93,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpGet("getWeightGoalProgress")]
+        [HttpGet("get-weight-goal-progress")]
         public async Task<IActionResult> GetWeightGoalProgress(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
@@ -104,7 +104,7 @@ namespace HealthDiary.API.Controllers
             return Ok(result.Value);
         }
 
-        [HttpPost("addWeight")]
+        [HttpPost("add-weight")]
         public async Task<IActionResult> AddWeight([FromBody] AddWeightRequest request, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(request.Id);

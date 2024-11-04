@@ -20,7 +20,7 @@ namespace HealthDiary.API.Controllers
             _identityVerifier = identityVerifier;
         }
 
-        [HttpGet("getSleepInfo")]
+        [HttpGet("get-sleep-info")]
         public async Task<IActionResult> GetSleepInfoByUserId(int id, CancellationToken token)
         {
             var verificationResult = _identityVerifier.IsIdentityConfirmed(id);

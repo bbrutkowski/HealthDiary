@@ -30,12 +30,17 @@ export class ChartComponent implements OnInit, OnChanges {
   };
 
   ngOnInit(): void {
+    this.initChartName();
     this.updateChartSize();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     this.updateChartSize();
+  }
+
+  private initChartName(): void {
+    this.chartName = this.chartName || 'Monthly weights';
   }
 
   updateChartSize(): void {

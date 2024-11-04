@@ -24,9 +24,10 @@ export class UserComponent implements OnInit, OnDestroy {
   private userId: number;
   public isAllowToEdit: boolean = false;
 
-  public constructor(private fb: FormBuilder, 
-    private userService: UserService,
-    private router: Router) {}
+  public constructor(
+    private fb: FormBuilder, 
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.getLoggedUserData();
@@ -117,7 +118,6 @@ public onSaved(): void {
     if (!result) return this.isUpdateSuccessful = false;
     else {
       this.isUpdateSuccessful = result;
-      timer(3000).subscribe(() => this.router.navigate(['dashboard']));
     }
   });
 }

@@ -15,7 +15,7 @@ export class ActivityService {
   public getMonthlyActivityByUserId(paramValue: number): Observable<TotalActivityDto> {
     const params = new HttpParams().set('Id', paramValue);
 
-    return this.http.get<TotalActivityDto>(`${this.baseUrl}getActivity`, { params: params })
+    return this.http.get<TotalActivityDto>(`${this.baseUrl}get-activity`, { params: params })
       .pipe(
         catchError(error => {
           console.error('Error fetching activities:', error);
