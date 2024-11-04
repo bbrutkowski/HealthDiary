@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public weeklyNutritionDto: WeeklyNutritionDto;
   public lastSleepInfo: SleepInfoDto;
   private weatherSubscription: Subscription;
+  public chartName: string;
 
   public constructor(
     private weightService: WeightService,
@@ -62,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return of([]); 
         })
     ).subscribe(weights => {
+      this.chartName = "Monthly weights"
       this.userWeights = weights;    
     });
   }

@@ -1,6 +1,6 @@
-<div *ngIf="weights?.length">
+<div class="chart-container" *ngIf="weights?.length">
     <ngx-charts-line-chart
-      [view]="view"
+      [view]="undefined"
       [scheme]="colorScheme"
       [results]="weightChartData"
       [xAxis]="true"
@@ -15,7 +15,7 @@
 
 <div *ngIf="nutritionChartData.length">
     <ngx-charts-bar-vertical    
-      [view]="view"
+      [view]="undefined"
       [scheme]="colorScheme"
       [results]="nutritionChartData"
       [xAxis]="false"
@@ -29,7 +29,7 @@
 
 <div *ngIf="sleepChartData.length">
     <ngx-charts-pie-chart     
-      [view]="view"
+      [view]="undefined"
       [scheme]="colorScheme"
       [results]="sleepChartData"
       [legend]="false"
