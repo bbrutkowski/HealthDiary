@@ -45,9 +45,7 @@ namespace HealthDiary.API.MediatR.Handlers.Auth
                 if (!requestValidationResult.IsValid) return Result.Failure<UserDto>(string.Join(Environment.NewLine, requestValidationResult.Errors));
 
                 var user = await _context.Users
-                    .AsNoTracking()
-                    .Where(x => x.IsActive && x.Login == request.Login)
-                    .FirstOrDefaultAsync(cancellationToken);
+                    .FirstAsync(x => x.Login == request.Login);
 
                 if (user is null) return Result.Failure<UserDto>(UserNotFoundError);
 

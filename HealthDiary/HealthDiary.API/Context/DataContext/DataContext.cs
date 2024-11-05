@@ -16,6 +16,7 @@ namespace HealthDiary.API.Context.DataContext
         public DbSet<WeightGoal> WeightGoals { get; set; }
         public DbSet<BMI> BMIs { get; set; }
         public DbSet<Avatar> Avatars { get; set; }
+        public DbSet<PhysicalActivity> PhysicalActivities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
