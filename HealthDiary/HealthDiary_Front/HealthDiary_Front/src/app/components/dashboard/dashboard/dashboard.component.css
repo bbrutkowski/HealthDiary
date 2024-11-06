@@ -29,8 +29,8 @@ body, html {
 
 .sidebar-container {
     width: 17%;
-    height: 100vh;
-    overflow-y: auto;
+    height: 100%;
+    overflow-y: auto; 
 }
 
 .workplace {
@@ -39,11 +39,15 @@ body, html {
     flex-direction: column;
     padding: 0;
     box-sizing: border-box;
-    height: 100vh; 
+    height: 100%; 
     justify-content: space-between;
 }
 
 .container {
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
     position: relative;
     border: 3px #D3E2EE solid;
     border-radius: 10px;
@@ -52,10 +56,6 @@ body, html {
     box-sizing: border-box;
     padding: 0%;
     overflow: hidden;
-    height: 100%;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
 }
 
 .container-grid{

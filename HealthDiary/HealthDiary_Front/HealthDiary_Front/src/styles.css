@@ -107,15 +107,15 @@ input[type='password'] {
 
 @keyframes glow {
     0% {
-      background-color: #4075A0; /* początkowy kolor */
+      background-color: #4075A0; 
       box-shadow: 0 0 5px #4075A0;
     }
     50% {
-      background-color: #5A8BBC; /* kolor pulsujący */
+      background-color: #5A8BBC; 
       box-shadow: 0 0 15px #5A8BBC, 0 0 20px #5A8BBC;
     }
     100% {
-      background-color: #4075A0; /* powrót do początkowego koloru */
+      background-color: #4075A0; 
       box-shadow: 0 0 5px #4075A0;
     }
   }
@@ -130,47 +130,47 @@ input[type='password'] {
     margin: 15px;
     border: none;
     border-radius: 8px;
-    background: #A7C4DC;
+    background: #96b0c6;
     transition: 0.3s;
 }
 
 .modal-button.primary {
-    background-color: #4075A0;
-    color: #f8f2f2;
+  background-color: #4075A0;
+  color: #f8f2f2;
 }
 
 .modal-button:hover {
-    background: #F0F5F9;
-    transition: 0.3s;
+  background: #74899a;
+  transition: 0.3s;
 }
 
 .modal-button.primary:hover {
-    background: #294A66;
-    transition: 0.3s;
+  background: #294A66;
+  transition: 0.3s;
 }
 
 .site-nav a {
-    font-size: 22px;
-    height: 50px;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    text-decoration: none;
+  font-size: 22px;
+  height: 50px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  text-decoration: none;
 }
   
 .site-nav li .icon {
-    min-width: 60px;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  min-width: 60px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
   
 .site-nav a:hover,
 .site-nav li .icon:hover {
-    color: #294A66;
-    transition: 0.3s;
+  color: #294A66;
+  transition: 0.3s;
 }
 
 .site-nav {
@@ -266,19 +266,6 @@ input[type='password'] {
     100% { transform: rotate(360deg); }
 }
 
-/* .add-button {
-  display: flex;
-  align-items: center;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-}
-
-.add-button i {
-  margin-right: 4px;
-} */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
