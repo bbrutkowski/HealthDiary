@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static HealthDiary.API.MediatR.Handlers.Activity.GetActivities;
 using static HealthDiary.API.MediatR.Handlers.Activity.GetMonthlyActivity;
+using static HealthDiary.API.MediatR.Handlers.Activity.GetYearlyActivity;
 using static HealthDiary.API.MediatR.Handlers.Activity.SaveActivity;
 
 namespace HealthDiary.API.Controllers
@@ -51,6 +52,17 @@ namespace HealthDiary.API.Controllers
             if (verificationResult.IsFailure) return Forbid();
 
             var result = await _mediator.Send(request, token);
+            if (result.IsFailure) return BadRequest(result.Error);
+            return Ok(result.Value);
+        }
+
+        [HttpGet("get-weekly-activity")]
+        public async Task<IActionResult> GetWeeklyActivity(int id, CancellationToken token)
+        {
+            var verificationResult = _identityVerifier.IsIdentityConfirmed(id);
+            if (verificationResult.IsFailure) return Forbid();
+
+            var result = await _mediator.Send(new GetWeeklyActivityRequest(id), token);
             if (result.IsFailure) return BadRequest(result.Error);
             return Ok(result.Value);
         }

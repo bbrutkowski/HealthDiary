@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, of, take, throwError } from 'rxjs';
 import { ActivityCatalog } from 'src/app/models/activity-catalog';
 import { TotalActivityDto } from 'src/app/models/total-activity';
+import { WeeklyActivity } from 'src/app/models/weekly-activity';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,17 @@ export class ActivityService {
         return throwError(() => new Error('Failed to save activity'))
       })
     );
+  }
+
+  public getWeeklyActivities(paramValue: number): Observable<Array<WeeklyActivity>> {
+    const params = new HttpParams().set('Id', paramValue);
+
+    return this.http.get<Array<WeeklyActivity>>(`${this.baseUrl}get-weekly-activity`, {params: params})
+      .pipe(
+        catchError(error => {
+          console.error(this.activityErrorMessage, error);
+          return throwError(() => new Error('Failed to fetch activities'));
+        })
+    )
   }
 }
