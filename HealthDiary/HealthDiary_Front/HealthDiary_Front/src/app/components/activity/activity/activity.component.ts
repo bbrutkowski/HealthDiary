@@ -4,6 +4,7 @@ import { catchError, of, Subscription, take } from 'rxjs';
 import { AddActivityModalComponent } from 'src/app/helpers/add-activity-modal/add-activity-modal/add-activity-modal.component';
 import { ActivityCatalog } from 'src/app/models/activity-catalog';
 import { TotalActivityDto } from 'src/app/models/total-activity';
+import { WeeklyActivity } from 'src/app/models/weekly-activity';
 import { ActivityService } from 'src/app/services/activity.service/activity.service';
 
 @Component({
@@ -12,11 +13,13 @@ import { ActivityService } from 'src/app/services/activity.service/activity.serv
   styleUrl: './activity.component.css'
 })
 export class ActivityComponent implements OnInit {
-  @Input() monthlyActivities: TotalActivityDto;
+  // @Input() monthlyActivities: TotalActivityDto;
 
   public isLoading: boolean = true;
   public userId: number;
   public activities: ActivityCatalog;
+  public weeklyActivities: Array<WeeklyActivity> = [];
+  public chartName: string;
 
   constructor(
     private activityService: ActivityService,
@@ -26,6 +29,8 @@ export class ActivityComponent implements OnInit {
   ngOnInit(): void {
     this.getUserId();
     this.initActivitiesCatalog();
+    this.initweeklyActivities();
+    this.mapChartData();
     this.isLoading = false; 
   }
 
@@ -43,6 +48,25 @@ export class ActivityComponent implements OnInit {
     ).subscribe(activities => {
       this.activities = activities;
     })
+  }
+
+  private initweeklyActivities() : void {
+    this.activityService.getWeeklyActivities(this.userId).pipe(
+      take(1),
+      catchError(error => {
+        this.handleError(error);
+        return of(this.weeklyActivities)
+      })
+    ).subscribe(weeklyActivities => {
+      this.weeklyActivities = weeklyActivities;
+      this.chartName = "Weekly activity"
+    })
+  }
+
+  private mapChartData() : void {
+    if(!this.weeklyActivities) return;
+
+
   }
 
   public openAddActivityModal(): void {
