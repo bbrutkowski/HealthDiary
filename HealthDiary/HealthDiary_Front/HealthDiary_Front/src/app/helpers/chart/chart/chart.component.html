@@ -13,6 +13,20 @@
     </ngx-charts-line-chart>
 </div>
 
+<div *ngIf="weeklyActivity.length">
+  <ngx-charts-bar-horizontal-2d
+      [view]="undefined"
+      [scheme]="activityColorScheme"
+      [results]="activityChartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [yAxisLabel]="chartName">
+  </ngx-charts-bar-horizontal-2d>
+</div>
+
 <div *ngIf="nutritionChartData.length">
     <ngx-charts-bar-vertical    
       [view]="undefined"
@@ -38,4 +52,3 @@
       [arcWidth]="0.3">
     </ngx-charts-pie-chart>
 </div>
-  

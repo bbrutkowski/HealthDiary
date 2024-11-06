@@ -52,6 +52,7 @@ namespace HealthDiary.API.MediatR.Handlers.Activity
 
             private (DateTime start, DateTime end) GetWeekStartAndEnd(DateTime date)
             {
+                var culture = CultureInfo.CurrentCulture;
                 var diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
                 var startOfWeek = date.AddDays(-diff).Date;
                 var endOfWeek = startOfWeek.AddDays(6).Date;

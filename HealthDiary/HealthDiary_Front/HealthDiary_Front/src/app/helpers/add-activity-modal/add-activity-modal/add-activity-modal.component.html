@@ -3,9 +3,9 @@
   <form [formGroup]="activityForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
       <mat-label>Activity</mat-label>
-      <mat-select formControlName="activity">
-        <mat-option *ngFor="let option of activityOptions" [value]="option">
-          {{ option }}
+      <mat-select formControlName="activity" (selectionChange)="onActivityChange()">
+        <mat-option *ngFor="let option of data.activities" [value]="option">
+          {{ option.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -16,14 +16,27 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Distance (km)</mat-label>
+      <input matInput type="number" formControlName="distance" min="0">
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Date</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <div class="calories-info">
+      <strong>Calories burned:</strong> {{ caloriesBurned | number:'1.0-0' }} kcal
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <div class="modal-actions">
-      <button class="modal-save-button" type="submit">Save</button>
+      <button class="modal-save-button" type="submit" [disabled]="isSaving">Save</button>
       <button class="modal-cancel-button" (click)="onCancel()">Cancel</button>
     </div>
   </form>
