@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using HealthDiary.API.Context.DataContext;
 using HealthDiary.API.Helpers;
 using HealthDiary.API.Helpers.Interface;
+using HealthDiary.API.Model.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,9 @@ internal class Program
 
         builder.Services.AddControllers()
             .AddFluentValidation(x => x.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+
+        builder.Services.Configure<GeoSettingsDto>(builder.Configuration.GetSection("GeoSettings"));
+        builder.Services.Configure<WeatherSettingsDto>(builder.Configuration.GetSection("WeatherSettings"));
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
