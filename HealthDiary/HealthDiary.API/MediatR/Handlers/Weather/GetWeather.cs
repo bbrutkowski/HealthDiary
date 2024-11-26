@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Runtime;
 
 namespace HealthDiary.API.MediatR.Handlers.Weather
 {
@@ -20,12 +19,6 @@ namespace HealthDiary.API.MediatR.Handlers.Weather
             private readonly IValidator<GetWeatherRequest> _requestValidator;
             private readonly GeoSettingsDto _geoSettings;
             private readonly WeatherSettingsDto _weatherSettings;
-
-            //private const string _geoUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&key={2}";
-            //private const string _geoKey = "AIzaSyAgo_hpgiUbiblsUvIBr-jAEDEsNUBB3tw";
-
-            //private const string _weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units=metric";
-            //private const string _weatherApiKey = "d237302eb608500a27d0a2a5fa1e4a82";
 
             private const string _cityNameNotFoundError = "City name not found";
             private const string _deserializationError = "Error while deserializing data";
